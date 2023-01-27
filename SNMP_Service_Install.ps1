@@ -51,7 +51,7 @@ Write-Host “SNMP Services already Installed” -ForegroundColor Green
 if ($SNMPCheck.Installed -eq “True”)
 {
 Write-Host “SNMP installed on” $server”, proceeding with configuration…” -ForegroundColor Green
-gpudate /force
+gpupdate /force
 }
 
 #Logging
