@@ -1,1 +1,0 @@
-Import-Csv -Path "C:\Softlib\O365\NewAccounts.csv" | foreach {New-MsolUser -DisplayName $_.DisplayName -FirstName $_.FirstName -LastName $_.LastName -UserPrincipalName $_.UserPrincipalName -UsageLocation $_.UsageLocation -LicenseAssignment $_.AccountSkuId} | Export-Csv -Path "C:\Softlib\O365\NewAccountResults.csv" -Verbose
