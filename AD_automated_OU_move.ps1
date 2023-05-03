@@ -21,7 +21,7 @@
    Moving automatically AD objects into another OU
 #>
 
-## Get all AVD hosts and store them in a variable
+# Get all AVD hosts and store them in a variable
 $avdhosts = Get-ADObject -Filter 'Name -like "fclavd*"'
 
 # Loop through all hosts in the variable and move them to the right OU
