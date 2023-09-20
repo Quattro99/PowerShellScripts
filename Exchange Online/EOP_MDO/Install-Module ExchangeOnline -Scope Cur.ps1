@@ -1,3 +1,28 @@
+<#
+.Synopsis
+   This script restricts the access to an Azure Enterprise Application for a specific set of mailboxes by an application that uses APIs (Outlook REST, Microsoft Graph, or Exchange Web Services (EWS)). 
+.DESCRIPTION
+   To restrict access to the Azure Application, you have to define an Application Access Policy. Also, you have to define a policy because of the API permission Mail.Read or Mail.ReadWrite that are scope-based. 
+.INPUTS
+   - https://medium.com/medialesson/how-to-send-emails-in-net-with-the-microsoft-graph-a97b57430bbd
+   - https://learn.microsoft.com/en-us/powershell/module/exchange/new-applicationaccesspolicy?view=exchange-ps#-policyscopegroupid
+.OUTPUTS
+   Access restriction to Azure Enterpise Application
+.NOTES
+   ===========================================================================
+	 Created on:   	20.09.2023
+	 Created by:   	Michele Blum
+	 Filename:     	ach-auto-mdo_eop-standard.ps1
+	===========================================================================
+.COMPONENT
+   Exchange Online Management Module 
+.ROLE
+   Security
+.FUNCTIONALITY
+   Use the New-ApplicationAccessPolicy cmdlet to restrict or deny access to a specific set of mailboxes by an application that uses APIs (Outlook REST, Microsoft Graph, or Exchange Web Services (EWS)). These policies are complementary to the permission scopes that are declared by the application.
+#>
+
+
 Install-Module ExchangeOnline -Scope CurrentUser
 
 Import-Module ExchangeOnline
