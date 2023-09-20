@@ -1,12 +1,14 @@
 <#
 .Synopsis
-   
+  The script is designed to automatically apply recommended settings for EOP and MDO to a customer's Office 365 tenant.x
 .DESCRIPTION
-   
+  The script aims to configure various security settings to enhance the security posture of the Office 365 environment, following Microsoft's best practices.
 .INPUTS
+   The script references two external URLs for additional information and context on the recommended settings:
    - https://call4cloud.nl/2020/07/lock-stock-and-office-365-atp-automation/
+   - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide
 .OUTPUTS
-   Sets the specific settings in EOP and MDO for the specific tenant.
+   The script applies specific security settings in EOP and MDO for the target tenant. However, it does not generate any direct output.
 .NOTES
    ===========================================================================
 	 Created on:   	20.09.2023
@@ -14,19 +16,26 @@
 	 Filename:     	ach-auto-mdo_eop-standard.ps1
 	===========================================================================
 .COMPONENT
-   Exchange Online Management Module 
+   The script utilizes the Exchange Online Management module to interact with Exchange Online.
 .ROLE
-   Security, Exchange Online, MS Defender
+   The script is relevant for roles related to Security, Exchange Online and Microsoft Defender.
 .FUNCTIONALITY
-   Automatic deployment of standard MS best-practice settings of EOP and MDO to a customer tenant.
+   The primary functionality of the script is to automatically deploy standard Microsoft best-practice settings for EOP and MDO to a customer's Office 365 tenant. These settings enhance email security and protection against threats.
+   The script performs a series of actions, including creating and configuring Safe Links and Safe Attachments policies, setting up anti-phishing policies, configuring MDO settings for Office 365 apps, defining spam and malware filter policies, adjusting sharing policies, enabling audit logs, disabling IMAP and POP access, and blocking client forwarding rules. Finally, it disconnects from the Exchange Online session.
+   This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices
 #>
 
+
+# Check if the PowerShell module is installed on the local computer
 Get-InstalledModule ExchangeOnlineManagement
 
+# Install the module, if not installed, to the scope of the currentuser
 Install-Module ExchangeOnlineManagement -Scope CurrentUser
 
+# Import the module
 Import-Module ExchangeOnlineManagement
 
+# Connect to the exo tenant with your exo admin and security admin (gdap organization)
 Connect-ExchangeOnline -Identity "csa-mbl@domain.tdl" -DelegatedOrganization "customer.onmicrosoft.com"
 
 
@@ -75,13 +84,17 @@ Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true
 
  Get-EXOMailbox -ResultSize Unlimited | Select Name, AuditEnabled, AuditLogAgeLimit | Out-Gridview 
 
-# Disable Imap & POP 
+<#
+# Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
 Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
+#>
 
- #Block Client Forwarding Rules 
+<#
+ # Block Client Forwarding Rules 
 New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 ` 
  -RejectMessageReasonText $rejectMessageText 
 Set-RemoteDomain –AutoForwardEnabled $false 
+#>
 
-  
+# Disconnect from exo 
 Disconnect-ExchangeOnline 
