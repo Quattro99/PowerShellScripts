@@ -25,20 +25,37 @@
    This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices
 #>
 
+$module = ExchangeOnlineManagement
+$csa = "csa-mbl@domain.tdl"
+$custonmicrosoft = "customer.onmicrosoft.com"
 
+function Authentication {
 # Check if the PowerShell module is installed on the local computer
-Get-InstalledModule ExchangeOnlineManagement
+If (-not (Get-InstalledModule $module -ErrorAction silentlycontinue)) {
 
-# Install the module, if not installed, to the scope of the currentuser
-Install-Module ExchangeOnlineManagement -Scope CurrentUser
+   # Install the module, if not installed, to the scope of the currentuser
+   Install-Module $module -Scope CurrentUser
 
-# Import the module
-Import-Module ExchangeOnlineManagement
+   # Import the module
+   Import-Module $module
 
-# Connect to the exo tenant with your exo admin and security admin (gdap organization)
-Connect-ExchangeOnline -Identity "csa-mbl@domain.tdl" -DelegatedOrganization "customer.onmicrosoft.com"
+   # Connect to the exo tenant with your exo admin and security admin (gdap organization)
+   Connect-ExchangeOnline -Identity $csa -DelegatedOrganization $custonmicrosoft
+   }
 
+Else {
 
+   # Update the exo module to the latest version
+   Update-Module $module
+
+   # Import the module
+   Import-Module $module
+
+   # Connect to the exo tenant with your exo admin and security admin (gdap organization)
+   Connect-ExchangeOnline -Identity $csa -DelegatedOrganization $custonmicrosoft
+   }
+   
+}
 
 $domains = Get-AcceptedDomain 
 $domainname = $domains.name 
