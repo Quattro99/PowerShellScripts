@@ -13,7 +13,7 @@
    ===========================================================================
 	 Created on:   	20.09.2023
 	 Created by:   	Michele Blum
-	 Filename:     	ach-auto-mdo_eop-standard.ps1
+	 Filename:     	ach-standard-auto-mdo_eop.ps1
 	===========================================================================
 .COMPONENT
    The script utilizes the Exchange Online Management module to interact with Exchange Online.
