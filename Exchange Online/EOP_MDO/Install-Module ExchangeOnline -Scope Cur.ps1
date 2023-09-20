@@ -1,13 +1,12 @@
 <#
 .Synopsis
-   This script restricts the access to an Azure Enterprise Application for a specific set of mailboxes by an application that uses APIs (Outlook REST, Microsoft Graph, or Exchange Web Services (EWS)). 
+   
 .DESCRIPTION
-   To restrict access to the Azure Application, you have to define an Application Access Policy. Also, you have to define a policy because of the API permission Mail.Read or Mail.ReadWrite that are scope-based. 
+   
 .INPUTS
-   - https://medium.com/medialesson/how-to-send-emails-in-net-with-the-microsoft-graph-a97b57430bbd
-   - https://learn.microsoft.com/en-us/powershell/module/exchange/new-applicationaccesspolicy?view=exchange-ps#-policyscopegroupid
+   - https://call4cloud.nl/2020/07/lock-stock-and-office-365-atp-automation/
 .OUTPUTS
-   Access restriction to Azure Enterpise Application
+   Sets the specific settings in EOP and MDO for the specific tenant.
 .NOTES
    ===========================================================================
 	 Created on:   	20.09.2023
@@ -17,17 +16,20 @@
 .COMPONENT
    Exchange Online Management Module 
 .ROLE
-   Security
+   Security, Exchange Online, MS Defender
 .FUNCTIONALITY
-   Use the New-ApplicationAccessPolicy cmdlet to restrict or deny access to a specific set of mailboxes by an application that uses APIs (Outlook REST, Microsoft Graph, or Exchange Web Services (EWS)). These policies are complementary to the permission scopes that are declared by the application.
+   Automatic deployment of standard MS best-practice settings of EOP and MDO to a customer tenant.
 #>
 
+Get-InstalledModule ExchangeOnlineManagement
 
-Install-Module ExchangeOnline -Scope CurrentUser
+Install-Module ExchangeOnlineManagement -Scope CurrentUser
 
-Import-Module ExchangeOnline
+Import-Module ExchangeOnlineManagement
 
 Connect-ExchangeOnline -Identity "csa-mbl@domain.tdl" -DelegatedOrganization "customer.onmicrosoft.com"
+
+
 
 $domains = Get-AcceptedDomain 
 $domainname = $domains.name 
@@ -36,7 +38,7 @@ $ITSupportEmail= "helpdesk@"
 
 #Configure default Safe Links policy and rule: 
 New-SafeLinksPolicy -Name "Safe Links Policy" -IsEnabled $true  -EnableSafeLinksForTeams $true  -scanurls $true -DeliverMessageAfterScan $true -DoNotAllowClickThrough $true -enableforinternalsenders $true -DoNotTrackUserClicks $false 
-New-SafeLinksRule -Name "Safe Links Rule" -SafeLinksPolicy "Safe Links Policy" -RecipientDomainIs $domains[0] 
+New-SafeLinksRule -Name "Safe Links Rule" -SafeLinksPolicy "Sa fe Links Policy" -RecipientDomainIs $domains[0] 
 
  #Configure default Safe Attachments policy and rule: 
 New-SafeAttachmentPolicy -Name "Safe Attachment Policy" -Enable $true -Redirect $false -RedirectAddress $ITSupportEmail 
