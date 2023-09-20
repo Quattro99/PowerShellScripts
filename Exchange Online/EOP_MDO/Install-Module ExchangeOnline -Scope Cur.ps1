@@ -86,11 +86,13 @@ Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true
 
 <#
 # Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
+# Double check this setting with the customer and the tenant
 Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
 #>
 
 <#
- # Block Client Forwarding Rules 
+# Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
+# Double check this setting with the customer and the tenant
 New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 ` 
  -RejectMessageReasonText $rejectMessageText 
 Set-RemoteDomain –AutoForwardEnabled $false 
