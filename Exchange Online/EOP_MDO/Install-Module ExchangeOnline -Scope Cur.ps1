@@ -37,10 +37,11 @@ $csa = "aadm-michele.blum@vqjtg.onmicrosoft.com"
 ## !!!Please change before use it!!!
 $custonmicrosoft = "customer.onmicrosoft.com"
 
+# Fill all accepted domains of the tenant in a variable
 $domains = Get-AcceptedDomain 
-$domainname = $domains.name 
-$ITSupportEmail= "helpdesk@" 
 
+# Fill all the accepted domain names (just the names) of the tenant in a variable
+$domainname = $domains.name
 
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
@@ -85,31 +86,37 @@ Else {
    
 }
 
+
+#----- enableorgcustomization-function -----#
 function enableorgcustomization {
    If (Get-OrganizationConfig | Where-Object isDehydrated -eq $true)
    {
-      Write-Host "Organization Customization is not enabled. Changing the setting"
+      Write-Host "Organization Customization is not enabled. Changing the setting."
       Enable-OrganizationCustomization
    }
    Else {
-      Write-Host "Organization Customization already enabled"
+      Write-Host "Organization Customization already enabled."
    }
 }
 
 
+#----- defaultsharingpermission-function -----#
 function defaultsharingpermission {
 # Default Sharing Policy Calendar 
+## Double check this setting with the customer and the tenant (German vs. English)
 Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{Remove="Anonymous:CalendarSharingFreeBusyReviewer", "Anonymous:CalendarSharingFreeBusySimple", "Anonymous:CalendarSharingFreeBusyDetail"} 
 Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple" 
 }
 
 
+#----- adminauditlog-function -----#
 function adminauditlog {
 # Set admin audit log 
 Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true 
 }
 
 
+#----- disableimappop-function -----#
 function disableimappop {
 # Disable IMAP & POP service in the sandard configuration settings if a new mailbox will be deployed (be carefull with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
@@ -121,6 +128,7 @@ Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
 }
 
 
+#----- disableexternalforwarding-function -----#
 function disableexternalforwarding {
 # Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
@@ -129,9 +137,14 @@ Set-RemoteDomain * -AutoForwardEnabled $false
 }
 
 
+#----- antiphishpolicy-function -----#
+function antiphishpolicy {
 # Configure the standard Anti-phish policy and rule: 
-New-AntiPhishPolicy -Name "AntiPhish Policy" -Enabled $true -EnableOrganizationDomainsProtection $true  -EnableSimilarUsersSafetyTips $true -EnableSimilarDomainsSafetyTips $true -EnableUnusualCharactersSafetyTips $true -AuthenticationFailAction Quarantine -EnableMailboxIntelligenceProtection $true -MailboxIntelligenceProtectionAction movetoJMF -PhishThresholdLevel 2 -TargetedUserProtectionAction movetoJMF -EnableTargetedDomainsProtection $true -TargetedDomainProtectionAction MovetoJMF -EnableAntispoofEnforcement $true 
-New-AntiPhishRule -Name "AntiPhish Rule" -AntiPhishPolicy "AntiPhish Policy" -RecipientDomainIs $domains[0] 
+New-AntiPhishPolicy -Name "ach Standard - AntiPhish Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
+New-AntiPhishRule -Name "ach Standard - AntiPhish Rule" -AntiPhishPolicy "ach Standard - AntiPhish Policy" -RecipientDomainIs $domains[0]  
+}
+
+
 
 
 
