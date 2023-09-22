@@ -43,13 +43,20 @@ $ITSupportEmail= "helpdesk@"
 
 
 #----- main-function -----#
+## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
+
 function main {
-   Authentication
+   authentication
+   enableorgcustomization
+   defaultsharingpermission
+   adminauditlog
+   disableimappop
+   disableexternalforwarding
 }
 
 
-#----- Authentication-function -----#
-function Authentication {
+#----- authentication-function -----#
+function authentication {
 # Check if the PowerShell module is installed on the local computer
 If (-not (Get-Module -ListAvailable -Name $module)) {
 
@@ -78,6 +85,51 @@ Else {
    
 }
 
+function enableorgcustomization {
+   If (Get-OrganizationConfig | Where-Object isDehydrated -eq $true)
+   {
+      Write-Host "Organization Customization is not enabled. Changing the setting"
+      Enable-OrganizationCustomization
+   }
+   Else {
+      Write-Host "Organization Customization already enabled"
+   }
+}
+
+
+function defaultsharingpermission {
+# Default Sharing Policy Calendar 
+Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{Remove="Anonymous:CalendarSharingFreeBusyReviewer", "Anonymous:CalendarSharingFreeBusySimple", "Anonymous:CalendarSharingFreeBusyDetail"} 
+Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple" 
+}
+
+
+function adminauditlog {
+# Set admin audit log 
+Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true 
+}
+
+
+function disableimappop {
+# Disable IMAP & POP service in the sandard configuration settings if a new mailbox will be deployed (be carefull with that, some services might not work anymore)
+## Double check this setting with the customer and the tenant
+Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
+
+# Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
+## Double check this setting with the customer and the tenant
+Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
+}
+
+
+function disableexternalforwarding {
+# Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
+## Double check this setting with the customer and the tenant
+New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
+Set-RemoteDomain * -AutoForwardEnabled $false  
+}
+
+
+
 
 #Configure default Safe Links policy and rule: 
 New-SafeLinksPolicy -Name "Safe Links Policy" -IsEnabled $true  -EnableSafeLinksForTeams $true  -scanurls $true -DeliverMessageAfterScan $true -DoNotAllowClickThrough $true -enableforinternalsenders $true -DoNotTrackUserClicks $false 
@@ -103,34 +155,6 @@ Set-HostedContentFilterPolicy -Identity "Default" -SpamAction MoveToJmf -BulkSpa
 #Malwarefiltersettings Office365 
 Set-MalwareFilterPolicy -Identity "Default" -Action DeleteAttachmentAndUseDefaultAlertText -EnableFileFilter $true -FileTypes ".cpl", ".ace", ".app",".docm",".exe",".jar",".reg",".scr",".vbe",".vbs",".bat",".msi", ` 
 ".ani", ".dll", ".lnf", ".mdb", ".ws", ".cmd", ".com", ".crt", ".dos", ".lns", ".ps1", ".wsh", ".wsc" -EnableExternalSenderNotifications $true -EnableInternalSenderNotifications $true 
-  
-#Default Sharing Policy Calendar 
-Set-SharingPolicy -Identity "Default Sharing Policy" -Domains @{Remove="Anonymous:CalendarSharingFreeBusyReviewer", "Anonymous:CalendarSharingFreeBusySimple", "Anonymous:CalendarSharingFreeBusyDetail"} 
-Set-SharingPolicy -Identity "Default Sharing Policy" -Domains "*:CalendarSharingFreeBusySimple" 
-
- #Audit log for all users 
-Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true 
-
- Get-EXOMailbox -ResultSize Unlimited -Filter {RecipientTypeDetails -eq "UserMailbox" -or RecipientTypeDetails -eq "SharedMailbox" -or RecipientTypeDetails -eq "RoomMailbox" -or RecipientTypeDetails -eq "DiscoveryMailbox"} ` 
- | Set-Mailbox -AuditEnabled $true -AuditLogAgeLimit 180 -AuditAdmin Update, MoveToDeletedItems, SoftDelete, HardDelete, SendAs, SendOnBehalf, Create, UpdateFolderPermission ` 
- -AuditDelegate Update, SoftDelete, HardDelete, SendAs, Create, UpdateFolderPermissions, MoveToDeletedItems, SendOnBehalf ` 
- -AuditOwner UpdateFolderPermission, MailboxLogin, Create, SoftDelete, HardDelete, Update, MoveToDeletedItems  
-
- Get-EXOMailbox -ResultSize Unlimited | Select Name, AuditEnabled, AuditLogAgeLimit | Out-Gridview 
-
-<#
-# Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
-# Double check this setting with the customer and the tenant
-Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
-#>
-
-<#
-# Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
-# Double check this setting with the customer and the tenant
-New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 ` 
- -RejectMessageReasonText $rejectMessageText 
-Set-RemoteDomain –AutoForwardEnabled $false 
-#>
 
 # Disconnect from exo 
-Disconnect-ExchangeOnline 
+ADisconnect-ExchangeOnline 
