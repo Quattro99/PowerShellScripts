@@ -25,42 +25,59 @@
    This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices
 #>
 
-$module = ExchangeOnlineManagement
-$csa = "csa-mbl@domain.tdl"
+#----- Local Variables -----#
+# Name of the PowerShell module to isntall & import
+$module = "ExchangeOnlineManagement"
+
+# csa user 
+## !!!Please change before use it!!!
+$csa = "aadm-michele.blum@vqjtg.onmicrosoft.com"
+
+# Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
+## !!!Please change before use it!!!
 $custonmicrosoft = "customer.onmicrosoft.com"
 
+$domains = Get-AcceptedDomain 
+$domainname = $domains.name 
+$ITSupportEmail= "helpdesk@" 
+
+
+#----- main-function -----#
+function main {
+   Authentication
+}
+
+
+#----- Authentication-function -----#
 function Authentication {
 # Check if the PowerShell module is installed on the local computer
-If (-not (Get-InstalledModule $module -ErrorAction silentlycontinue)) {
+If (-not (Get-Module -ListAvailable -Name $module)) {
+
+   Write-Host "Module nicht vorhanden. Modul wird nun installiert"
 
    # Install the module, if not installed, to the scope of the currentuser
-   Install-Module $module -Scope CurrentUser
+   Install-Module $module -Scope CurrentUser -Force
 
    # Import the module
    Import-Module $module
 
    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-   Connect-ExchangeOnline -Identity $csa -DelegatedOrganization $custonmicrosoft
+   Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
    }
 
 Else {
 
-   # Update the exo module to the latest version
-   Update-Module $module
+   Write-Host "Module vorhanden."
 
    # Import the module
    Import-Module $module
 
    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-   Connect-ExchangeOnline -Identity $csa -DelegatedOrganization $custonmicrosoft
+   Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
    }
    
 }
 
-$domains = Get-AcceptedDomain 
-$domainname = $domains.name 
-
-$ITSupportEmail= "helpdesk@" 
 
 #Configure default Safe Links policy and rule: 
 New-SafeLinksPolicy -Name "Safe Links Policy" -IsEnabled $true  -EnableSafeLinksForTeams $true  -scanurls $true -DeliverMessageAfterScan $true -DoNotAllowClickThrough $true -enableforinternalsenders $true -DoNotTrackUserClicks $false 
