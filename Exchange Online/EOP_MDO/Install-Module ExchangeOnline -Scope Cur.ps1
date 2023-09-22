@@ -60,7 +60,7 @@ function authentication {
 # Check if the PowerShell module is installed on the local computer
 If (-not (Get-Module -ListAvailable -Name $module)) {
 
-   Write-Host "Module nicht vorhanden. Modul wird nun installiert"
+   Write-Host "Exchange Online Management Module nicht vorhanden. Modul wird nun installiert"
 
    # Install the module, if not installed, to the scope of the currentuser
    Install-Module $module -Scope CurrentUser -Force
@@ -74,7 +74,7 @@ If (-not (Get-Module -ListAvailable -Name $module)) {
 
 Else {
 
-   Write-Host "Module vorhanden."
+   Write-Host "Exchange Online Management Module ist bereits vorhanden."
 
    # Import the module
    Import-Module $module
@@ -159,4 +159,4 @@ Set-MalwareFilterPolicy -Identity "Default" -Action DeleteAttachmentAndUseDefaul
 ".ani", ".dll", ".lnf", ".mdb", ".ws", ".cmd", ".com", ".crt", ".dos", ".lns", ".ps1", ".wsh", ".wsc" -EnableExternalSenderNotifications $true -EnableInternalSenderNotifications $true 
 
 # Disconnect from exo 
-ADisconnect-ExchangeOnline 
+Disconnect-ExchangeOnline 
