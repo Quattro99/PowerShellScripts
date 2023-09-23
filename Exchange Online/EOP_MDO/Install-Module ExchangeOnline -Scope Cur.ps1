@@ -28,7 +28,7 @@
 
 #----- Local Variables -----#
 # Name of the PowerShell module to isntall & import
-$module = "ExchangeOnlineManagement"
+$module1 = "ExchangeOnlineManagement"
 
 # csa user 
 ## !!!Please change before use it!!!
@@ -44,12 +44,18 @@ $domains = Get-AcceptedDomain
 # Fill all the accepted domain names (just the names) of the tenant in a variable
 $domainname = $domains.name
 
+# Shared Mailbox for quarantine e-mails
+## !!!Please change before use it!!!
+$sharedmailboxname = "Quarantäne - HFA"
+$sharedMailboxAlias = "quarantine"
+$sharedMailboxEmail = "quarantine@handel-falken.ch"
+
 
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
-### Change array of the $domain variable
+### Change array of the $domain variable if there are more than one accepted domain
 function main {
-   authentication
+   exoauthentication
    enableorgcustomization
    defaultsharingpermission
    adminauditlog
@@ -58,18 +64,18 @@ function main {
 }
 
 
-#----- authentication-function -----#
-function authentication {
+#----- exoauthentication-function -----#
+function exoauthentication {
 # Check if the PowerShell module is installed on the local computer
-If (-not (Get-Module -ListAvailable -Name $module)) {
+If (-not (Get-Module -ListAvailable -Name $module1)) {
 
    Write-Host "Exchange Online Management Module not installed. Module will be installed"
 
    # Install the module, if not installed, to the scope of the currentuser
-   Install-Module $module -Scope CurrentUser -Force
+   Install-Module $module1 -Scope CurrentUser -Force
 
    # Import the module
-   Import-Module $module
+   Import-Module $module1
 
    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
    Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
@@ -80,7 +86,7 @@ Else {
    Write-Host "Exchange Online Management Module already installed."
 
    # Import the module
-   Import-Module $module
+   Import-Module $module1
 
    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
    Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
@@ -136,6 +142,13 @@ function disableexternalforwarding {
 ## Double check this setting with the customer and the tenant
    New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
    Set-RemoteDomain * -AutoForwardEnabled $false  
+}
+
+
+function createsharedmailbox {
+   New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
+
+
 }
 
 
