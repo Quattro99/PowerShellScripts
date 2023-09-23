@@ -25,6 +25,7 @@
    This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices
 #>
 
+
 #----- Local Variables -----#
 # Name of the PowerShell module to isntall & import
 $module = "ExchangeOnlineManagement"
@@ -43,9 +44,9 @@ $domains = Get-AcceptedDomain
 # Fill all the accepted domain names (just the names) of the tenant in a variable
 $domainname = $domains.name
 
+
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
-
 function main {
    authentication
    enableorgcustomization
@@ -104,15 +105,15 @@ function enableorgcustomization {
 function defaultsharingpermission {
 # Default Sharing Policy Calendar 
 ## Double check this setting with the customer and the tenant (German vs. English)
-Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{Remove="Anonymous:CalendarSharingFreeBusyReviewer", "Anonymous:CalendarSharingFreeBusySimple", "Anonymous:CalendarSharingFreeBusyDetail"} 
-Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple" 
+   Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{Remove="Anonymous:CalendarSharingFreeBusyReviewer", "Anonymous:CalendarSharingFreeBusySimple", "Anonymous:CalendarSharingFreeBusyDetail"} 
+   Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple" 
 }
 
 
 #----- adminauditlog-function -----#
 function adminauditlog {
 # Set admin audit log 
-Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true 
+   Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true 
 }
 
 
@@ -120,11 +121,11 @@ Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true
 function disableimappop {
 # Disable IMAP & POP service in the sandard configuration settings if a new mailbox will be deployed (be carefull with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
-Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
+   Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false 
 
 # Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
-Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
+   Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
 }
 
 
@@ -132,25 +133,26 @@ Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
 function disableexternalforwarding {
 # Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
-New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
-Set-RemoteDomain * -AutoForwardEnabled $false  
+   New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
+   Set-RemoteDomain * -AutoForwardEnabled $false  
 }
 
 
 #----- antiphishpolicy-function -----#
 function antiphishpolicy {
 # Configure the standard Anti-phish policy and rule: 
-New-AntiPhishPolicy -Name "ach Standard - AntiPhish Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
-New-AntiPhishRule -Name "ach Standard - AntiPhish Rule" -AntiPhishPolicy "ach Standard - AntiPhish Policy" -RecipientDomainIs $domains[0]  
+   New-AntiPhishPolicy -Name "ach Standard - AntiPhish Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
+   New-AntiPhishRule -Name "ach Standard - AntiPhish Rule" -AntiPhishPolicy "ach Standard - AntiPhish Policy" -RecipientDomainIs $domains[0]  
 }
 
-
-
-
+function antispampolicy {
+   New-HostedContentFilterPolicy -Name "ach Standard - AntiPhish Policy" -QuarantineRetentionPeriod 30 -TestModeAction None -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off
+   
+}
 
 #Configure default Safe Links policy and rule: 
-New-SafeLinksPolicy -Name "Safe Links Policy" -IsEnabled $true  -EnableSafeLinksForTeams $true  -scanurls $true -DeliverMessageAfterScan $true -DoNotAllowClickThrough $true -enableforinternalsenders $true -DoNotTrackUserClicks $false 
-New-SafeLinksRule -Name "Safe Links Rule" -SafeLinksPolicy "Sa fe Links Policy" -RecipientDomainIs $domains[0] 
+New-SafeLinksPolicy -Name "ach Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
+New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0] 
 
  #Configure default Safe Attachments policy and rule: 
 New-SafeAttachmentPolicy -Name "Safe Attachment Policy" -Enable $true -Redirect $false -RedirectAddress $ITSupportEmail 
