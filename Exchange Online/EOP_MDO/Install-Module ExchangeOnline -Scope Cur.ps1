@@ -51,6 +51,11 @@ $sharedMailboxAlias = "quarantine"
 $sharedMailboxEmail = "quarantine@handel-falken.ch"
 
 
+# Shared Mailbox for quarantine e-mails
+$LogPath = "C:\"
+
+
+
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
 ### Change array of the $domain variable if there are more than one accepted domain
@@ -187,15 +192,34 @@ function safeattachmentpolicy {
 function safelinkspolicy {
 # Configure default Safe Links policy and rule: 
    New-SafeLinksPolicy -Name "ach Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
-    New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
+   New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
 }
+
 
 #----- globalquarantinesettings-function -----#
 function globalquarantinesettings {
    # Configure global quarantine settings: 
-Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
+   Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
 }
 
 
+#----- exodisconnect-function -----#
+function exodisconnect {
 # Disconnect from exo 
-Disconnect-ExchangeOnline 
+   Disconnect-ExchangeOnline   
+}
+
+
+#----- logging-function -----#
+function logging {
+  ## Call local inforamtion of the runtime script
+  $prefix = $MyInvocation.MyCommand.Name
+  Start-Transcript -Path $LogPath -Append
+  $elapsed = (Get-Date) - $start
+  $runtimesec = $elapsed.TotalSeconds
+}
+
+
+#----- Entry point -----#
+$start = Get-Date
+main
