@@ -32,7 +32,7 @@ $module1 = "ExchangeOnlineManagement"
 
 # csa user 
 ## !!!Please change before use it!!!
-$csa = "aadm-michele.blum@vqjtg.onmicrosoft.com"
+$csa = "xxxx"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
 ## !!!Please change before use it!!!
@@ -40,14 +40,14 @@ $custonmicrosoft = "customer.onmicrosoft.com"
 
 # Shared Mailbox for quarantine e-mails
 ## !!!Please change before use it!!!
-$sharedmailboxname = "Quarantäne - HFA"
+$sharedmailboxname = "Quarantäne - xxx"
 $sharedMailboxAlias = "quarantine"
-$sharedMailboxEmail = "quarantine@handel-falken.ch"
+$sharedMailboxEmail = "quarantine@domain.tld"
 
 
 # Log path for script output
 ## !!!Please change before use it!!!
-$LogPath = "C:\Users\miche\Downloads\ach-standard-auto-mdo_eop.txt"
+$LogPath = "xxx"
 
 
 
@@ -166,40 +166,40 @@ function createsharedmailbox {
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
 # Configure the standard Anti-phishing policy and rule: 
-   New-AntiPhishPolicy -Name "ach Standard - Anti-Phishing Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
-   New-AntiPhishRule -Name "ach Standard - Anti-Phishing Rule" -AntiPhishPolicy "ach Standard - Anti-Phishing Policy" -RecipientDomainIs $domains[0]  
+   New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
+   New-AntiPhishRule -Name "xxx Standard - Anti-Phishing Rule" -AntiPhishPolicy "xxx Standard - Anti-Phishing Policy" -RecipientDomainIs $domains[0]  
 }
 
 
 #----- antispampolicy-function -----#
 function antispampolicy {
 # Configure the standard Anti-spam policy and rule: 
-   New-HostedContentFilterPolicy -Name "ach Standard - Anti-Spam Policy" -QuarantineRetentionPeriod 30 -TestModeAction None -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamBulkMail On -MarkAsSpamNdrBackscatter Off -HighConfidenceSpamAction Quarantine -SpamAction MoveToJmf -DownloadLink $False -EnableRegionBlockList $False -EnableLanguageBlockList $False -BulkThreshold 6 -InlineSafetyTipsEnabled $True -BulkSpamAction MoveToJmf -PhishSpamAction Quarantine -SpamZapEnabled $True -PhishZapEnabled $True -HighConfidencePhishAction Quarantine -SpamQuarantineTag DefaultFullAccessPolicy -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkQuarantineTag DefaultFullAccessPolicy
-   New-HostedContentFilterRule -Name "ach Standard - Anti-Spam Policy" -HostedContentFilterPolicy "ach Standard - Anti-Spam Policy" -RecipientDomainIs $domains[0] 
+   New-HostedContentFilterPolicy -Name "xxx Standard - Anti-Spam Policy" -QuarantineRetentionPeriod 30 -TestModeAction None -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamBulkMail On -MarkAsSpamNdrBackscatter Off -HighConfidenceSpamAction Quarantine -SpamAction MoveToJmf -DownloadLink $False -EnableRegionBlockList $False -EnableLanguageBlockList $False -BulkThreshold 6 -InlineSafetyTipsEnabled $True -BulkSpamAction MoveToJmf -PhishSpamAction Quarantine -SpamZapEnabled $True -PhishZapEnabled $True -HighConfidencePhishAction Quarantine -SpamQuarantineTag DefaultFullAccessPolicy -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkQuarantineTag DefaultFullAccessPolicy
+   New-HostedContentFilterRule -Name "xxx Standard - Anti-Spam Policy" -HostedContentFilterPolicy "xxx Standard - Anti-Spam Policy" -RecipientDomainIs $domains[0] 
 }
 
 
 #----- antimalewarepolicy-function -----#
 function malewarefilterpolicy {
 # Configure the standard Anti-maleware policy and rule: 
-   New-MalwareFilterPolicy -Name "ach Standard - Anti-Malware Policy" -CustomNotifications $False -EnableExternalSenderAdminNotifications $False -EnableFileFilter $True -EnableInternalSenderAdminNotifications $False -FileTypeAction Reject -FileTypes ".ace", ".apk", ".app", ".appx", ".ani", ".arj", ".bat", ".cab", ".cmd", ".com", ".deb", ".dex", ".dll", ".docm", ".elf", ".exe", ".hta", ".img", ".iso", ".jar", ".jnlp", ".kext", ".lha", ".lib", ".library", ".lnk", ".lzh", ".macho", ".msc", ".msi", ".msix", ".msp", ".mst", ".pif", ".ppa", ".ppam", ".reg", ".rev", ".scf", ".scr", ".sct", ".sys", ".uif", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh", ".xll", ".xz", ".z" -QuarantineTag AdminOnlyAccessPolicy -ZapEnabled $True
-   New-MalwareFilterRule -Name "ach Standard - Anti-Malware Policy" -MalwareFilterPolicy "ach Standard - Anti-Malware Policy" -RecipientDomainIs $domains[0]  
+   New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -CustomNotifications $False -EnableExternalSenderAdminNotifications $False -EnableFileFilter $True -EnableInternalSenderAdminNotifications $False -FileTypeAction Reject -FileTypes ".ace", ".apk", ".app", ".appx", ".ani", ".arj", ".bat", ".cab", ".cmd", ".com", ".deb", ".dex", ".dll", ".docm", ".elf", ".exe", ".hta", ".img", ".iso", ".jar", ".jnlp", ".kext", ".lha", ".lib", ".library", ".lnk", ".lzh", ".macho", ".msc", ".msi", ".msix", ".msp", ".mst", ".pif", ".ppa", ".ppam", ".reg", ".rev", ".scf", ".scr", ".sct", ".sys", ".uif", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh", ".xll", ".xz", ".z" -QuarantineTag AdminOnlyAccessPolicy -ZapEnabled $True
+   New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains[0]  
 }
 
 
 #----- safeattachmentpolicy-function -----#
 function safeattachmentpolicy {
 # Configure default Safe Attachments policy and rule: 
-   New-SafeAttachmentPolicy -Name "ach Standard - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
-   New-SafeAttachmentRule -Name "ach Standard - Safe Attachment Rule" -SafeAttachmentPolicy "ach Standard - Safe Attachment Policy" -RecipientDomainIs $domains[0]  
+   New-SafeAttachmentPolicy -Name "xxx Standard - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
+   New-SafeAttachmentRule -Name "xxx Standard - Safe Attachment Rule" -SafeAttachmentPolicy "xxx Standard - Safe Attachment Policy" -RecipientDomainIs $domains[0]  
 }
 
 
 #----- safelinkspolicy-function -----#
 function safelinkspolicy {
 # Configure default Safe Links policy and rule: 
-   New-SafeLinksPolicy -Name "ach Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
-   New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
+   New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
+   New-SafeLinksRule -Name "xxx Standard - Safe Links Rule" -SafeLinksPolicy "xxx Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
 }
 
 
