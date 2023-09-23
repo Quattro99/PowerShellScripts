@@ -38,12 +38,6 @@ $csa = "aadm-michele.blum@vqjtg.onmicrosoft.com"
 ## !!!Please change before use it!!!
 $custonmicrosoft = "customer.onmicrosoft.com"
 
-# Fill all accepted domains of the tenant in a variable
-$domains = Get-AcceptedDomain 
-
-# Fill all the accepted domain names (just the names) of the tenant in a variable
-$domainname = $domains.name
-
 # Shared Mailbox for quarantine e-mails
 ## !!!Please change before use it!!!
 $sharedmailboxname = "Quarantäne - HFA"
@@ -51,8 +45,9 @@ $sharedMailboxAlias = "quarantine"
 $sharedMailboxEmail = "quarantine@handel-falken.ch"
 
 
-# Shared Mailbox for quarantine e-mails
-$LogPath = "C:\"
+# Log path for script output
+## !!!Please change before use it!!!
+$LogPath = "C:\Users\miche\Downloads\ach-standard-auto-mdo_eop.txt"
 
 
 
@@ -67,6 +62,10 @@ function main () {
    disableimappop
    disableexternalforwarding
    createsharedmailbox
+   # Fill all accepted domains of the tenant in a variable
+   $domains = Get-AcceptedDomain
+   # Fill all the accepted domain names (just the names) of the tenant in a variable
+   $domainname = $domains.name
    antiphishpolicy
    antispampolicy
    malewarefilterpolicy
@@ -214,7 +213,7 @@ function globalquarantinesettings {
 #----- exodisconnect-function -----#
 function exodisconnect {
 # Disconnect from exo 
-   Disconnect-ExchangeOnline -Force  
+   Disconnect-ExchangeOnline -Confirm:$false
 }
 
 
