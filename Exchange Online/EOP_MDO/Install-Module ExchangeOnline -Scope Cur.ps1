@@ -47,6 +47,7 @@ $domainname = $domains.name
 
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
+### Change array of the $domain variable
 function main {
    authentication
    enableorgcustomization
@@ -62,7 +63,7 @@ function authentication {
 # Check if the PowerShell module is installed on the local computer
 If (-not (Get-Module -ListAvailable -Name $module)) {
 
-   Write-Host "Exchange Online Management Module nicht vorhanden. Modul wird nun installiert"
+   Write-Host "Exchange Online Management Module not installed. Module will be installed"
 
    # Install the module, if not installed, to the scope of the currentuser
    Install-Module $module -Scope CurrentUser -Force
@@ -76,7 +77,7 @@ If (-not (Get-Module -ListAvailable -Name $module)) {
 
 Else {
 
-   Write-Host "Exchange Online Management Module ist bereits vorhanden."
+   Write-Host "Exchange Online Management Module already installed."
 
    # Import the module
    Import-Module $module
@@ -131,47 +132,53 @@ function disableimappop {
 
 #----- disableexternalforwarding-function -----#
 function disableexternalforwarding {
-# Block Client Forwarding Rules (be carefull with that, some services might not work anymore)
+# Block Client Forwarding Rules (be careful with that, some services might not work anymore)
 ## Double check this setting with the customer and the tenant
    New-TransportRule -name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
    Set-RemoteDomain * -AutoForwardEnabled $false  
 }
 
 
-#----- antiphishpolicy-function -----#
+#----- antiphishingpolicy-function -----#
 function antiphishpolicy {
-# Configure the standard Anti-phish policy and rule: 
-   New-AntiPhishPolicy -Name "ach Standard - AntiPhish Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
-   New-AntiPhishRule -Name "ach Standard - AntiPhish Rule" -AntiPhishPolicy "ach Standard - AntiPhish Policy" -RecipientDomainIs $domains[0]  
+# Configure the standard Anti-phishing policy and rule: 
+   New-AntiPhishPolicy -Name "ach Standard - Anti-Phishing Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
+   New-AntiPhishRule -Name "ach Standard - Anti-Phishing Rule" -AntiPhishPolicy "ach Standard - Anti-Phishing Policy" -RecipientDomainIs $domains[0]  
 }
 
+
+#----- antispampolicy-function -----#
 function antispampolicy {
-   New-HostedContentFilterPolicy -Name "ach Standard - AntiPhish Policy" -QuarantineRetentionPeriod 30 -TestModeAction None -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off
-   
+# Configure the standard Anti-spam policy and rule: 
+   New-HostedContentFilterPolicy -Name "ach Standard - Anti-Spam Policy" -QuarantineRetentionPeriod 30 -TestModeAction None -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamBulkMail On -MarkAsSpamNdrBackscatter Off -HighConfidenceSpamAction Quarantine -SpamAction MoveToJmf -DownloadLink $False -EnableRegionBlockList $False -EnableLanguageBlockList $False -BulkThreshold 6 -InlineSafetyTipsEnabled $True -BulkSpamAction MoveToJmf -PhishSpamAction Quarantine -SpamZapEnabled $True -PhishZapEnabled $True -HighConfidencePhishAction Quarantine -SpamQuarantineTag DefaultFullAccessPolicy -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkQuarantineTag DefaultFullAccessPolicy
+   New-HostedContentFilterRule -Name "ach Standard - Anti-Spam Policy" -HostedContentFilterPolicy "ach Standard - Anti-Spam Policy" -RecipientDomainIs $domains[0] 
 }
 
-#Configure default Safe Links policy and rule: 
-New-SafeLinksPolicy -Name "ach Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
-New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0] 
 
- #Configure default Safe Attachments policy and rule: 
-New-SafeAttachmentPolicy -Name "Safe Attachment Policy" -Enable $true -Redirect $false -RedirectAddress $ITSupportEmail 
-New-SafeAttachmentRule -Name "Safe Attachment Rule" -SafeAttachmentPolicy "Safe Attachment Policy" -RecipientDomainIs $domains[0] 
+#----- antimalewarepolicy-function -----#
+function malewarefilterpolicy {
+# Configure the standard Anti-maleware policy and rule: 
+   New-MalwareFilterPolicy -Name "ach Standard - Anti-Malware Policy" -CustomNotifications $False -EnableExternalSenderAdminNotifications $False -EnableFileFilter $True -EnableInternalSenderAdminNotifications $False -FileTypeAction Reject -FileTypes ".ace", ".apk", ".app", ".appx", ".ani", ".arj", ".bat", ".cab", ".cmd", ".com", ".deb", ".dex", ".dll", ".docm", ".elf", ".exe", ".hta", ".img", ".iso", ".jar", ".jnlp", ".kext", ".lha", ".lib", ".library", ".lnk", ".lzh", ".macho", ".msc", ".msi", ".msix", ".msp", ".mst", ".pif", ".ppa", ".ppam", ".reg", ".rev", ".scf", ".scr", ".sct", ".sys", ".uif", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh", ".xll", ".xz", ".z" -QuarantineTag AdminOnlyAccessPolicy -ZapEnabled $True
+   New-MalwareFilterRule -Name "ach Standard - Anti-Malware Policy" -MalwareFilterPolicy "ach Standard - Anti-Malware Policy" -RecipientDomainIs $domains[0]  
+}
 
 
+#----- safeattachmentpolicy-function -----#
+function safeattachmentpolicy {
+# Configure default Safe Attachments policy and rule: 
+   New-SafeAttachmentPolicy -Name "ach Standard - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
+   New-SafeAttachmentRule -Name "ach Standard - Safe Attachment Rule" -SafeAttachmentPolicy "ach Standard - Safe Attachment Policy" -RecipientDomainIs $domains[0]  
+}
 
- #Configure ATP for Office 365 apps (Off by Default): 
-Set-AtpPolicyForO365 -EnableATPForSPOTeamsODB $true -allowclickthrough $false -TrackClicks $true 
 
-#Spamfiltersettings Office365 
-Set-HostedContentFilterPolicy -Identity "Default" -SpamAction MoveToJmf -BulkSpamAction MoveToJmf -HighConfidenceSpamAction MoveToJmf -BulkThreshold 5 -IncreaseScoreWithBizOrInfoUrls On ` 
- -IncreaseScoreWithImageLinks On -IncreaseScoreWithNumericIps On -IncreaseScoreWithRedirectToOtherPort On -MarkAsSpamBulkMail On -MarkAsSpamEmbedTagsInHtml On -MarkAsSpamEmptyMessages On ` 
- -MarkAsSpamFormTagsInHtml On -MarkAsSpamFramesInHtml On -MarkAsSpamFromAddressAuthFail On -MarkAsSpamJavaScriptInHtml On -MarkAsSpamNdrBackscatter On -MarkAsSpamObjectTagsInHtml On ` 
- -MarkAsSpamSpfRecordHardFail On -MarkAsSpamWebBugsInHtml On -MarkAsSpamSensitiveWordList On -TestModeAction AddXHeader 
+#----- safelinkspolicy-function -----#
+function safelinkspolicy {
+# Configure default Safe Links policy and rule: 
+   New-SafeLinksPolicy -Name "ach Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
+    New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
+}
 
-#Malwarefiltersettings Office365 
-Set-MalwareFilterPolicy -Identity "Default" -Action DeleteAttachmentAndUseDefaultAlertText -EnableFileFilter $true -FileTypes ".cpl", ".ace", ".app",".docm",".exe",".jar",".reg",".scr",".vbe",".vbs",".bat",".msi", ` 
-".ani", ".dll", ".lnf", ".mdb", ".ws", ".cmd", ".com", ".crt", ".dos", ".lns", ".ps1", ".wsh", ".wsc" -EnableExternalSenderNotifications $true -EnableInternalSenderNotifications $true 
+
 
 # Disconnect from exo 
 Disconnect-ExchangeOnline 
