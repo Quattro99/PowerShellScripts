@@ -59,13 +59,21 @@ $LogPath = "C:\"
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
 ### Change array of the $domain variable if there are more than one accepted domain
-function main {
+function main () {
    exoauthentication
    enableorgcustomization
    defaultsharingpermission
    adminauditlog
    disableimappop
    disableexternalforwarding
+   createsharedmailbox
+   antiphishpolicy
+   antispampolicy
+   malewarefilterpolicy
+   safeattachmentpolicy
+   safelinkspolicy
+   globalquarantinesettings
+   exodisconnect
 }
 
 
@@ -206,18 +214,16 @@ function globalquarantinesettings {
 #----- exodisconnect-function -----#
 function exodisconnect {
 # Disconnect from exo 
-   Disconnect-ExchangeOnline   
+   Disconnect-ExchangeOnline -Force  
 }
 
 
 #----- logging-function -----#
-function logging {
-  ## Call local inforamtion of the runtime script
+# Call local inforamtion of the runtime script
   $prefix = $MyInvocation.MyCommand.Name
   Start-Transcript -Path $LogPath -Append
   $elapsed = (Get-Date) - $start
   $runtimesec = $elapsed.TotalSeconds
-}
 
 
 #----- Entry point -----#
