@@ -146,9 +146,8 @@ function disableexternalforwarding {
 
 
 function createsharedmailbox {
+# Create Shared Mailbox for quarantine e-mails
    New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
-
-
 }
 
 
@@ -191,6 +190,11 @@ function safelinkspolicy {
     New-SafeLinksRule -Name "ach Standard - Safe Links Rule" -SafeLinksPolicy "ach Standard - Safe Links Policy" -RecipientDomainIs $domains[0]  
 }
 
+#----- globalquarantinesettings-function -----#
+function globalquarantinesettings {
+   # Configure global quarantine settings: 
+Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
+}
 
 
 # Disconnect from exo 
