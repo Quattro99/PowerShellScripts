@@ -27,7 +27,7 @@
 
 
 #----- Local Variables -----#
-# Name of the PowerShell module to isntall & import
+# Name of the PowerShell module to install & import
 $module1 = "ExchangeOnlineManagement"
 
 # csa user 
@@ -138,11 +138,11 @@ function adminauditlog {
 
 #----- disableimappop-function -----#
 function disableimappop {
-  # Disable IMAP & POP service in the sandard configuration settings if a new mailbox will be deployed (be carefull with that, some services might not work anymore)
+  # Disable IMAP & POP service in the standard configuration settings if a new mailbox will be deployed (be careful with that, some services might not work anymore)
   ## Double check this setting with the customer and the tenant
   Get-CASMailboxPlan | Set-CASMailboxPlan -ImapEnabled $false -PopEnabled $false
 
-  # Disable IMAP & POP service on all mailboxes (be carefull with that, some services might not work anymore)
+  # Disable IMAP & POP service on all mailboxes (be careful with that, some services might not work anymore)
   ## Double check this setting with the customer and the tenant
   Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
 }
