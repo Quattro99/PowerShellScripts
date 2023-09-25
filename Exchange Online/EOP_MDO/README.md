@@ -14,7 +14,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 | ------------- | ------------- | ------------- | 
 | $module1  | "ExchangeOnlineManagement" | The name of the PowerShell module that has to be installed for this script |
 | $csa  | xxx | Exchange Online administrator for example csa-mbl@domain.onmicrosoft.com |
-| $custonmicrosoft | customer.onmicrosoft.com | The onmicrosoft domain of the customer. > [!NOTE] The value customer has to be changed before running the script |
+| $custonmicrosoft | customer.onmicrosoft.com | The onmicrosoft domain of the customer. **The value customer has to be changed before running the script** |
 | $sharedmailboxname | "Quarantäne - xxx" |  |
 | $sharedMailboxAlias | "quarantine" |  |
 | $sharedMailboxEmail | "quarantine@domain.tld" |  |
