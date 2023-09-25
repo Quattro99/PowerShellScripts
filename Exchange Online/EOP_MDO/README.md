@@ -10,8 +10,8 @@ With this script you can deploy the standard settings to a customer tenant: http
 ## Description of the script
 
 ### local variables
-[!IMPORTANT]
-Some values have to be changed before running. Those values are marked with a comment in the script.
+> [!IMPORTANT]
+> Some values have to be changed before running. Those values are marked with a comment in the script.
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
 | $module1  | "ExchangeOnlineManagement" | The name of the PowerShell module that has to be installed for this script |
