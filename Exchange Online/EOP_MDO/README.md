@@ -78,11 +78,31 @@ With this script you can deploy the standard settings to a customer tenant: http
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
 
+### antiphishingpolicy-function
+
+#### EOP anti-phishing policy settings
+In PowerShell, you use the [New-AntiPhishPolicy](/powershell/module/exchange/new-antiphishpolicy) and [Set-AntiPhishRule](/powershell/module/exchange/set-antiphishrule) cmdlets for anti-phising policy & rules settings.
+
+The spoof settings are inter-related, but the **Show first contact safety tip** setting has no dependency on spoof settings.
+
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Phishing threshold & protection**|||
+|**Enable spoof intelligence** (_EnableSpoofIntelligence_)|Selected (`$true`)||
+|**Actions**|||
+|**Honor DMARC record policy when the message is detected as spoof** (_HonorDmarcPolicy_)|Selected (`$true`)|When this setting is turned on, you control what happens to messages where the sender fails explicit DMARC checks when the policy action in the DMARC TXT record is set to `p=quarantine` or `p=reject`.|
+|**If the message is detected as spoof and DMARC Policy is set as p=quarantine** (_DmarcQuarantineAction_)|**Quarantine the message** (`Quarantine`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
+|**If the message is detected as spoof and DMARC Policy is set as p=reject** (_DmarcRejectAction_)|**Reject the message** (`Reject`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
+|**If the message is detected as spoof by spoof intelligence** (_AuthenticationFailAction_)|**Move the message to the recipients' Junk Email folders** (`MoveToJmf`)|This setting applies to spoofed senders that were automatically blocked as shown in the spoof intelligence insight or manually blocked in the Tenant Allow/Block List.|
+|**Quarantine policy** for **Spoof** (_SpoofQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if spoof detections are quarantined.|
+|**Show first contact safety tip** (_EnableFirstContactSafetyTips_)|Not selected (`$false`)||
+|**Show (?) for unauthenticated senders for spoof** (_EnableUnauthenticatedSender_)|Selected (`$true`)|Adds a question mark (?) to the sender's photo in Outlook for unidentified spoofed senders.|
+|**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. |
 
 
 ### EOP anti-spam policy settings
 
-In PowerShell, you use the [New-HostedContentFilterPolicy](/powershell/module/exchange/new-hostedcontentfilterpolicy) and [Set-HostedContentFilterRule](/powershell/module/exchange/set-hostedcontentfilterrule) cmdlets for anti-malware policy & rules settings.
+In PowerShell, you use the [New-HostedContentFilterPolicy](/powershell/module/exchange/new-hostedcontentfilterpolicy) and [Set-HostedContentFilterRule](/powershell/module/exchange/set-hostedcontentfilterrule) cmdlets for anti-spam policy & rules settings.
 
 
 Wherever you select **Quarantine message** as the action for a spam filter verdict, a **Select quarantine policy** box is available. Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. 
