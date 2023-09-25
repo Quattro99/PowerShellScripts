@@ -6,7 +6,7 @@ This script is a valuable tool for administrators tasked with securing an Office
 
 With this script you can deploy the standard settings to a customer tenant: https://github.com/Quattro99/PowerShellScripts/blob/6b7a612432729f86e163a7094f971042d02e387d/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1
 
-| First Header  | Second Header |
-| ------------- | ------------- |
+| First Header  | Second Header | Second Header | 
+| ------------- | ------------- | ------------- | 
 | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |            
