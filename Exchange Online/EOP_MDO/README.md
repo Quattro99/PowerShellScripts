@@ -358,8 +358,8 @@ In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new
 |Security feature name|Default in custom|Built-in protection|Standard|Comment|
 |---|:---:|:---:|:---:|---|
 |**URL & click protection settings**|||||
-|**Email**|||||The settings in this section affect URL rewriting and time of click protection in email messages.|
-|**On: Safe Links checks a list of known, malicious links when users click links in email. URLs are rewritten by default.** (_EnableSafeLinksForEmail_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
+|**Email**||||The settings in this section affect URL rewriting and time of click protection in email messages.|
+|**On: Safe Links checks a list of known, malicious links when users click links in email. URLs are rewritten by default.** (_EnableSafeLinksForEmail_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|
 |**Apply Safe Links to email messages sent within the organization** (_EnableForInternalSenders_)|Selected (`$true`)|Not selected (`$false`)|Selected (`$true`)|Selected (`$true`)||
 |**Apply real-time URL scanning for suspicious links and links that point to files** (_ScanUrls_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
 |**Wait for URL scanning to complete before delivering the message** (_DeliverMessageAfterScan_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
