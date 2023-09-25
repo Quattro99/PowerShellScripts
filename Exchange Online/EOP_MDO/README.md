@@ -48,7 +48,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 |  | exodisconnect | |
 
 ### exoauthentication-function
-Installs the module, which is sotored in the local variable, if not already installed. Further the authentication on the Microsoft 365 (GDAP enabled) tenant will proceed with your personal csa-user.
+Installs the module, which is stored in the local variable, if not already installed. Further the authentication on the Microsoft 365 (GDAP enabled) tenant will proceed with your personal csa-user.
 
 ### enableorgcustomization-function
 Checks the tenant if the organization customization is activated. If not, the customisation will be activated
