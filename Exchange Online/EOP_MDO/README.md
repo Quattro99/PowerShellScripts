@@ -94,24 +94,3 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Admin notifications**|||
 |**Notify an admin about undelivered messages from internal senders** (_EnableInternalSenderAdminNotifications_ and _InternalSenderAdminAddress_)|Not selected (`$false`)||
 |**Notify an admin about undelivered messages from external senders** (_EnableExternalSenderAdminNotifications_ and _ExternalSenderAdminAddress_)|Not selected (`$false`)||
-|**Customize notifications**|||
-|**Use customized notification text** (_CustomNotifications_)|Not selected (`$false`)||
-|**From name** (_CustomFromName_)|Blank||
-|**From address** (_CustomFromAddress_)|Blank|||
-|**Customize notifications for messages from internal senders**||These settings are used only if **Notify an admin about undelivered messages from internal senders** is selected.|
-|**Subject** (_CustomInternalSubject_)|Blank||
-|**Message** (_CustomInternalBody_)|Blank||
-|**Customize notifications for messages from external senders**||These settings are used only if **Notify an admin about undelivered messages from external senders** is selected.|
-|**Subject** (_CustomExternalSubject_)|Blank||
-|**Message** (_CustomExternalBody_)|Blank||
-
-
-
-
-
-
-
-
-
-
-
