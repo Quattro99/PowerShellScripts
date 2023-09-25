@@ -78,6 +78,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
 
+
 ### antiphishingpolicy-function (EOP anti-phishing policy settings)
 In PowerShell, you use the [New-AntiPhishPolicy](/powershell/module/exchange/new-antiphishpolicy) and [Set-AntiPhishRule](/powershell/module/exchange/set-antiphishrule) cmdlets for anti-phising policy & rules settings.
 
@@ -96,6 +97,7 @@ The spoof settings are inter-related, but the **Show first contact safety tip** 
 |**Show first contact safety tip** (_EnableFirstContactSafetyTips_)|Not selected (`$false`)||
 |**Show (?) for unauthenticated senders for spoof** (_EnableUnauthenticatedSender_)|Selected (`$true`)|Adds a question mark (?) to the sender's photo in Outlook for unidentified spoofed senders.|
 |**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. |
+
 
 ### antispampolicy-function (EOP anti-spam policy settings)
 
@@ -174,7 +176,6 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Notify an admin about undelivered messages from external senders** (_EnableExternalSenderAdminNotifications_ and _ExternalSenderAdminAddress_)|Not selected (`$false`)||
 
 
-
 ### safeattachmentpolicy-function (Safe Attachments policy settings)
 
 In PowerShell, you use the [New-SafeAttachmentPolicy](/powershell/module/exchange/new-safeattachmentpolicy) and [Set-SafeAttachmentPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for these settings.
@@ -186,6 +187,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Safe Attachments unknown malware response** (_Enable_ and _Action_)|**Block** (`-Enable $true` and `-Action Block`)|When the _Enable_ parameter is $false, the value of the _Action_ parameter doesn't matter.|
 |**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy|
 |**Redirect attachment with detected attachments** : **Enable redirect** (_Redirect_ and _RedirectAddress_)|Not selected and no email address specified. (`-Redirect $false` and _RedirectAddress_ is blank)|Redirection of messages is available only when the **Safe Attachments unknown malware response** value is **Monitor** (`-Enable $true` and `-Action Allow`).|
+
 
 ### safelinkspolicy-function (Safe Links policy settings)
 In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new-safelinkspolicy) and [Set-SafeLinksPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for Safe Links policy settings.
