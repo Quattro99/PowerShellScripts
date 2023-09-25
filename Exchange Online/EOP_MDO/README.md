@@ -87,7 +87,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |Security feature name|Standard|Comment|
 |---|:---:|---|
 |**Protection settings**|||
-|**Enable the common attachments filter** (_EnableFileFilter_)|Selected (`$true`)|For the list of file types in the common attachments filter, follow this [link] (https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-about?view=o365-worldwide#common-attachments-filter-in-anti-malware-policies). The common attachments filter is on by default in new anti-malware policies that you create in the Defender portal. The common attachments filter is off by default in the default anti-malware policy and in new policies that you create in PowerShell.|
+|**Enable the common attachments filter** (_EnableFileFilter_)|Selected (`$true`)|For the list of file types in the common attachments filter, follow this [link](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-about?view=o365-worldwide#common-attachments-filter-in-anti-malware-policies). The common attachments filter is on by default in new anti-malware policies that you create in the Defender portal. The common attachments filter is off by default in the default anti-malware policy and in new policies that you create in PowerShell.|
 |Common attachment filter notifications: **When these file types are found** (_FileTypeAction_)|**Reject the message with a non-delivery report (NDR)** (`Reject`)||
 |**Enable zero-hour auto purge for malware** (_ZapEnabled_)|Selected (`$true`)||
 |**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy||
