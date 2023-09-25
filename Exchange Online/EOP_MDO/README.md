@@ -13,7 +13,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 > [!IMPORTANT]
 > Some values have to be changed before running the script. Those values are marked with a comment in the script.
 
-| Commandlet | Value | Description | 
+| Commandlet | Value | Comment | 
 | ------------- | ------------- | ------------- | 
 | $module1  | "ExchangeOnlineManagement" | The name of the PowerShell module that has to be installed for this script |
 | $csa  | xxx | Exchange Online administrator for example csa-mbl@domain.onmicrosoft.com. **The value *xxx* has to be changed before running the script.** |
@@ -27,7 +27,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 > [!IMPORTANT]
 > If you can't run every function for example *disableimappop* on a customer tenant, then you have to comment the function reference in the main function before running the script.
 
-| Commandlet | Value | Description | 
+| Commandlet | Value | Comment | 
 | ------------- | ------------- | ------------- | 
 | function | main |  |
 |  | exoauthentication | |
@@ -81,6 +81,10 @@ With this script you can deploy the standard settings to a customer tenant: http
 
 
 ### EOP anti-spam policy settings
+
+In PowerShell, you use the [New-HostedContentFilterPolicy](/powershell/module/exchange/new-hostedcontentfilterpolicy) and [Set-HostedContentFilterRule](/powershell/module/exchange/set-hostedcontentfilterrule) cmdlets for anti-malware policy & rules settings.
+
+
 Wherever you select **Quarantine message** as the action for a spam filter verdict, a **Select quarantine policy** box is available. Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. 
 If you _change_ the action of a spam filtering verdict to **Quarantine message** when you create anti-spam policies the Defender portal, the **Select quarantine policy** box is blank by default. A blank value means the default quarantine policy for that spam filtering verdict is used. These default quarantine policies enforce the historical capabilities for the spam filter verdict that quarantined the message. When you later view or edit the anti-spam policy settings, the quarantine policy name is shown.
 Admins can create or use quarantine policies with more restrictive or less restrictive capabilities.
@@ -136,6 +140,8 @@ Admins can create or use quarantine policies with more restrictive or less restr
 
 
 ### EOP anti-malware policy settings
+
+In PowerShell, you use the [New-MalwareFilterPolicy](/powershell/module/exchange/new-malwarefilterpolicy) and [Set-MalwareFilterrule](/powershell/module/exchange/set-malwarefilterrule) cmdlets for anti-malware policy & rules settings.
 
 Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. The policy named AdminOnlyAccessPolicy enforces the historical capabilities for messages that were quarantined as malware. Users can't release their own messages that were quarantined as malware, regardless of how the quarantine policy is configured. If the policy allows users to release their own quarantined messages, users are instead allowed to _request_ the release of their quarantined malware messages.
 
