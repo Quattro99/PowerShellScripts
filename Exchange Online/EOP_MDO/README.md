@@ -6,7 +6,16 @@ This script is a valuable tool for administrators tasked with securing an Office
 
 With this script you can deploy the standard settings to a customer tenant: https://github.com/Quattro99/PowerShellScripts/blob/6b7a612432729f86e163a7094f971042d02e387d/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1
 
-| Test | Terst | test | 
+
+## Description of the script
+
+### local variables
+| Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |            
+| $module1  | "ExchangeOnlineManagement" | The name of the PowerShell module that has to be installed for this script |
+| $csa  | xxx | Exchange Online administrator for example csa-mbl@domain.onmicrosoft.com |
+| $custonmicrosoft | customer.onmicrosoft.com | The onmicrosoft domain of the customer. The value customer has to be changed before running the script |
+| $sharedmailboxname | "Quarantäne - xxx" |  |
+| $sharedMailboxAlias | "quarantine" |  |
+| $sharedMailboxEmail | "quarantine@domain.tld" |  |
+| $LogPath | xxx |  |

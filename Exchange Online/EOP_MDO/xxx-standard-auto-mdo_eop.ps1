@@ -26,13 +26,13 @@
 #>
 
 
-#----- Local Variables -----#
+#----- Local variables -----#
 # Name of the PowerShell module to install & import
 $module1 = "ExchangeOnlineManagement"
 
 # csa user 
 ## !!!Please change before use it!!!
-$csa = "xxxx"
+$csa = "xxx"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
 ## !!!Please change before use it!!!
