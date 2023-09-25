@@ -80,6 +80,61 @@ With this script you can deploy the standard settings to a customer tenant: http
 
 
 
+### EOP anti-spam policy settings
+Wherever you select **Quarantine message** as the action for a spam filter verdict, a **Select quarantine policy** box is available. Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. 
+If you _change_ the action of a spam filtering verdict to **Quarantine message** when you create anti-spam policies the Defender portal, the **Select quarantine policy** box is blank by default. A blank value means the default quarantine policy for that spam filtering verdict is used. These default quarantine policies enforce the historical capabilities for the spam filter verdict that quarantined the message. When you later view or edit the anti-spam policy settings, the quarantine policy name is shown.
+Admins can create or use quarantine policies with more restrictive or less restrictive capabilities.
+
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Bulk email threshold & spam properties**|||
+|**Bulk email threshold** (_BulkThreshold_)|6||
+|_MarkAsSpamBulkMail_|(`On`)|This setting is only available in PowerShell.|
+|**Increase spam score** settings|Off|All of these settings are part of the Advanced Spam Filter (ASF).
+|**Mark as spam** settings|Off|Most of these settings are part of ASF.|
+|**Contains specific languages** (_EnableLanguageBlockList_ and _LanguageBlockList_)|**Off** (`$false` and Blank)||
+|**From these countries** (_EnableRegionBlockList_ and _RegionBlockList_)|**Off** (`$false` and Blank)||
+|**Test mode** (_TestModeAction_)|**None**|This setting is part of ASF.|
+|**Actions**|||
+|**Spam** detection action (_SpamAction_)|**Move message to Junk Email folder** (`MoveToJmf`)||
+|**Quarantine policy** for **Spam** (_SpamQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if spam detections are quarantined.|
+|**High confidence spam** detection action (_HighConfidenceSpamAction_)|**Quarantine message** (`Quarantine`)||
+|**Quarantine policy** for **High confidence spam** (_HighConfidenceSpamQuarantineTag_)DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if high confidence spam detections are quarantined.|
+|**Phishing** detection action (_PhishSpamAction_)|**Quarantine message** (`Quarantine`)|The default value is **Move message to Junk Email folder** in the default anti-spam policy and in new anti-spam policies that you create in PowerShell. The default value is **Quarantine message** in new anti-spam policies that you create in the Defender portal.|
+|**Quarantine policy** for **Phishing** (_PhishQuarantineTag_)|DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if phishing detections are quarantined.|
+|**High confidence phishing** detection action (_HighConfidencePhishAction_)|**Quarantine message** (`Quarantine`)|Users can't release their own messages that were quarantined as high confidence phishing, regardless of how the quarantine policy is configured. If the policy allows users to release their own quarantined messages, users are instead allowed to _request_ the release of their quarantined high-confidence phishing messages.|
+|**Quarantine policy** for **High confidence phishing** (_HighConfidencePhishQuarantineTag_)|AdminOnlyAccessPolicy||
+|**Bulk compliant level (BCL) met or exceeded** (_BulkSpamAction_)|**Move message to Junk Email folder** (`MoveToJmf`)||
+|**Quarantine policy** for **Bulk compliant level (BCL) met or exceeded** (_BulkQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if bulk detections are quarantined.|
+|**Retain spam in quarantine for this many days** (_QuarantineRetentionPeriod_)|30 days|This value also affects messages that are quarantined by anti-phishing policies.|
+|**Enable spam safety tips** (_InlineSafetyTipsEnabled_)|Selected (`$true`)||
+|Enable zero-hour auto purge (ZAP) for phishing messages (_PhishZapEnabled_)|Selected (`$true`)||
+|Enable ZAP for spam messages (_SpamZapEnabled_)|Selected (`$true`)||
+
+### ASF settings in anti-spam policies
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Image links to remote sites** (_IncreaseScoreWithImageLinks_)|Off||
+|**Numeric IP address in URL** (_IncreaseScoreWithNumericIps_)|Off||
+|**URL redirect to other port** (_IncreaseScoreWithRedirectToOtherPort_)|Off||
+|**Links to .biz or .info websites** (_IncreaseScoreWithBizOrInfoUrls_)|Off||
+|**Empty messages** (_MarkAsSpamEmptyMessages_)|Off||
+|**Embed tags in HTML** (_MarkAsSpamEmbedTagsInHtml_)|Off||
+|**JavaScript or VBScript in HTML** (_MarkAsSpamJavaScriptInHtml_)|Off||
+|**Form tags in HTML** (_MarkAsSpamFormTagsInHtml_)|Off||
+|**Frame or iframe tags in HTML** (_MarkAsSpamFramesInHtml_)|Off||
+|**Web bugs in HTML** (_MarkAsSpamWebBugsInHtml_)|Off||
+|**Object tags in HTML** (_MarkAsSpamObjectTagsInHtml_)|Off||
+|**Sensitive words** (_MarkAsSpamSensitiveWordList_)|Off||
+|**SPF record: hard fail** (_MarkAsSpamSpfRecordHardFail_)|Off||
+|**Sender ID filtering hard fail** (_MarkAsSpamFromAddressAuthFail_)|Off||
+|**Backscatter** (_MarkAsSpamNdrBackscatter_)|Off||
+|**Test mode** (_TestModeAction_)|None|For ASF settings that support **Test** as an action, you can configure the test mode action to **None**, **Add default X-Header text**, or **Send Bcc message** (`None`, `AddXHeader`, or `BccMessage`). |
+
+> [!NOTE]
+> ASF adds `X-CustomSpam:` X-header fields to messages _after_ the messages have been processed by Exchange mail flow rules (also known as transport rules), so you can't use mail flow rules to identify and act on messages that were filtered by ASF.
+
+
 ### EOP anti-malware policy settings
 
 Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. The policy named AdminOnlyAccessPolicy enforces the historical capabilities for messages that were quarantined as malware. Users can't release their own messages that were quarantined as malware, regardless of how the quarantine policy is configured. If the policy allows users to release their own quarantined messages, users are instead allowed to _request_ the release of their quarantined malware messages.
