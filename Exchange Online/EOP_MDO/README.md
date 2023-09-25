@@ -78,9 +78,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
 
-### antiphishingpolicy-function
-
-#### EOP anti-phishing policy settings
+### antiphishingpolicy-function (EOP anti-phishing policy settings)
 In PowerShell, you use the [New-AntiPhishPolicy](/powershell/module/exchange/new-antiphishpolicy) and [Set-AntiPhishRule](/powershell/module/exchange/set-antiphishrule) cmdlets for anti-phising policy & rules settings.
 
 The spoof settings are inter-related, but the **Show first contact safety tip** setting has no dependency on spoof settings.
@@ -99,8 +97,7 @@ The spoof settings are inter-related, but the **Show first contact safety tip** 
 |**Show (?) for unauthenticated senders for spoof** (_EnableUnauthenticatedSender_)|Selected (`$true`)|Adds a question mark (?) to the sender's photo in Outlook for unidentified spoofed senders.|
 |**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. |
 
-
-### EOP anti-spam policy settings
+### antispampolicy-function (EOP anti-spam policy settings)
 
 In PowerShell, you use the [New-HostedContentFilterPolicy](/powershell/module/exchange/new-hostedcontentfilterpolicy) and [Set-HostedContentFilterRule](/powershell/module/exchange/set-hostedcontentfilterrule) cmdlets for anti-spam policy & rules settings.
 
@@ -135,7 +132,7 @@ Admins can create or use quarantine policies with more restrictive or less restr
 |Enable zero-hour auto purge (ZAP) for phishing messages (_PhishZapEnabled_)|Selected (`$true`)||
 |Enable ZAP for spam messages (_SpamZapEnabled_)|Selected (`$true`)||
 
-### ASF settings in anti-spam policies
+#### ASF settings in anti-spam policies
 |Security feature name|Standard|Comment|
 |---|:---:|---|
 |**Image links to remote sites** (_IncreaseScoreWithImageLinks_)|Off||
@@ -159,7 +156,7 @@ Admins can create or use quarantine policies with more restrictive or less restr
 > ASF adds `X-CustomSpam:` X-header fields to messages _after_ the messages have been processed by Exchange mail flow rules (also known as transport rules), so you can't use mail flow rules to identify and act on messages that were filtered by ASF.
 
 
-### EOP anti-malware policy settings
+### antimalewarepolicy-function (EOP anti-malware policy settings)
 
 In PowerShell, you use the [New-MalwareFilterPolicy](/powershell/module/exchange/new-malwarefilterpolicy) and [Set-MalwareFilterrule](/powershell/module/exchange/set-malwarefilterrule) cmdlets for anti-malware policy & rules settings.
 
@@ -178,7 +175,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 
 
 
-#### Safe Attachments policy settings
+### safeattachmentpolicy-function (Safe Attachments policy settings)
 
 In PowerShell, you use the [New-SafeAttachmentPolicy](/powershell/module/exchange/new-safeattachmentpolicy) and [Set-SafeAttachmentPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for these settings.
 
@@ -190,7 +187,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy|
 |**Redirect attachment with detected attachments** : **Enable redirect** (_Redirect_ and _RedirectAddress_)|Not selected and no email address specified. (`-Redirect $false` and _RedirectAddress_ is blank)|Redirection of messages is available only when the **Safe Attachments unknown malware response** value is **Monitor** (`-Enable $true` and `-Action Allow`).|
 
-### Safe Links policy settings
+### safelinkspolicy-function (Safe Links policy settings)
 In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new-safelinkspolicy) and [Set-SafeLinksPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for Safe Links policy settings.
 
 |Security feature name|Standard|Comment|
