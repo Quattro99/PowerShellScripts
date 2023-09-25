@@ -13,9 +13,9 @@ With this script you can deploy the standard settings to a customer tenant: http
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
 | $module1  | "ExchangeOnlineManagement" | The name of the PowerShell module that has to be installed for this script |
-| $csa  | xxx | Exchange Online administrator for example csa-mbl@domain.onmicrosoft.com |
-| $custonmicrosoft | customer.onmicrosoft.com | The onmicrosoft domain of the customer. **The value *customer* has to be changed before running the script** |
-| $sharedmailboxname | "Quarantäne - xxx" |  |
-| $sharedMailboxAlias | "quarantine" |  |
-| $sharedMailboxEmail | "quarantine@domain.tld" |  |
-| $LogPath | xxx |  |
+| $csa  | xxx | Exchange Online administrator for example csa-mbl@domain.onmicrosoft.com. **The value *xxx* has to be changed before running the script.** |
+| $custonmicrosoft | customer.onmicrosoft.com | The onmicrosoft domain of the customer. **The value *customer* has to be changed before running the script.** |
+| $sharedmailboxname | "Quarantäne - xxx" | Displayname of the shared mailbox. **The value *xxx* has to be changed before running the script.** |
+| $sharedMailboxAlias | "quarantine" | E-Mail alias of the shared mailbox |
+| $sharedMailboxEmail | "quarantine@domain.tld" | Primary smtp address of the shared mailbox |
+| $LogPath | xxx | The local path for the logging functionality of the script. **The value *xxx* has to be changed before running the script.** |
