@@ -4,4 +4,4 @@ The primary functionality of the script is to automatically deploy standard Micr
 The script performs a series of actions, including creating and configuring Safe Links and Safe Attachments policies, setting up anti-phishing policies, configuring MDO settings for Office 365 apps, defining spam and malware filter policies, adjusting sharing policies, enabling audit logs, disabling IMAP and POP access, and blocking client forwarding rules. Finally, it disconnects from the Exchange Online session.
 This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices.
 
-With this script you can deploy the standard settings to a customer tenant: 
+With this script you can deploy the standard settings to a customer tenant: https://github.com/Quattro99/PowerShellScripts/blob/6b7a612432729f86e163a7094f971042d02e387d/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1
