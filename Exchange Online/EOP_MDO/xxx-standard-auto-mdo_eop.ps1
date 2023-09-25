@@ -196,7 +196,7 @@ function safeattachmentpolicy {
 #----- safelinkspolicy-function -----#
 function safelinkspolicy {
   # Configure default Safe Links policy and rule: 
-  New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -ScanUrls $True -EnableForInternalSenders $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableOrganizationBranding $False
+  New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $False
   New-SafeLinksRule -Name "xxx Standard - Safe Links Rule" -SafeLinksPolicy "xxx Standard - Safe Links Policy" -RecipientDomainIs $domains[0]
 }
 
