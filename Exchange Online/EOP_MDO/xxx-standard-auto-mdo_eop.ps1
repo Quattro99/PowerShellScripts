@@ -155,6 +155,7 @@ function disableexternalforwarding {
 }
 
 
+#----- createsharedmailbox-function -----#
 function createsharedmailbox {
   # Create Shared Mailbox for quarantine e-mails
   New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
