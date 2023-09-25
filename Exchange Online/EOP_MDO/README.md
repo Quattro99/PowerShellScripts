@@ -19,3 +19,9 @@ With this script you can deploy the standard settings to a customer tenant: http
 | $sharedMailboxAlias | "quarantine" | E-Mail alias of the shared mailbox |
 | $sharedMailboxEmail | "quarantine@domain.tld" | Primary smtp address of the shared mailbox |
 | $LogPath | xxx | The local path for the logging functionality of the script. **The value *xxx* has to be changed before running the script.** |
+
+### main-function
+| Commandlet | Value | Description | 
+| ------------- | ------------- | ------------- | 
+| function | main |  |
+| |  | |
