@@ -50,6 +50,7 @@ With this script you can deploy the standard settings to a customer tenant: http
 ### exoauthentication-function
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
+|if (-not | (Get-Module -ListAvailable -Name $module1)) | 
 
 ### enableorgcustomization-function
 | Commandlet | Value | Description | 
