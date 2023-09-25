@@ -175,3 +175,38 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Admin notifications**|||
 |**Notify an admin about undelivered messages from internal senders** (_EnableInternalSenderAdminNotifications_ and _InternalSenderAdminAddress_)|Not selected (`$false`)||
 |**Notify an admin about undelivered messages from external senders** (_EnableExternalSenderAdminNotifications_ and _ExternalSenderAdminAddress_)|Not selected (`$false`)||
+
+
+
+#### Safe Attachments policy settings
+
+In PowerShell, you use the [New-SafeAttachmentPolicy](/powershell/module/exchange/new-safeattachmentpolicy) and [Set-SafeAttachmentPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for these settings.
+
+Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. The policy named AdminOnlyAccessPolicy enforces the historical capabilities for messages that were quarantined as malware.Users can't release their own messages that were quarantined as malware by Safe Attachments, regardless of how the quarantine policy is configured. If the policy allows users to release their own quarantined messages, users are instead allowed to _request_ the release of their quarantined malware messages.
+
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Safe Attachments unknown malware response** (_Enable_ and _Action_)|**Block** (`-Enable $true` and `-Action Block`)|When the _Enable_ parameter is $false, the value of the _Action_ parameter doesn't matter.|
+|**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy|
+|**Redirect attachment with detected attachments** : **Enable redirect** (_Redirect_ and _RedirectAddress_)|Not selected and no email address specified. (`-Redirect $false` and _RedirectAddress_ is blank)|Redirection of messages is available only when the **Safe Attachments unknown malware response** value is **Monitor** (`-Enable $true` and `-Action Allow`).|
+
+### Safe Links policy settings
+In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new-safelinkspolicy) and [Set-SafeLinksPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for Safe Links policy settings.
+
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**URL & click protection settings**|||
+|**Email**||The settings in this section affect URL rewriting and time of click protection in email messages.|
+|**On: Safe Links checks a list of known, malicious links when users click links in email. URLs are rewritten by default.** (_EnableSafeLinksForEmail_)|Selected (`$true`)|
+|**Apply Safe Links to email messages sent within the organization** (_EnableForInternalSenders_)|Selected (`$true`)|
+|**Apply real-time URL scanning for suspicious links and links that point to files** (_ScanUrls_)|Selected (`$true`)|
+|**Wait for URL scanning to complete before delivering the message** (_DeliverMessageAfterScan_)|Selected (`$true`)|
+|**Do not rewrite URLs, do checks via Safe Links API only** (_DisableURLRewrite_)|Not selected (`$false`)| In new Safe Links policies that you create in the Defender portal, this setting is selected by default. In new Safe Links policies that you create in PowerShell, the default value of the _DisableURLRewrite_ parameter is `$false`.|
+|**Teams**||The setting in this section affects time of click protection in Microsoft Teams.|
+|**On: Safe Links checks a list of known, malicious links when users click links in Microsoft Teams. URLs are not rewritten.** (_EnableSafeLinksForTeams_)|Selected (`$true`)|
+|**Office 365 apps**||The setting in this section affects time of click protection in Office apps.|
+|**On: Safe Links checks a list of known, malicious links when users click links in Microsoft Office apps. URLs are not rewritten.** (_EnableSafeLinksForOffice_)|Selected (`$true`)|Use Safe Links in supported Office 365 desktop and mobile (iOS and Android) apps.|
+|**Click protection settings**|||
+|**Track user clicks** (_TrackClicks_)|Selected (`$true`)||
+|**Let users click through to the original URL** (_AllowClickThrough_)|Not selected (`$false`)|In new Safe Links policies that you create in the Defender portal, this setting is selected by default. In new Safe Links policies that you create in PowerShell, the default value of the _AllowClickThrough_ parameter is `$false`.|
+|**Display the organization branding on notification and warning pages** (_EnableOrganizationBranding_)|Not selected (`$false`)||
