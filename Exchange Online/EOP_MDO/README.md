@@ -355,10 +355,10 @@ In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new
 > [!NOTE]
 > The **Default in custom** column refers to the default values in new Safe Links policies that you create. The remaining columns indicate (unless otherwise noted) the values that are configured in the corresponding preset security policies.
 
-|Security feature name|Default in custom|Built-in protection|Standard|Comment|
-|---|:---:|:---:|:---:|---|
-|**URL & click protection settings**|||||
-|**Email**||||The settings in this section affect URL rewriting and time of click protection in email messages.|
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**URL & click protection settings**|||
+|**Email**|||The settings in this section affect URL rewriting and time of click protection in email messages.|
 |**On: Safe Links checks a list of known, malicious links when users click links in email. URLs are rewritten by default.** (_EnableSafeLinksForEmail_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|
 |**Apply Safe Links to email messages sent within the organization** (_EnableForInternalSenders_)|Selected (`$true`)|Not selected (`$false`)|Selected (`$true`)|
 |**Apply real-time URL scanning for suspicious links and links that point to files** (_ScanUrls_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|
