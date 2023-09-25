@@ -1,8 +1,8 @@
 <#
 .Synopsis
-  The script is designed to automatically apply recommended settings for EOP and MDO to a customer's Office 365 tenant.x
+  The script is designed to automatically apply recommended settings for EOP and MDO to a customer's Microsoft 365 tenant.x
 .DESCRIPTION
-  The script aims to configure various security settings to enhance the security posture of the Office 365 environment, following Microsoft's best practices.
+  The script aims to configure various security settings to enhance the security posture of the Microsoft 365 environment, following Microsoft's best practices.
 .INPUTS
    The script references two external URLs for additional information and context on the recommended settings:
    - https://call4cloud.nl/2020/07/lock-stock-and-office-365-atp-automation/
@@ -20,9 +20,9 @@
 .ROLE
    The script is relevant for roles related to Security, Exchange Online and Microsoft Defender.
 .FUNCTIONALITY
-   The primary functionality of the script is to automatically deploy standard Microsoft best-practice settings for EOP and MDO to a customer's Office 365 tenant. These settings enhance email security and protection against threats.
-   The script performs a series of actions, including creating and configuring Safe Links and Safe Attachments policies, setting up anti-phishing policies, configuring MDO settings for Office 365 apps, defining spam and malware filter policies, adjusting sharing policies, enabling audit logs, disabling IMAP and POP access, and blocking client forwarding rules. Finally, it disconnects from the Exchange Online session.
-   This script is a valuable tool for administrators tasked with securing an Office 365 environment efficiently and in line with recommended security practices
+   The primary functionality of the script is to automatically deploy standard Microsoft best-practice settings for EOP and MDO to a customer's Microsoft 365 tenant. These settings enhance email security and protection against threats.
+   The script performs a series of actions, including creating and configuring Safe Links and Safe Attachments policies, setting up anti-phishing policies, configuring MDO settings for Microsoft 365 apps, defining spam and malware filter policies, adjusting sharing policies, enabling audit logs, disabling IMAP and POP access, and blocking client forwarding rules. Finally, it disconnects from the Exchange Online session.
+   This script is a valuable tool for administrators tasked with securing an Microsoft 365 environment efficiently and in line with recommended security practices
 #>
 
 
@@ -44,11 +44,9 @@ $sharedmailboxname = "Quarantäne - xxx"
 $sharedMailboxAlias = "quarantine"
 $sharedMailboxEmail = "quarantine@domain.tld"
 
-
 # Log path for script output
 ## !!!Please change before use it!!!
 $LogPath = "xxx"
-
 
 
 #----- main-function -----#
@@ -90,7 +88,7 @@ function exoauthentication {
     Import-Module $module1
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-    Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
+    Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
   }
 
   else {
@@ -101,7 +99,7 @@ function exoauthentication {
     Import-Module $module1
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-    Connect-ExchangeOnline -UserPrincipalName $csa # -DelegatedOrganization $custonmicrosoft
+    Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
   }
 
 }
