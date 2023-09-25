@@ -24,6 +24,8 @@ With this script you can deploy the standard settings to a customer tenant: http
 | $LogPath | xxx | The local path for the logging functionality of the script. **The value *xxx* has to be changed before running the script.** |
 
 ### main-function
+> [!IMPORTANT]
+> If you can't run every function for example *disableimappop* on a customer tenant, then you have to comment the function reference in the main function before running the script.
 
 | Commandlet | Value | Description | 
 | ------------- | ------------- | ------------- | 
