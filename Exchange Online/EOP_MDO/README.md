@@ -55,26 +55,27 @@ Checks the tenant if the organization customization is activated. If not, the cu
 
 ### defaultsharingpermission-function
 > [!IMPORTANT]
-> Some values have to be changed before running the script. Those values are marked with a comment in the script.
+> Some values have to be changed before running the script. Please check if the sharing permission name is German or English.
 
-| Commandlet | Value | Description | 
-| ------------- | ------------- | ------------- |
+This function sets the default sharing permissons of all calendars to "FreeBusySimple". 
 
 ### adminauditlog-function
-| Commandlet | Value | Description | 
-| ------------- | ------------- | ------------- | 
+This function enables the admin audith logging functionality in EXO. A warning will be displayed if already active
 
 ### disableimappop-function
-| Commandlet | Value | Description | 
-| ------------- | ------------- | ------------- |
+> [!IMPORTANT]
+> Check before running if you can deactivate this services!
+
+This function disables the POP and IMAP services on all mailboxes and disables it for all in the future created mailboxes.
 
 ### disableexternalforwarding-function
-| Commandlet | Value | Description | 
-| ------------- | ------------- | ------------- | 
+> [!IMPORTANT]
+> Check before running if you can deactivate this services!
+
+This function creates a transport rule and deactivates the opportunity to automatically forward mails to external recipients.
 
 ### createsharedmailbox-function
-| Commandlet | Value | Description | 
-| ------------- | ------------- | ------------- | 
+This function creates a shared mailbox. This mailbox is later configured for the quarantine messages to each employee.
 
 
 ### antiphishingpolicy-function (EOP anti-phishing policy settings)
