@@ -25,6 +25,8 @@ With this script you can deploy the standard settings to a customer tenant: [xxx
 | $sharedMailboxEmail | "quarantine@domain.tld" | Primary smtp address of the shared mailbox |
 | $LogPath | xxx | The local path for the logging functionality of the script. **The value *xxx* has to be changed before running the script.** |
 
+<p>&nbsp;</p>
+
 ### main-function
 > [!IMPORTANT]
 > If you can't run every function for example *disableimappop* on a customer tenant, then you have to comment the function reference in the main function before running the script.
@@ -49,11 +51,17 @@ With this script you can deploy the standard settings to a customer tenant: [xxx
 |  | globalquarantinesettings | |
 |  | exodisconnect | |
 
+<p>&nbsp;</p>
+
 ### exoauthentication-function
 Installs the module, which is stored in the local variable, if not already installed. Further the authentication on the Microsoft 365 (GDAP enabled) tenant will proceed with your personal csa-user.
 
+<p>&nbsp;</p>
+
 ### enableorgcustomization-function
 Checks the tenant if the organization customization is activated. If not, the customisation will be activated
+
+<p>&nbsp;</p>
 
 ### defaultsharingpermission-function
 > [!IMPORTANT]
@@ -61,8 +69,12 @@ Checks the tenant if the organization customization is activated. If not, the cu
 
 This function sets the default sharing permissons of all calendars to "FreeBusySimple". 
 
+<p>&nbsp;</p>
+
 ### adminauditlog-function
 This function enables the admin audith logging functionality in EXO. A warning will be displayed if already active
+
+<p>&nbsp;</p>
 
 ### disableimappop-function
 > [!IMPORTANT]
@@ -70,15 +82,20 @@ This function enables the admin audith logging functionality in EXO. A warning w
 
 This function disables the POP and IMAP services on all mailboxes and disables it for all in the future created mailboxes.
 
+<p>&nbsp;</p>
+
 ### disableexternalforwarding-function
 > [!IMPORTANT]
 > Check before running if you can deactivate this services!
 
 This function creates a transport rule and deactivates the opportunity to automatically forward mails to external recipients.
 
+<p>&nbsp;</p>
+
 ### createsharedmailbox-function
 This function creates a shared mailbox. This mailbox is later configured for the quarantine messages to each employee.
 
+<p>&nbsp;</p>
 
 ### antiphishingpolicy-function (EOP anti-phishing policy settings)
 In PowerShell, you use the [New-AntiPhishPolicy](/powershell/module/exchange/new-antiphishpolicy) and [Set-AntiPhishRule](/powershell/module/exchange/set-antiphishrule) cmdlets for anti-phising policy & rules settings.
