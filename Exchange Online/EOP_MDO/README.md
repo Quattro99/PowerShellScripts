@@ -306,6 +306,25 @@ In PowerShell, you use the [Set-AtpPolicyForO365](/powershell/module/exchange/se
 |**Turn on Safe Documents for Office clients** (_EnableSafeDocs_)|Off (`$false`)|On (`$true`)|This feature is available and meaningful only with licenses that aren't included in Defender for Office 365 (for example, Microsoft 365 A5 or Microsoft 365 E5 Security). For more information, see [Safe Documents in Microsoft 365 A5 or E5 Security](safe-documents-in-e5-plus-security-about.md).|
 |**Allow people to click through Protected View even if Safe Documents identified the file as malicious** (_AllowSafeDocsOpen_)|Off (`$false`)|Off (`$false`)|This setting is related to Safe Documents.|
 
+
+<p>&nbsp;</p>
+
+### exodisconnect-fucntion
+This function disconnects silently from EXO.
+
+<p>&nbsp;</p>
+
+### logging
+This part of the script logs every imput given and outputs it in a txt-file to a specified location.
+
+<p>&nbsp;</p>
+
+### entry point
+This is the entry point of the script, which calls the main function and gets the date for the script logging feature.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
 ## Sources
 * View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (26.09.2023)
 * View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (26.09.2023)
