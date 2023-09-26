@@ -23,6 +23,7 @@ With this script you can deploy the standard settings to a customer tenant: [xxx
 | $sharedmailboxname | "Quarantäne - xxx" | Displayname of the shared mailbox. **The value *xxx* has to be changed before running the script.** |
 | $sharedMailboxAlias | "quarantine" | E-Mail alias of the shared mailbox |
 | $sharedMailboxEmail | "quarantine@domain.tld" | Primary smtp address of the shared mailbox |
+| $targeteduserstoprotect | "DisplayName1;EmailAddress1","DisplayName2;EmailAddress2" | A list of users that have to be protected against spoofing **The value *xxx* has to be changed before running the script.** |
 | $LogPath | xxx | The local path for the logging functionality of the script. **The value *xxx* has to be changed before running the script.** |
 
 <p>&nbsp;</p>
@@ -100,7 +101,49 @@ This function creates a shared mailbox. This mailbox is later configured for the
 ### antiphishingpolicy-function (EOP anti-phishing policy settings)
 In PowerShell, you use the [New-AntiPhishPolicy](/powershell/module/exchange/new-antiphishpolicy) and [Set-AntiPhishRule](/powershell/module/exchange/set-antiphishrule) cmdlets for anti-phising policy & rules settings.
 
+The spoof settings are inter-related, but the **Show first contact safety tip** setting has no dependency on spoof settings.
 
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Phishing threshold & protection**|||
+|**Enable spoof intelligence** (_EnableSpoofIntelligence_)|Selected (`$true`)||
+|**Actions**|||
+|**Honor DMARC record policy when the message is detected as spoof** (_HonorDmarcPolicy_)|Selected (`$true`)|When this setting is turned on, you control what happens to messages where the sender fails explicit DMARC checks when the policy action in the DMARC TXT record is set to `p=quarantine` or `p=reject`.|
+|**If the message is detected as spoof and DMARC Policy is set as p=quarantine** (_DmarcQuarantineAction_)|**Quarantine the message** (`Quarantine`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
+|**If the message is detected as spoof and DMARC Policy is set as p=reject** (_DmarcRejectAction_)|**Reject the message** (`Reject`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
+|**If the message is detected as spoof by spoof intelligence** (_AuthenticationFailAction_)|**Move the message to the recipients' Junk Email folders** (`MoveToJmf`)|This setting applies to spoofed senders that were automatically blocked as shown in the spoof intelligence insight or manually blocked in the Tenant Allow/Block List.|
+|**Quarantine policy** for **Spoof** (_SpoofQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if spoof detections are quarantined.|
+|**Show first contact safety tip** (_EnableFirstContactSafetyTips_)|Not selected (`$false`)||
+|**Show (?) for unauthenticated senders for spoof** (_EnableUnauthenticatedSender_)|Selected (`$true`)|Adds a question mark (?) to the sender's photo in Outlook for unidentified spoofed senders.|
+|**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. |
+
+#### Anti-phishing policy settings in Microsoft Defender for Office 365
+
+EOP customers get basic anti-phishing as previously described, but Defender for Office 365 includes more features and control to help prevent, detect, and remediate against attacks. 
+
+|Security feature name|Standard|Comment|
+|---|:---:|---|
+|**Phishing email threshold** (_PhishThresholdLevel_)|**3 - More aggressive** (`3`)||
+|**Phishing threshold & protection**|||
+|User impersonation protection: **Enable users to protect** (_EnableTargetedUserProtection_ and _TargetedUsersToProtect_)|Selected (`$true` and \<list of users\>)|We recommend adding users (message senders) in key roles. Internally, protected senders might be your CEO, CFO, and other senior leaders. Externally, protected senders could include council members or your board of directors.|
+|Domain impersonation protection: **Enable domains to protect**|Selected||
+|**Include domains I own** (_EnableOrganizationDomainsProtection_)|Selected (`$true`)||
+|**Include custom domains** (_EnableTargetedDomainsProtection_ and _TargetedDomainsToProtect_)|Selected (`$false`)|
+|**Add trusted senders and domains** (_ExcludedSenders_ and _ExcludedDomains_)|None|Depending on your organization, we recommend adding senders or domains that are incorrectly identified as impersonation attempts.|
+|**Enable mailbox intelligence** (_EnableMailboxIntelligence_)|Selected (`$true`)||
+|**Enable intelligence for impersonation protection** (_EnableMailboxIntelligenceProtection_)|Selected (`$true`)|This setting allows the specified action for impersonation detections by mailbox intelligence.|
+|**Actions**|||
+|**If a message is detected as user impersonation** (_TargetedUserProtectionAction_)|**Quarantine the message** (`Quarantine`)||
+|**Quarantine policy** for **user impersonation** (_TargetedUserQuarantineTag_)|DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if user impersonation detections are quarantined.|
+|**If a message is detected as domain impersonation** (_TargetedDomainProtectionAction_)|**Quarantine the message** (`Quarantine`)||
+|**Quarantine policy** for **domain impersonation** (_TargetedDomainQuarantineTag_)|DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if domain impersonation detections are quarantined.|
+|**If mailbox intelligence detects an impersonated user** (_MailboxIntelligenceProtectionAction_)|**Move the message to the recipients' Junk Email folders** (`MoveToJmf`)|
+|**Quarantine policy** for **mailbox intelligence impersonation** (_MailboxIntelligenceQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if mailbox intelligence detections are quarantined.|
+|**Show user impersonation safety tip** (_EnableSimilarUsersSafetyTips_)|Selected (`$true`)||
+|**Show domain impersonation safety tip** (_EnableSimilarDomainsSafetyTips_)|Selected (`$true`)||
+|**Show user impersonation unusual characters safety tip** (_EnableUnusualCharactersSafetyTips_)|Selected (`$true`)||
+
+<p>&nbsp;</p>
 
 ### antispampolicy-function (EOP anti-spam policy settings)
 
@@ -160,6 +203,7 @@ Admins can create or use quarantine policies with more restrictive or less restr
 > [!NOTE]
 > ASF adds `X-CustomSpam:` X-header fields to messages _after_ the messages have been processed by Exchange mail flow rules (also known as transport rules), so you can't use mail flow rules to identify and act on messages that were filtered by ASF.
 
+<p>&nbsp;</p>
 
 ### antimalewarepolicy-function (EOP anti-malware policy settings)
 
@@ -178,6 +222,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Notify an admin about undelivered messages from internal senders** (_EnableInternalSenderAdminNotifications_ and _InternalSenderAdminAddress_)|Not selected (`$false`)||
 |**Notify an admin about undelivered messages from external senders** (_EnableExternalSenderAdminNotifications_ and _ExternalSenderAdminAddress_)|Not selected (`$false`)||
 
+<p>&nbsp;</p>
 
 ### safeattachmentpolicy-function (Safe Attachments policy settings)
 
@@ -191,6 +236,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 |**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy|
 |**Redirect attachment with detected attachments** : **Enable redirect** (_Redirect_ and _RedirectAddress_)|Not selected and no email address specified. (`-Redirect $false` and _RedirectAddress_ is blank)|Redirection of messages is available only when the **Safe Attachments unknown malware response** value is **Monitor** (`-Enable $true` and `-Action Allow`).|
 
+<p>&nbsp;</p>
 
 ### safelinkspolicy-function (Safe Links policy settings)
 In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new-safelinkspolicy) and [Set-SafeLinksPolicy](/powershell/module/exchange/set-safelinkspolicy) cmdlets for Safe Links policy settings.
@@ -216,88 +262,6 @@ In PowerShell, you use the [New-SafeLinksPolicy](/powershell/module/exchange/new
 
 
 
-
-
-
-
-
-
-
-The spoof settings are inter-related, but the **Show first contact safety tip** setting has no dependency on spoof settings.
-
-|Security feature name|Standard|Comment|
-|---|:---:|---|
-|**Phishing threshold & protection**|||
-|**Enable spoof intelligence** (_EnableSpoofIntelligence_)|Selected (`$true`)||
-|**Actions**|||
-|**Honor DMARC record policy when the message is detected as spoof** (_HonorDmarcPolicy_)|Selected (`$true`)|When this setting is turned on, you control what happens to messages where the sender fails explicit DMARC checks when the policy action in the DMARC TXT record is set to `p=quarantine` or `p=reject`.|
-|**If the message is detected as spoof and DMARC Policy is set as p=quarantine** (_DmarcQuarantineAction_)|**Quarantine the message** (`Quarantine`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
-|**If the message is detected as spoof and DMARC Policy is set as p=reject** (_DmarcRejectAction_)|**Reject the message** (`Reject`)|This action is meaningful only when **Honor DMARC record policy when the message is detected as spoof** is turned on.|
-|**If the message is detected as spoof by spoof intelligence** (_AuthenticationFailAction_)|**Move the message to the recipients' Junk Email folders** (`MoveToJmf`)|This setting applies to spoofed senders that were automatically blocked as shown in the spoof intelligence insight or manually blocked in the Tenant Allow/Block List.|
-|**Quarantine policy** for **Spoof** (_SpoofQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if spoof detections are quarantined.|
-|**Show first contact safety tip** (_EnableFirstContactSafetyTips_)|Not selected (`$false`)||
-|**Show (?) for unauthenticated senders for spoof** (_EnableUnauthenticatedSender_)|Selected (`$true`)|Adds a question mark (?) to the sender's photo in Outlook for unidentified spoofed senders.|
-|**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. |
-
-
-#### Anti-phishing policy settings in Microsoft Defender for Office 365
-
-EOP customers get basic anti-phishing as previously described, but Defender for Office 365 includes more features and control to help prevent, detect, and remediate against attacks. 
-
-|Security feature name|Standard|Comment|
-|---|:---:|---|
-|**Phishing email threshold** (_PhishThresholdLevel_)|**3 - More aggressive** (`3`)||
-|**Phishing threshold & protection**|||
-|User impersonation protection: **Enable users to protect** (_EnableTargetedUserProtection_ and _TargetedUsersToProtect_)|Selected (`$true` and \<list of users\>)|We recommend adding users (message senders) in key roles. Internally, protected senders might be your CEO, CFO, and other senior leaders. Externally, protected senders could include council members or your board of directors.|
-|Domain impersonation protection: **Enable domains to protect**|Not selected|Selected|Selected||
-|**Include domains I own** (_EnableOrganizationDomainsProtection_)|Selected (`$true`)||
-|**Include custom domains** (_EnableTargetedDomainsProtection_ and _TargetedDomainsToProtect_)|Selected (`$true` and \<list of domains\>)|We recommend adding domains (sender domains) that you don't own, but you frequently interact with.|
-|**Add trusted senders and domains** (_ExcludedSenders_ and _ExcludedDomains_)|None|None|None|Depending on your organization, we recommend adding senders or domains that are incorrectly identified as impersonation attempts.|
-|**Enable mailbox intelligence** (_EnableMailboxIntelligence_)|Selected (`$true`)||
-|**Enable intelligence for impersonation protection** (_EnableMailboxIntelligenceProtection_)|Selected (`$true`)|This setting allows the specified action for impersonation detections by mailbox intelligence.|
-|**Actions**|||
-|**If a message is detected as user impersonation** (_TargetedUserProtectionAction_)|**Quarantine the message** (`Quarantine`)||
-|**Quarantine policy** for **user impersonation** (_TargetedUserQuarantineTag_)|DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if user impersonation detections are quarantined.|
-|**If a message is detected as domain impersonation** (_TargetedDomainProtectionAction_)|**Quarantine the message** (`Quarantine`)||
-|**Quarantine policy** for **domain impersonation** (_TargetedDomainQuarantineTag_)|DefaultFullAccessWithNotificationPolicy|The quarantine policy is meaningful only if domain impersonation detections are quarantined.|
-|**If mailbox intelligence detects an impersonated user** (_MailboxIntelligenceProtectionAction_)|**Move the message to the recipients' Junk Email folders** (`MoveToJmf`)|
-|**Quarantine policy** for **mailbox intelligence impersonation** (_MailboxIntelligenceQuarantineTag_)|DefaultFullAccessPolicy|The quarantine policy is meaningful only if mailbox intelligence detections are quarantined.|
-|**Show user impersonation safety tip** (_EnableSimilarUsersSafetyTips_)|Selected (`$true`)||
-|**Show domain impersonation safety tip** (_EnableSimilarDomainsSafetyTips_)|Selected (`$true`)||
-|**Show user impersonation unusual characters safety tip** (_EnableUnusualCharactersSafetyTips_)|Selected (`$true`)||
-
-
-
-
-
-
-New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" 
--Enabled $True 
--ImpersonationProtectionState Automatic 
--EnableTargetedUserProtection $True 
--EnableMailboxIntelligenceProtection $True 
--EnableTargetedDomainsProtection $True 
--EnableOrganizationDomainsProtection $True 
--EnableMailboxIntelligence $True 
--EnableFirstContactSafetyTips $False 
--EnableSimilarUsersSafetyTips $True 
--EnableSimilarDomainsSafetyTips $True 
--EnableUnusualCharactersSafetyTips $True 
--TargetedUserProtectionAction Quarantine 
--TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy 
--MailboxIntelligenceProtectionAction MoveToJmf 
--MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy 
--TargetedDomainProtectionAction Quarantine 
--TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy 
--AuthenticationFailAction MoveToJmf 
--SpoofQuarantineTag DefaultFullAccessPolicy 
--EnableSpoofIntelligence $True 
--EnableViaTag $True 
--EnableUnauthenticatedSender $True 
--HonorDmarcPolicy $True 
--DmarcRejectAction Reject 
--DmarcQuarantineAction Quarantine 
--PhishThresholdLevel 3
 
 
 
@@ -341,3 +305,7 @@ In PowerShell, you use the [Set-AtpPolicyForO365](/powershell/module/exchange/se
 |**Turn on Defender for Office 365 for SharePoint, OneDrive, and Microsoft Teams** (_EnableATPForSPOTeamsODB_)|Off (`$false`)|On (`$true`)|To prevent users from downloading malicious files, see [Use SharePoint Online PowerShell to prevent users from downloading malicious files](safe-attachments-for-spo-odfb-teams-configure.md#step-2-recommended-use-sharepoint-online-powershell-to-prevent-users-from-downloading-malicious-files).|
 |**Turn on Safe Documents for Office clients** (_EnableSafeDocs_)|Off (`$false`)|On (`$true`)|This feature is available and meaningful only with licenses that aren't included in Defender for Office 365 (for example, Microsoft 365 A5 or Microsoft 365 E5 Security). For more information, see [Safe Documents in Microsoft 365 A5 or E5 Security](safe-documents-in-e5-plus-security-about.md).|
 |**Allow people to click through Protected View even if Safe Documents identified the file as malicious** (_AllowSafeDocsOpen_)|Off (`$false`)|Off (`$false`)|This setting is related to Safe Documents.|
+
+## Sources
+* View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (26.09.2023)
+* View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (26.09.2023)

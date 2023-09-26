@@ -44,6 +44,8 @@ $sharedmailboxname = "Quarantäne - xxx"
 $sharedMailboxAlias = "quarantine"
 $sharedMailboxEmail = "quarantine@domain.tld"
 
+$TargetedUsersToProtect = "DisplayName1;EmailAddress1","DisplayName2;EmailAddress2"
+
 # Log path for script output
 ## !!!Please change before use it!!!
 $LogPath = "xxx"
@@ -165,7 +167,7 @@ function createsharedmailbox {
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
   # Configure the standard Anti-phishing policy and rule: 
-  New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -ImpersonationProtectionState Automatic -EnableTargetedUserProtection $True -EnableMailboxIntelligenceProtection $True -EnableTargetedDomainsProtection $True -EnableOrganizationDomainsProtection $True -EnableMailboxIntelligence $True -EnableFirstContactSafetyTips $False -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableSpoofIntelligence $True -EnableViaTag $True -EnableUnauthenticatedSender $True -HonorDmarcPolicy $True -DmarcRejectAction Reject -DmarcQuarantineAction Quarantine -PhishThresholdLevel 3
+  New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $TargetedUsersToProtect -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
   New-AntiPhishRule -Name "xxx Standard - Anti-Phishing Rule" -AntiPhishPolicy "xxx Standard - Anti-Phishing Policy" -RecipientDomainIs $domains[0]
 }
 
