@@ -5,7 +5,7 @@ The script performs a series of actions, including creating and configuring Safe
 This script is a valuable tool for administrators tasked with securing an Microsoft 365 environment efficiently and in line with recommended security practices.
 
 With this script you can deploy the standard settings to a customer tenant: [xxx-standard-auto-mdo_eop.ps1](https://github.com/Quattro99/PowerShellScripts/blob/6b7a612432729f86e163a7094f971042d02e387d/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1)
-</br>
+<br />
 
 ## Description of the script
 
