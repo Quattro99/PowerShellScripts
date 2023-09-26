@@ -258,10 +258,10 @@ Quarantine policies define what users are able to do to quarantined messages, an
 
 In PowerShell, you use the [Set-AtpPolicyForO365](/powershell/module/exchange/set-atppolicyforo365) cmdlet for these settings.
 
-|Security feature name|Default|Built-in protection|Comment|
-|---|:---:|:---:|---|
+|Security feature name|Standard|Comment|
+|---|:---:|---|
 |**Turn on Defender for Office 365 for SharePoint, OneDrive, and Microsoft Teams** (_EnableATPForSPOTeamsODB_)|On (`$true`)||
-|**Turn on Safe Documents for Office clients** (_EnableSafeDocs_)||On (`$true`)|This feature is available and meaningful only with licenses that aren't included in Defender for Office 365 (for example, Microsoft 365 A5 or Microsoft 365 E5 Security).|
+|**Turn on Safe Documents for Office clients** (_EnableSafeDocs_)|On (`$true`)|This feature is available and meaningful only with licenses that aren't included in Defender for Office 365 (for example, Microsoft 365 A5 or Microsoft 365 E5 Security).|
 |**Allow people to click through Protected View even if Safe Documents identified the file as malicious** (_AllowSafeDocsOpen_)|Off (`$false`)|This setting is related to Safe Documents.|
 
 <p>&nbsp;</p>
