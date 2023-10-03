@@ -29,6 +29,7 @@
 #----- Local variables -----#
 # Name of the PowerShell module to install & import
 $module1 = "ExchangeOnlineManagement"
+$module2 = "O365CentralizedAddInDeployment"
 
 # csa user 
 ## !!!Please change before use it!!!
