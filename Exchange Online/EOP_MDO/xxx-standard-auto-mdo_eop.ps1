@@ -33,7 +33,7 @@ $module2 = "O365CentralizedAddInDeployment"
 
 # csa user 
 ## !!!Please change before use it!!!
-$csa = "xxx"
+$csa = Read-Host -Prompt "Enter your csa username"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
 ## !!!Please change before use it!!!
@@ -92,9 +92,6 @@ function exoauthentication {
 
     # Import the module
     Import-Module $module1
-
-    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-    Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
   }
 
   else {
@@ -103,10 +100,10 @@ function exoauthentication {
 
     # Import the module
     Import-Module $module1
+  }
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
     Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
-  }
 
 }
 
@@ -219,6 +216,12 @@ function safelinkspolicy {
 function globalquarantinesettings {
   # Configure global quarantine settings: 
   Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
+}
+
+#----- deploymdoaddin-function -----#
+function mdoaddin{
+
+
 }
 
 
