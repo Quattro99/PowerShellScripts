@@ -41,7 +41,7 @@ $custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of th
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
+$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl, flavio.meyer@domain.tdl"
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
 $targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
@@ -179,12 +179,13 @@ function createsharedmailbox {
   # Create Shared Mailbox for quarantine e-mails
   New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
 
+    # Waiting 30 seconds for granting permissions on mailbox
+    Write-Host "Waiting 15 seconds for granting permissions on mailbox"
+    Start-Sleep -seconds 15
+
   # Adds permissions to the shared mailbox
-  foreach ($sharedmailboxaccess in $sharedmailboxesaccess){
-    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxaccess -AccessRights FullAccess -AutoMapping:$false
+    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxesaccess -AccessRights FullAccess -AutoMapping:$false
   }
-  
-}
 
 
 #----- antiphishingpolicy-function -----#
@@ -210,7 +211,7 @@ function antispampolicy {
 #----- antimalewarepolicy-function -----#
 function malewarefilterpolicy {
   # Configure the standard Anti-maleware policy and rule: 
-  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled $True -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
+  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled $True -QuarantineTag AdminOnlyAccessPolicy -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
   New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains
 }
 
@@ -292,5 +293,6 @@ $runtimesec = $elapsed.TotalSeconds
 
 
 #----- Entry point -----#
+$start = $null
 $start = Get-Date
 main
