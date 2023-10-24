@@ -31,19 +31,16 @@
 $module1 = "ExchangeOnlineManagement"
 $module2 = "O365CentralizedAddInDeployment"
 
-# csa user 
-## !!!Please change before use it!!!
+# csa username
 $csa = Read-Host -Prompt "Enter your csa username"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
-## !!!Please change before use it!!!
-$custonmicrosoft = "customer.onmicrosoft.com"
+$custonmicrosoft = $csa = Read-Host -Prompt " Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
 
 # Shared Mailbox for quarantine e-mails
-## !!!Please change before use it!!!
-$sharedmailboxname = "Quarantäne - xxx"
-$sharedMailboxAlias = "quarantine"
-$sharedMailboxEmail = "quarantine@domain.tld"
+$sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantäne - xxx"
+$sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
+$sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
 
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
@@ -51,8 +48,10 @@ $sharedMailboxEmail = "quarantine@domain.tld"
 $targeteduserstoprotect = "DisplayName1;EmailAddress1","DisplayName2;EmailAddress2"
 
 # Log path for script output
-## !!!Please change before use it!!!
-$LogPath = "xxx"
+$LogPath = Read-Host -Prompt "Specify the log path for the script"
+
+
+$filetypes = ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".com",".deb",".dex",".dll",".docm",".elf",".exe",".hta",".img",".iso",".jar",".jnlp",".kext",".lha",".lib",".library",".lnk",".lzh",".macho",".msc",".msi",".msix",".msp",".mst",".pif",".ppa",".ppam",".reg",".rev",".scf",".scr",".sct",".sys",".uif",".vb",".vbe",".vbs",".vxd",".wsc",".wsf",".wsh",".xll",".xz",".z"
 
 
 #----- main-function -----#
@@ -161,7 +160,7 @@ function disableexternalforwarding {
 #----- createsharedmailbox-function -----#
 function createsharedmailbox {
   # Create Shared Mailbox for quarantine e-mails
-  New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
+  New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail -AutoMapping:$false
 }
 
 
@@ -188,7 +187,7 @@ function antispampolicy {
 #----- antimalewarepolicy-function -----#
 function malewarefilterpolicy {
   # Configure the standard Anti-maleware policy and rule: 
-  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".com",".deb",".dex",".dll",".docm",".elf",".exe",".hta",".img",".iso",".jar",".jnlp",".kext",".lha",".lib",".library",".lnk",".lzh",".macho",".msc",".msi",".msix",".msp",".mst",".pif",".ppa",".ppam",".reg",".rev",".scf",".scr",".sct",".sys",".uif",".vb",".vbe",".vbs",".vxd",".wsc",".wsf",".wsh",".xll",".xz",".z" -FileTypeAction Reject -ZapEnabled -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
+  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
   New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains[0]
 }
 
