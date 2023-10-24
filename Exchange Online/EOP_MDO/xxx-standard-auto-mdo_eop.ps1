@@ -76,6 +76,7 @@ function main () {
   safeattachmentpolicy
   safelinkspolicy
   globalquarantinesettings
+  mdoaddin
   exodisconnect
 }
 
@@ -130,7 +131,7 @@ function O365CentralizedAddInDeployment {
     Import-Module $module2
   }
 
-    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
+    # Connect to the ms365 tenant with your ms365 user admin and application admin (gdap organization)
     Connect-OrganizationAddInService
 
 }
@@ -253,7 +254,7 @@ function globalquarantinesettings {
   Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
 }
 
-#----- deploymdoaddin-function -----#
+#----- mdoaddin-function -----#
 function mdoaddin{
   # Adds the Report Message add in to the tenant
   New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
