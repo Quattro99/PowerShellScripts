@@ -256,9 +256,11 @@ function globalquarantinesettings {
 
 #----- deploymdoaddin-function -----#
 function mdoaddin{
+  # Adds the Report Message add in to the tenant
   New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
-  Set-OrganizationAddInAssignments -ProductId 6a75788e-1c6b-4e9b-b5db-5975a2072122 -AssignToEveryone $true
 
+  # Assigns the add in to all users
+  Set-OrganizationAddInAssignments -ProductId 6046742c-3aee-485e-a4ac-92ab7199db2e -AssignToEveryone $true
 }
 
 
