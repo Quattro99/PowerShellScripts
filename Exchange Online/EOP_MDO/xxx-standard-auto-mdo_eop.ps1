@@ -38,7 +38,7 @@ $csa = Read-Host -Prompt "Enter your csa username"
 $custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
 
 # Shared Mailbox for quarantine e-mails
-$sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantäne - xxx"
+$sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
 $sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
@@ -62,7 +62,6 @@ $language = Read-Host -Prompt "Enter the language of the tenant eq. English or D
 ### Change array of the $domain variable if there are more than one accepted domain
 function main () {
   exoauthentication
-  O365CentralizedAddInDeployment
   enableorgcustomization
   defaultsharingpermission
   adminauditlog
@@ -106,34 +105,6 @@ function exoauthentication {
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
     Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custommicrosoft
-
-}
-
-
-#----- O365CentralizedAddInDeployment-function -----#
-function O365CentralizedAddInDeployment {
-  # Check if the PowerShell module is installed on the local computer
-  if (-not (Get-Module -ListAvailable -Name $module2)) {
-
-    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed."
-
-    # Install the module, if not installed, to the scope of the currentuser
-    Install-Module $module2 -Scope CurrentUser -Force
-
-    # Import the module
-    Import-Module $module2
-  }
-
-  else {
-
-    Write-Host "O365CentralizedAddInDeployment Module already installed."
-
-    # Import the module
-    Import-Module $module2
-  }
-
-    # Connect to the ms365 tenant with your ms365 user admin and application admin (gdap organization)
-    Connect-OrganizationAddInService
 
 }
 
@@ -266,13 +237,39 @@ function safelinkspolicy {
 #----- globalquarantinesettings-function -----#
 function globalquarantinesettings {
   # Configure global quarantine settings: 
-  Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgeführt werden." -EsnCustomSubject "Ihr wöchentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
+  Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantänesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgefuehrt werden." -EsnCustomSubject "Ihr woechentlicher Quarantäne Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
 }
 
 #----- mdoaddin-function -----#
 function mdoaddin{
+  if (-not (Get-Module -ListAvailable -Name $module2)) {
+
+    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed."
+
+    # Install the module, if not installed, to the scope of the currentuser
+    Install-Module $module2 -Scope CurrentUser -Force
+
+    # Import the module
+    Import-Module $module2
+  }
+
+  else {
+
+    Write-Host "O365CentralizedAddInDeployment Module already installed."
+
+    # Import the module
+    Import-Module $module2
+  }
+
+  # Connect to the ms365 tenant with your ms365 user admin and application admin (gdap organization)
+  Connect-OrganizationAddInService
+
   # Adds the Report Message add in to the tenant
   New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
+
+  # Waiting 30 seconds for granting permissions to the entier organisation
+  Write-Host "Waiting 30 seconds for granting permissions to the entier organisation"
+  Start-Sleep -seconds 30
 
   # Assigns the add in to all users
   Set-OrganizationAddInAssignments -ProductId 6046742c-3aee-485e-a4ac-92ab7199db2e -AssignToEveryone $true
