@@ -35,7 +35,7 @@ $module2 = "O365CentralizedAddInDeployment"
 $csa = Read-Host -Prompt "Enter your csa username"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
-$custonmicrosoft = $csa = Read-Host -Prompt " Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
+$custommicrosoft = $csa = Read-Host -Prompt " Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
 
 # Shared Mailbox for quarantine e-mails
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantäne - xxx"
@@ -70,9 +70,7 @@ function main () {
   disableexternalforwarding
   createsharedmailbox
   # Fill all accepted domains of the tenant in a variable
-  $domains = Get-AcceptedDomain
-  # Fill all the accepted domain names (just the names) of the tenant in a variable
-  $domainname = $domains.Name
+  $domains = Get-AcceptedDomain | Where-Object {$_.DomainName -notlike '*onmicrosoft.com*'}
   antiphishpolicy
   antispampolicy
   malewarefilterpolicy
@@ -106,7 +104,7 @@ function exoauthentication {
   }
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-    Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
+    Connect-ExchangeOnline -UserPrincipalName $csa -DelegatedOrganization $custommicrosoft
 
 }
 
@@ -134,7 +132,7 @@ function O365CentralizedAddInDeployment {
   }
 
     # Connect to the exo tenant with your exo admin and security admin (gdap organization)
-    Connect-OrganizationAddInService -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
+    Connect-OrganizationAddInService
 
 }
 
@@ -207,7 +205,7 @@ function createsharedmailbox {
 function antiphishpolicy {
   # Configure the standard Anti-phishing policy and rule: 
   New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
-  New-AntiPhishRule -Name "xxx Standard - Anti-Phishing Rule" -AntiPhishPolicy "xxx Standard - Anti-Phishing Policy" -RecipientDomainIs $domains[0]
+  New-AntiPhishRule -Name "xxx Standard - Anti-Phishing Rule" -AntiPhishPolicy "xxx Standard - Anti-Phishing Policy" -RecipientDomainIs $domains
 }
 
 
@@ -215,11 +213,11 @@ function antiphishpolicy {
 function antispampolicy {
   # Configure the standard Anti-spam inbound policy and rule: 
   New-HostedContentFilterPolicy -Name "xxx Standard - Anti-Spam Policy" -BulkThreshold 6 -MarkAsSpamBulkMail On -EnableLanguageBlockList $False -EnableRegionBlockList $False -TestModeAction None -SpamAction MoveToJmf -SpamQuarantineTag DefaultFullAccessPolicy -HighConfidenceSpamAction Quarantine -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishSpamAction Quarantine -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishAction Quarantine -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkSpamAction MoveToJmf -BulkQuarantineTag DefaultFullAccessPolicy -QuarantineRetentionPeriod 30 -InlineSafetyTipsEnabled $True -PhishZapEnabled $True -SpamZapEnabled $True -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamNdrBackscatter Off 
-  New-HostedContentFilterRule -Name "xxx Standard - Anti-Spam Policy" -HostedContentFilterPolicy "xxx Standard - Anti-Spam Policy" -RecipientDomainIs $domains[0]
+  New-HostedContentFilterRule -Name "xxx Standard - Anti-Spam Policy" -HostedContentFilterPolicy "hfa Standard - Anti-Spam Policy" -RecipientDomainIs $domains
 
   # Configure the standard Anti-spam outbound policy and rule:
   New-HostedOutboundSpamFilterPolicy -Name "xxx Standard - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 500 -RecipientLimitInternalPerHour 1000 -RecipientLimitPerDay 1000 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundMail $False 
-  New-HostedOutboundSpamFilterRule -Name "xxx Standard - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "xxx Standard - Anti-Spam Outbound Policy" -SenderDomainIs $domains[0]
+  New-HostedOutboundSpamFilterRule -Name "xxx Standard - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "xxx Standard - Anti-Spam Outbound Policy" -SenderDomainIs $domains
 }
 
 
@@ -227,7 +225,7 @@ function antispampolicy {
 function malewarefilterpolicy {
   # Configure the standard Anti-maleware policy and rule: 
   New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
-  New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains[0]
+  New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains
 }
 
 
@@ -235,7 +233,7 @@ function malewarefilterpolicy {
 function safeattachmentpolicy {
   # Configure default Safe Attachments policy and rule: 
   New-SafeAttachmentPolicy -Name "xxx Standard - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
-  New-SafeAttachmentRule -Name "xxx Standard - Safe Attachment Rule" -SafeAttachmentPolicy "xxx Standard - Safe Attachment Policy" -RecipientDomainIs $domains[0]
+  New-SafeAttachmentRule -Name "xxx Standard - Safe Attachment Rule" -SafeAttachmentPolicy "xxx Standard - Safe Attachment Policy" -RecipientDomainIs $domains
 
   # Configure global settings for Safe Attachments:
   Set-AtpPolicyForO365 "Default" -EnableATPForSPOTeamsODB $True -EnableSafeDocs $False -AllowSafeDocsOpen $False
@@ -246,7 +244,7 @@ function safeattachmentpolicy {
 function safelinkspolicy {
   # Configure default Safe Links policy and rule: 
   New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $False
-  New-SafeLinksRule -Name "xxx Standard - Safe Links Rule" -SafeLinksPolicy "xxx Standard - Safe Links Policy" -RecipientDomainIs $domains[0]
+  New-SafeLinksRule -Name "xxx Standard - Safe Links Rule" -SafeLinksPolicy "xxx Standard - Safe Links Policy" -RecipientDomainIs $domains
 }
 
 
@@ -258,7 +256,8 @@ function globalquarantinesettings {
 
 #----- deploymdoaddin-function -----#
 function mdoaddin{
-
+  New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
+  Set-OrganizationAddInAssignments -ProductId 6a75788e-1c6b-4e9b-b5db-5975a2072122 -AssignToEveryone $true
 
 }
 
