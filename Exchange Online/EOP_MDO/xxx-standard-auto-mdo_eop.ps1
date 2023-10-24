@@ -35,16 +35,16 @@ $module2 = "O365CentralizedAddInDeployment"
 $csa = Read-Host -Prompt "Enter your csa username"
 
 # Connect to a customer tenant over the onmicrosoft domain via GDAP permissions
-$custommicrosoft = $csa = Read-Host -Prompt " Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
+$custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
 
 # Shared Mailbox for quarantine e-mails
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantäne - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-
+$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
-$targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq DisplayName1;EmailAddress1,DisplayName2;EmailAddress2"
+$targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
 
 # Log path for script output
 $LogPath = Read-Host -Prompt "Specify the log path for the script"
@@ -54,6 +54,7 @@ $filetypes = ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".c
 
 # Organisation language
 $language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
+
 
 
 #----- main-function -----#
@@ -86,7 +87,7 @@ function exoauthentication {
   # Check if the PowerShell module is installed on the local computer
   if (-not (Get-Module -ListAvailable -Name $module1)) {
 
-    Write-Host "Exchange Online Management Module not installed. Module will be installed"
+    Write-Host "Exchange Online Management Module not installed. Module will be installed."
 
     # Install the module, if not installed, to the scope of the currentuser
     Install-Module $module1 -Scope CurrentUser -Force
@@ -114,7 +115,7 @@ function O365CentralizedAddInDeployment {
   # Check if the PowerShell module is installed on the local computer
   if (-not (Get-Module -ListAvailable -Name $module2)) {
 
-    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed"
+    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed."
 
     # Install the module, if not installed, to the scope of the currentuser
     Install-Module $module2 -Scope CurrentUser -Force
@@ -139,7 +140,7 @@ function O365CentralizedAddInDeployment {
 
 #----- enableorgcustomization-function -----#
 function enableorgcustomization {
-  if (Get-OrganizationConfig | Where-Object isDehydrated -EQ $true)
+  if (Get-OrganizationConfig | Where-Object isDehydrated -eq $true)
   {
     Write-Host "Organization Customization is not enabled. Changing the setting."
     Enable-OrganizationCustomization
@@ -182,6 +183,7 @@ function disableimappop {
   # Disable IMAP & POP service on all mailboxes (be careful with that, some services might not work anymore)
   ## Double check this setting with the customer and the tenant
   Get-CASMailbox | Set-CASMailbox -PopEnabled $false -ImapEnabled $false
+
 }
 
 
@@ -189,15 +191,28 @@ function disableimappop {
 function disableexternalforwarding {
   # Block Client Forwarding Rules (be careful with that, some services might not work anymore)
   ## Double check this setting with the customer and the tenant
-  New-TransportRule -Name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
-  Set-RemoteDomain * -AutoForwardEnabled $false
+  if (Get-TransportRule | Where-Object {$_.Name -notlike '*External Block*'} )
+    {
+    New-TransportRule -Name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
+    Set-RemoteDomain * -AutoForwardEnabled $false
+    }
+    else {
+      Write-Host "External forwarding ist already disabled"
+    }
+
 }
 
 
 #----- createsharedmailbox-function -----#
 function createsharedmailbox {
   # Create Shared Mailbox for quarantine e-mails
-  New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail -AutoMapping:$false
+  New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
+
+  # Adds permissions to the shared mailbox
+  foreach ($sharedmailboxaccess in $sharedmailboxesaccess){
+    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxaccess -AccessRights FullAccess -AutoMapping:$false
+  }
+  
 }
 
 
@@ -213,7 +228,7 @@ function antiphishpolicy {
 function antispampolicy {
   # Configure the standard Anti-spam inbound policy and rule: 
   New-HostedContentFilterPolicy -Name "xxx Standard - Anti-Spam Policy" -BulkThreshold 6 -MarkAsSpamBulkMail On -EnableLanguageBlockList $False -EnableRegionBlockList $False -TestModeAction None -SpamAction MoveToJmf -SpamQuarantineTag DefaultFullAccessPolicy -HighConfidenceSpamAction Quarantine -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishSpamAction Quarantine -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishAction Quarantine -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkSpamAction MoveToJmf -BulkQuarantineTag DefaultFullAccessPolicy -QuarantineRetentionPeriod 30 -InlineSafetyTipsEnabled $True -PhishZapEnabled $True -SpamZapEnabled $True -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamNdrBackscatter Off 
-  New-HostedContentFilterRule -Name "xxx Standard - Anti-Spam Policy" -HostedContentFilterPolicy "hfa Standard - Anti-Spam Policy" -RecipientDomainIs $domains
+  New-HostedContentFilterRule -Name "xxx Standard - Anti-Spam Policy" -HostedContentFilterPolicy "xxx Standard - Anti-Spam Policy" -RecipientDomainIs $domains
 
   # Configure the standard Anti-spam outbound policy and rule:
   New-HostedOutboundSpamFilterPolicy -Name "xxx Standard - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 500 -RecipientLimitInternalPerHour 1000 -RecipientLimitPerDay 1000 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundMail $False 
@@ -224,7 +239,7 @@ function antispampolicy {
 #----- antimalewarepolicy-function -----#
 function malewarefilterpolicy {
   # Configure the standard Anti-maleware policy and rule: 
-  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
+  New-MalwareFilterPolicy -Name "xxx Standard - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled $True -QuarantineTag AdminOnlyAccessPolicy $True -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
   New-MalwareFilterRule -Name "xxx Standard - Anti-Malware Policy" -MalwareFilterPolicy "xxx Standard - Anti-Malware Policy" -RecipientDomainIs $domains
 }
 
