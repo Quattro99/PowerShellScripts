@@ -50,8 +50,11 @@ $targeteduserstoprotect = "DisplayName1;EmailAddress1","DisplayName2;EmailAddres
 # Log path for script output
 $LogPath = Read-Host -Prompt "Specify the log path for the script"
 
-
+# Defines the blocked file extensions of the anti maleware policy
 $filetypes = ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".com",".deb",".dex",".dll",".docm",".elf",".exe",".hta",".img",".iso",".jar",".jnlp",".kext",".lha",".lib",".library",".lnk",".lzh",".macho",".msc",".msi",".msix",".msp",".mst",".pif",".ppa",".ppam",".reg",".rev",".scf",".scr",".sct",".sys",".uif",".vb",".vbe",".vbs",".vxd",".wsc",".wsf",".wsh",".xll",".xz",".z"
+
+# Organisation language
+$language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
 
 
 #----- main-function -----#
@@ -59,6 +62,7 @@ $filetypes = ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".c
 ### Change array of the $domain variable if there are more than one accepted domain
 function main () {
   exoauthentication
+  O365CentralizedAddInDeployment
   enableorgcustomization
   defaultsharingpermission
   adminauditlog
@@ -107,6 +111,34 @@ function exoauthentication {
 }
 
 
+#----- O365CentralizedAddInDeployment-function -----#
+function O365CentralizedAddInDeployment {
+  # Check if the PowerShell module is installed on the local computer
+  if (-not (Get-Module -ListAvailable -Name $module2)) {
+
+    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed"
+
+    # Install the module, if not installed, to the scope of the currentuser
+    Install-Module $module2 -Scope CurrentUser -Force
+
+    # Import the module
+    Import-Module $module2
+  }
+
+  else {
+
+    Write-Host "O365CentralizedAddInDeployment Module already installed."
+
+    # Import the module
+    Import-Module $module2
+  }
+
+    # Connect to the exo tenant with your exo admin and security admin (gdap organization)
+    Connect-OrganizationAddInService -UserPrincipalName $csa -DelegatedOrganization $custonmicrosoft
+
+}
+
+
 #----- enableorgcustomization-function -----#
 function enableorgcustomization {
   if (Get-OrganizationConfig | Where-Object isDehydrated -EQ $true)
@@ -123,9 +155,16 @@ function enableorgcustomization {
 #----- defaultsharingpermission-function -----#
 function defaultsharingpermission {
   # Default Sharing Policy Calendar 
-  ## Double check this setting with the customer and the tenant (German vs. English)
-  Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{ Remove = "Anonymous:CalendarSharingFreeBusyReviewer","Anonymous:CalendarSharingFreeBusySimple","Anonymous:CalendarSharingFreeBusyDetail" }
-  Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple"
+  if ($language -eq "English")
+  {
+    Set-SharingPolicy -Identity "Default Sharing Policy" -Domains @{ Remove = "Anonymous:CalendarSharingFreeBusyReviewer","Anonymous:CalendarSharingFreeBusySimple","Anonymous:CalendarSharingFreeBusyDetail" }
+    Set-SharingPolicy -Identity "Default Sharing Policy" -Domains "*:CalendarSharingFreeBusySimple"
+  }
+  else {
+    Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains @{ Remove = "Anonymous:CalendarSharingFreeBusyReviewer","Anonymous:CalendarSharingFreeBusySimple","Anonymous:CalendarSharingFreeBusyDetail" }
+    Set-SharingPolicy -Identity "Standardfreigaberichtlinie" -Domains "*:CalendarSharingFreeBusySimple"
+  }
+
 }
 
 
