@@ -44,8 +44,7 @@ $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address e
 
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
-## !!!Please change before use it!!!
-$targeteduserstoprotect = "DisplayName1;EmailAddress1","DisplayName2;EmailAddress2"
+$targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq DisplayName1;EmailAddress1,DisplayName2;EmailAddress2"
 
 # Log path for script output
 $LogPath = Read-Host -Prompt "Specify the log path for the script"
