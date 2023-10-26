@@ -56,7 +56,6 @@ $filetypes = ".ace",".apk",".app",".appx",".ani",".arj",".bat",".cab",".cmd",".c
 $language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
 
 
-
 #----- main-function -----#
 ## !!! Please change the function before running. Not every fucntion can be run on every tenant!!!
 ### Change array of the $domain variable if there are more than one accepted domain
