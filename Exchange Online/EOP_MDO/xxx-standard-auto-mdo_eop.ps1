@@ -41,7 +41,7 @@ $custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of th
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl, flavio.meyer@domain.tdl"
+$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
 $targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
@@ -183,7 +183,11 @@ function createsharedmailbox {
     Start-Sleep -seconds 15
 
   # Adds permissions to the shared mailbox
-    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxesaccess -AccessRights FullAccess -AutoMapping:$false
+    foreach ($sharedmailboxaccess in $sharedmailboxesaccess)
+    {
+    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxaccess -AccessRights FullAccess -AutoMapping:$false
+    }
+    
   }
 
 
