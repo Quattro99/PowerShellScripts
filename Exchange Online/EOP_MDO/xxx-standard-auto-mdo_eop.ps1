@@ -190,7 +190,6 @@ function createsharedmailbox {
     
   }
 
-
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
   # Configure the standard Anti-phishing policy and rule: 
