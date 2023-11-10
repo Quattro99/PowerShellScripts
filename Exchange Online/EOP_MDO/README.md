@@ -6,19 +6,11 @@ These scripts are a valuable tool for administrators tasked with securing a Micr
 
 "**Exchange Online Protection (EOP)** is the core of security for Microsoft 365 subscriptions and helps keep malicious emails from reaching your employee's inboxes. But with new, more sophisticated attacks emerging every day, improved protections are often required. **Microsoft Defender for Office 365** Plan 1 or Plan 2 contain additional features that give more layers of security, control, and investigation." (Microsoft, 23.09.2023)
 
-<<<<<<< HEAD
-> [!IMPORTANT]
-> Your Account has to be at least a Security-, an User-, an Application and an Exchange administrator. 
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-=======
 "Although we empower security administrators to customize their security settings, there are two security levels in EOP and Microsoft Defender for Office 365 that we recommend: **Standard** and **Strict**. Although customer environments and needs are different, these levels of filtering help prevent unwanted mail from reaching your employees' Inbox in most situations." (Microsoft, 23.09.2023)
 
 
 With this script you can deploy the standard settings to a customer tenant: [xxx-standard-auto-mdo_eop.ps1]
 With this script you can deploy the strict settings to a customer tenant: [xxx-srict-auto-mdo_eop.ps1]
->>>>>>> d99c7d0 (Commit)
 
 ## Description of the script
 
