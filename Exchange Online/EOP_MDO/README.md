@@ -9,8 +9,8 @@ These scripts are a valuable tool for administrators tasked with securing a Micr
 *"Although we empower security administrators to customize their security settings, there are two security levels in EOP and Microsoft Defender for Office 365 that we recommend: **Standard** and **Strict**. Although customer environments and needs are different, these levels of filtering help prevent unwanted mail from reaching your employees' Inbox in most situations."* (Microsoft, 23.09.2023)
 
 
-> With this script you can deploy the standard settings to a customer tenant: [xxx-standard-auto-mdo_eop.ps1]
-> With this script you can deploy the strict settings to a customer tenant: [xxx-srict-auto-mdo_eop.ps1]
+* With this script you can deploy the standard settings to a customer tenant: [xxx-standard-auto-mdo_eop.ps1]
+* With this script you can deploy the strict settings to a customer tenant: [xxx-srict-auto-mdo_eop.ps1]
 
 ## Description of the script
 
@@ -23,18 +23,18 @@ Anti-spam, anti-malware, and anti-phishing are EOP features that can be configur
 
 ### EOP anti-malware policy settings
 
-To create and configure anti-malware policies, see [Configure anti-malware policies in EOP](anti-malware-policies-configure.md).
+To create and configure anti-malware policies, see [Configure anti-malware policies in EOP](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-policies-configure?view=o365-worldwide).
 
-Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. For more information, see [Anatomy of a quarantine policy](quarantine-policies.md#anatomy-of-a-quarantine-policy).
+Quarantine policies define what users are able to do to quarantined messages, and whether users receive quarantine notifications. For more information, see [Anatomy of a quarantine policy](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-policies?view=o365-worldwide#anatomy-of-a-quarantine-policy).
 
-The policy named AdminOnlyAccessPolicy enforces the historical capabilities for messages that were quarantined as malware as described in the table [here](quarantine-end-user.md).
+The policy named AdminOnlyAccessPolicy enforces the historical capabilities for messages that were quarantined as malware as described in the table [here](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-end-user?view=o365-worldwide).
 
 Users can't release their own messages that were quarantined as malware, regardless of how the quarantine policy is configured. If the policy allows users to release their own quarantined messages, users are instead allowed to _request_ the release of their quarantined malware messages.
 
 |Security feature name|Default|Standard|Strict|Comment|
 |---|:---:|:---:|:---:|---|
 |**Protection settings**|||||
-|**Enable the common attachments filter** (_EnableFileFilter_)|Selected (`$true`)<sup>\*</sup>|Selected (`$true`)|Selected (`$true`)|For the list of file types in the common attachments filter, see [Common attachments filter in anti-malware policies](anti-malware-protection-about.md#common-attachments-filter-in-anti-malware-policies). <br><br> <sup>\*</sup> The common attachments filter is on by default in new anti-malware policies that you create in the Defender portal. The common attachments filter is off by default in the default anti-malware policy and in new policies that you create in PowerShell.|
+|**Enable the common attachments filter** (_EnableFileFilter_)|Selected (`$true`)<sup>\*</sup>|Selected (`$true`)|Selected (`$true`)|For the list of file types in the common attachments filter, see [Common attachments filter in anti-malware policies](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-about?view=o365-worldwide#common-attachments-filter-in-anti-malware-policies). <br><br> <sup>\*</sup> The common attachments filter is on by default in new anti-malware policies that you create in the Defender portal. The common attachments filter is off by default in the default anti-malware policy and in new policies that you create in PowerShell.|
 |Common attachment filter notifications: **When these file types are found** (_FileTypeAction_)|**Reject the message with a non-delivery report (NDR)** (`Reject`)|**Reject the message with a non-delivery report (NDR)** (`Reject`)|**Reject the message with a non-delivery report (NDR)** (`Reject`)||
 |**Enable zero-hour auto purge for malware** (_ZapEnabled_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
 |**Quarantine policy** (_QuarantineTag_)|AdminOnlyAccessPolicy|AdminOnlyAccessPolicy|AdminOnlyAccessPolicy||
