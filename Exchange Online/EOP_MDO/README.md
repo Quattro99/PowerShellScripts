@@ -41,7 +41,7 @@ Anti-spam, anti-malware, and anti-phishing are EOP features that can be configur
 
 ### EOP anti-phishing policy settings
 
-For more information about these settings, see [Spoof settings](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-phishing-policies-about?view=o365-worldwide#spoof-settings). To configure these settings, see [Configure anti-phishing policies in EOP](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-phishing-policies-eop-configure?view=o365-worldwide).
+*For more information about these settings, see [Spoof settings](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-phishing-policies-about?view=o365-worldwide#spoof-settings). To configure these settings, see [Configure anti-phishing policies in EOP](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-phishing-policies-eop-configure?view=o365-worldwide).
 
 The spoof settings are inter-related, but the **Show first contact safety tip** setting has no dependency on spoof settings.
 
@@ -49,7 +49,7 @@ Quarantine policies define what users are able to do to quarantined messages, an
 
 Although the **Apply quarantine policy** value appears unselected when you create an anti-phishing policy in the Defender portal, the quarantine policy named DefaultFullAccessPolicy¹ is used if you don't select a quarantine policy. This policy enforces the historical capabilities for messages that were quarantined as spoof as described in the table [here](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-end-user?view=o365-worldwide). When you later view or edit the quarantine policy settings, the quarantine policy name is shown.
 
-Admins can create or use quarantine policies with more restrictive or less restrictive capabilities. For instructions, see [Create quarantine policies in the Microsoft 365 Defender portal](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-policies?view=o365-worldwide#step-1-create-quarantine-policies-in-the-microsoft-365-defender-portal).
+Admins can create or use quarantine policies with more restrictive or less restrictive capabilities. For instructions, see [Create quarantine policies in the Microsoft 365 Defender portal](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-policies?view=o365-worldwide#step-1-create-quarantine-policies-in-the-microsoft-365-defender-portal).*
 
 |Security feature name|Default|Standard|Strict|Comment|
 |---|:---:|:---:|:---:|---|
@@ -66,4 +66,3 @@ Admins can create or use quarantine policies with more restrictive or less restr
 |**Show "via" tag** (_EnableViaTag_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Adds a via tag (chris@contoso.com via fabrikam.com) to the From address if it's different from the domain in the DKIM signature or the **MAIL FROM** address. <br><br> For more information, see [Unauthenticated sender indicators](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-phishing-policies-about?view=o365-worldwide#unauthenticated-sender-indicators).|
 
 ¹ As described in [Full access permissions and quarantine notifications](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/quarantine-policies?view=o365-worldwide#full-access-permissions-and-quarantine-notifications), your organization might use NotificationEnabledPolicy instead of DefaultFullAccessPolicy in the default security policy or in new custom security policies that you create. The only difference between these two quarantine policies is quarantine notifications are turned on in NotificationEnabledPolicy and turned off in DefaultFullAccessPolicy.
-* (Microsoft, 23.09.2023)
