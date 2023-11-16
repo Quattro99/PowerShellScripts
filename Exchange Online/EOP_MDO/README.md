@@ -114,7 +114,7 @@ Anti-spam, anti-malware, and anti-phishing are EOP features that can be configur
 > "ASF adds `X-CustomSpam:` X-header fields to messages _after_ the messages have been processed by Exchange mail flow rules (also known as transport rules), so you can't use mail flow rules to identify and act on messages that were filtered by ASF." (Microsoft, 16.11.2023)
 
 #### EOP outbound spam policy settings
-|Security feature name|Default|Recommended<br>Standard|Recommended<br>Strict|Comment|
+|Security feature name|Default|Standard|Strict|Comment|
 |---|:---:|:---:|:---:|---|
 |**Set an external message limit** (_RecipientLimitExternalPerHour_)|0|500|400|The default value 0 means use the service defaults.|
 |**Set an internal message limit** (_RecipientLimitInternalPerHour_)|0|1000|800|The default value 0 means use the service defaults.|
@@ -149,12 +149,12 @@ Additional security benefits come with a Microsoft Defender for Office 365 subsc
 >   - Modify the default anti-phishing policy.
 >   - Create additional anti-phishing policies.
 >
-> - Although there's no default Safe Attachments policy or Safe Links policy, the **Built-in protection** preset security policy provides Safe Attachments protection and Safe Links protection to all recipients who aren't defined in the Standard preset security policy, the Strict preset security policy, or in custom Safe Attachments or Safe Links policies). For more information, see [Preset security policies in EOP and Microsoft Defender for Office 365](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/preset-security-policies?view=o365-worldwide).
+> - Although there's no default Safe Attachments policy or Safe Links policy, the **Built-in protection** preset security policy provides Safe Attachments protection and Safe Links protection to all recipients who aren't defined in the Standard preset security policy, the Strict preset security policy, or in custom Safe Attachments or Safe Links policies. For more information, see [Preset security policies in EOP and Microsoft Defender for Office 365](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/preset-security-policies?view=o365-worldwide).
 >
 > - [Safe Attachments for SharePoint, OneDrive, and Microsoft Teams](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-attachments-for-spo-odfb-teams-about?view=o365-worldwide) protection and [Safe Documents](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-documents-in-e5-plus-security-about?view=o365-worldwide) protection have no dependencies on Safe Links policies. 
 (Microsoft, 16.11.2023)
 
-If your subscription includes Microsoft Defender for Office 365 or if you've purchased Defender for Office 365 as an add-on, set the following Standard or Strict configurations.
+"If your subscription includes Microsoft Defender for Office 365 or if you've purchased Defender for Office 365 as an add-on, set the following Standard or Strict configurations." (Microsoft, 16.11.2023)
 
 ### Anti-phishing policy settings in Microsoft Defender for Office 365
 
