@@ -38,7 +38,7 @@ $csa = Read-Host -Prompt "Enter your csa username"
 $custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
 
 # Organisation language
-$language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
+$language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (Standardfreigaberichtlinie vs. Default Sharing Policy)"
 
 # Shared Mailbox for quarantine e-mails
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantine - xxx"
