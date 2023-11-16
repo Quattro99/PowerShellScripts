@@ -252,4 +252,4 @@ Additional security benefits come with a Microsoft Defender for Office 365 subsc
 (Microsoft, 16.11.2023)
 
 ## Sources
-View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (26.09.2023)
+View https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide (16.11.2023)
