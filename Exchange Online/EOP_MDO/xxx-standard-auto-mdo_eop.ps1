@@ -220,19 +220,20 @@ function malewarefilterpolicy {
 
 #----- safeattachmentpolicy-function -----#
 function safeattachmentpolicy {
+  # Configure global settings for Safe Attachments:
+  Set-AtpPolicyForO365 "Default" -EnableATPForSPOTeamsODB $True -EnableSafeDocs $False -AllowSafeDocsOpen $False
+
   # Configure default Safe Attachments policy and rule: 
   New-SafeAttachmentPolicy -Name "xxx Standard - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
   New-SafeAttachmentRule -Name "xxx Standard - Safe Attachment Rule" -SafeAttachmentPolicy "xxx Standard - Safe Attachment Policy" -RecipientDomainIs $domains
 
-  # Configure global settings for Safe Attachments:
-  Set-AtpPolicyForO365 "Default" -EnableATPForSPOTeamsODB $True -EnableSafeDocs $False -AllowSafeDocsOpen $False
 }
 
 
 #----- safelinkspolicy-function -----#
 function safelinkspolicy {
   # Configure default Safe Links policy and rule: 
-  New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $False
+  New-SafeLinksPolicy -Name "xxx Standard - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $True
   New-SafeLinksRule -Name "xxx Standard - Safe Links Rule" -SafeLinksPolicy "xxx Standard - Safe Links Policy" -RecipientDomainIs $domains
 }
 
