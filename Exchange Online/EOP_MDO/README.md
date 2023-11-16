@@ -34,6 +34,7 @@ The following steps have to be done during running the scripts:
 7.  "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
 8.  "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
 9.  "Specify the log path for the script"
+10. After running the script please disable the created shared mailbox and configure spoofing exceptions. Exclude all private mail addresses of the protected user. 
 
 ## Anti-spam, anti-malware, and anti-phishing protection in EOP
 
