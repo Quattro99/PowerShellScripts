@@ -27,7 +27,7 @@ The following steps have to be done before running the scripts:
 The following steps have to be done during running the scripts:
 1.  "Enter your username"
 2.  "Enter the onmicrosoft address of the customer eq. customer.onmicrosoft.com"
-3.  "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
+3.  "Enter the language of the tenant eq. English or Deutsch (Standardfreigaberichtlinie vs. Default Sharing Policy)"
 4.  "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 5.  "Enter the Shared Mailbox alias eq. quarantine"
 6.  "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
