@@ -235,7 +235,7 @@ Additional security benefits come with a Microsoft Defender for Office 365 subsc
 |**URL & click protection settings**||||||
 |**Email**|||||The settings in this section affect URL rewriting and time of click protection in email messages.|
 |**On: Safe Links checks a list of known, malicious links when users click links in email. URLs are rewritten by default.** (_EnableSafeLinksForEmail_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
-|**Apply Safe Links to email messages sent within the organization** (_EnableForInternalSenders_)|Selected (`$true`)|Not selected (`$false`)|Selected (`$true`)|Selected (`$true`)||
+|**Apply Safe Links to email messages sent within the organization** (_EnableForInternalSenders_)|Selected (`$true`)|Not selected (`$false`)|Not selected (`$false`)|Selected (`$true`)||
 |**Apply real-time URL scanning for suspicious links and links that point to files** (_ScanUrls_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
 |**Wait for URL scanning to complete before delivering the message** (_DeliverMessageAfterScan_)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)|Selected (`$true`)||
 |**Do not rewrite URLs, do checks via Safe Links API only** (_DisableURLRewrite_)|Selected (`$false`)<sup>\*</sup>|Selected (`$true`)|Not selected (`$false`)|Not selected (`$false`)|<sup>\*</sup> In new Safe Links policies that you create in the Defender portal, this setting is selected by default. In new Safe Links policies that you create in PowerShell, the default value of the _DisableURLRewrite_ parameter is `$false`.|
