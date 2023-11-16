@@ -44,10 +44,10 @@ $language = Read-Host -Prompt "Enter the language of the tenant eq. English or D
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
+$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl,flavio.meyer@domain.tdl"
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
-$targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
+$targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq DisplayName1;EmailAddress1,DisplayName2;EmailAddress2,DisplayNameN;EmailAddressN"
 
 # Log path for script output
 $LogPath = Read-Host -Prompt "Specify the log path for the script"
@@ -167,7 +167,7 @@ function disableexternalforwarding {
     Set-RemoteDomain * -AutoForwardEnabled $false
     }
     else {
-      Write-Host "External forwarding ist already disabled"
+      Write-Host "External forwarding ist already disabled."
     }
 
 }
@@ -179,7 +179,7 @@ function createsharedmailbox {
   New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
 
     # Waiting 30 seconds for granting permissions on mailbox
-    Write-Host "Waiting 15 seconds for granting permissions on mailbox"
+    Write-Host "Waiting 15 seconds for granting permissions on mailbox."
     Start-Sleep -seconds 15
 
   # Adds permissions to the shared mailbox
@@ -193,7 +193,7 @@ function createsharedmailbox {
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
   # Configure the standard Anti-phishing policy and rule: 
-  New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
+  New-AntiPhishPolicy -Name "xxx Standard - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction MoveToJmf -SpoofQuarantineTag DefaultFullAccessPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect.Split(',') -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction MoveToJmf -MailboxIntelligenceQuarantineTag DefaultFullAccessPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
   New-AntiPhishRule -Name "xxx Standard - Anti-Phishing Rule" -AntiPhishPolicy "xxx Standard - Anti-Phishing Policy" -RecipientDomainIs $domains
 }
 
@@ -272,7 +272,7 @@ function mdoaddin{
   New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
 
   # Waiting 30 seconds for granting permissions to the entier organisation
-  Write-Host "Waiting 30 seconds for granting permissions to the entier organisation"
+  Write-Host "Waiting 30 seconds for granting permissions to the entier organisation."
   Start-Sleep -seconds 30
 
   # Assigns the add in to all users
