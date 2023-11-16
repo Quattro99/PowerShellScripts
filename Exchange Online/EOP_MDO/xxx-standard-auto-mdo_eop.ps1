@@ -181,8 +181,8 @@ function createsharedmailbox {
   New-Mailbox -Shared -Name $sharedmailboxname -DisplayName $sharedmailboxname -Alias $sharedMailboxAlias -PrimarySmtpAddress $sharedMailboxEmail
 
     # Waiting 30 seconds for granting permissions on mailbox
-    Write-Host "Waiting 15 seconds for granting permissions on mailbox."
-    Start-Sleep -seconds 15
+    Write-Host "Waiting 30 seconds for granting permissions on mailbox."
+    Start-Sleep -seconds 30
 
   # Adds permissions to the shared mailbox
     foreach ($user in $users)
