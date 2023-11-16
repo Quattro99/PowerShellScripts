@@ -31,8 +31,8 @@ The following steps have to be done during running the scripts:
 4.  "Enter the Shared Mailbox name eq. Quarantaene - xxx"
 5.  "Enter the Shared Mailbox alias eq. quarantine"
 6.  "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-7.  "Enter who should have access to the quarantine mailbox eq. 'michele.blum@domain.tdl', 'flavio.meyer@domain.tdl'"
-8.  "Enter user which have to be protcted against spoofing .eq 'DisplayName1;EmailAddress1','DisplayName2;EmailAddress2',...'DisplayNameN;EmailAddressN'"
+7.  "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl, flavio.meyer@domain.tdl"
+8.  "Enter user which have to be protcted against spoofing .eq DisplayName1;EmailAddress1,DisplayName2;EmailAddress2,...DisplayNameN;EmailAddressN"
 9.  "Specify the log path for the script"
 10. After running the script please disable the created shared mailbox and configure spoofing exceptions. Exclude all private email addresses of the protected user.  
 
