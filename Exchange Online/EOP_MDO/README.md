@@ -152,7 +152,7 @@ Additional security benefits come with a Microsoft Defender for Office 365 subsc
 > - Although there's no default Safe Attachments policy or Safe Links policy, the **Built-in protection** preset security policy provides Safe Attachments protection and Safe Links protection to all recipients who aren't defined in the Standard preset security policy, the Strict preset security policy, or in custom Safe Attachments or Safe Links policies. For more information, see [Preset security policies in EOP and Microsoft Defender for Office 365](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/preset-security-policies?view=o365-worldwide).
 >
 > - [Safe Attachments for SharePoint, OneDrive, and Microsoft Teams](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-attachments-for-spo-odfb-teams-about?view=o365-worldwide) protection and [Safe Documents](https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-documents-in-e5-plus-security-about?view=o365-worldwide) protection have no dependencies on Safe Links policies. 
-(Microsoft, 16.11.2023)
+>(Microsoft, 16.11.2023)
 
 "If your subscription includes Microsoft Defender for Office 365 or if you've purchased Defender for Office 365 as an add-on, set the following Standard or Strict configurations." (Microsoft, 16.11.2023)
 
