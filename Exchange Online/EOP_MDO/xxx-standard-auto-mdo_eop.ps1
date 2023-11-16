@@ -1,6 +1,6 @@
 <#
 .Synopsis
-  The script is designed to automatically apply recommended settings for EOP and MDO to a customer's Microsoft 365 tenant.x
+  The script is designed to automatically apply standard recommended settings for EOP and MDO to a customer's Microsoft 365 tenant.
 .DESCRIPTION
   The script aims to configure various security settings to enhance the security posture of the Microsoft 365 environment, following Microsoft's best practices.
 .INPUTS
@@ -11,7 +11,7 @@
    The script applies specific security settings in EOP and MDO for the target tenant. However, it does not generate any direct output.
 .NOTES
    ===========================================================================
-	 Created on:   	20.09.2023
+	 Created on:   	16.11.2023
 	 Created by:   	Michele Blum
 	 Filename:     	xxx-standard-auto-mdo_eop.ps1
 	===========================================================================
