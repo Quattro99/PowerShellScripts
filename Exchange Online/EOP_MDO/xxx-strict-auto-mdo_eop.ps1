@@ -161,7 +161,7 @@ function disableexternalforwarding {
   # Block Client Forwarding Rules (be careful with that, some services might not work anymore)
   if (Get-TransportRule | Where-Object {$_.Name -notlike '*External Block*'} )
     {
-    New-TransportRule -Name "Client Rules To External Block" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
+    New-TransportRule -Name "Block external forwarding" -Priority 0 -SentToScope NotInOrganization -FromScope InOrganization -MessageTypeMatches AutoForward -RejectMessageEnhancedStatusCode 5.7.1 -RejectMessageReasonText "Das automatische weiterleiten von Mails an externe Adressen ist nicht gestattet. Bitte kontaktieren sie Ihre IT."
     Set-RemoteDomain * -AutoForwardEnabled $false
     }
     else {
