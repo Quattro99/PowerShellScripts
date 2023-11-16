@@ -41,10 +41,12 @@ $custommicrosoft = $csa = Read-Host -Prompt "Enter the onmicrosoft address of th
 $language = Read-Host -Prompt "Enter the language of the tenant eq. English or Deutsch (can be checked in the Entra ID Properties notification language)"
 
 # Shared Mailbox for quarantine e-mails
-$sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantaene - xxx"
+$sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantine - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-$sharedmailboxesaccess = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl,flavio.meyer@domain.tdl"
+$sharedmailboxaccessusers= Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl,flavio.meyer@domain.tdl"
+# Split string into string object array
+$users = $sharedmailboxaccessusers.Split(',')
 
 # Spoofing Protection; Users that have to be protected against spoofing (CEO, CFO etc.)
 $targeteduserstoprotect = Read-Host -Prompt "Enter user which have to be protcted against spoofing .eq DisplayName1;EmailAddress1,DisplayName2;EmailAddress2,DisplayNameN;EmailAddressN"
@@ -183,9 +185,9 @@ function createsharedmailbox {
     Start-Sleep -seconds 15
 
   # Adds permissions to the shared mailbox
-    foreach ($sharedmailboxaccess in $sharedmailboxesaccess)
+    foreach ($user in $users)
     {
-    Add-MailboxPermission -Identity $sharedMailboxEmail -User $sharedmailboxaccess -AccessRights FullAccess -AutoMapping:$false
+    Add-MailboxPermission -Identity $sharedMailboxEmail -User $user -AccessRights FullAccess -AutoMapping:$false
     }
     
   }
