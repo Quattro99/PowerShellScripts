@@ -114,8 +114,9 @@ function exoauthentication {
 function enableorgcustomization {
   if (Get-OrganizationConfig | Where-Object isDehydrated -eq $true)
   {
-    Write-Host "Organization Customization is not enabled. Changing the setting."
+    Write-Host "Organization Customization is not enabled. Changing the setting. The script will be terminated. Please wait 15-30 minutes until the Organization Customization is active"
     Enable-OrganizationCustomization
+    Start-Sleep -seconds 30
   }
   else {
     Write-Host "Organization Customization already enabled."
