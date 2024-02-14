@@ -8,6 +8,7 @@
        "permissions":[
           {
              "actions":[
+                "Microsoft.Resources/subscriptions/resourceGroups/read",
                 "Microsoft.Compute/virtualMachines/read",
                 "Microsoft.Compute/virtualMachines/start/action",
                 "Microsoft.Compute/virtualMachines/restart/action",
