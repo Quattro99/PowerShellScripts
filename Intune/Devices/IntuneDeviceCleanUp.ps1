@@ -9,8 +9,8 @@ Import-Module Microsoft.Graph.Identity.DirectoryManagement
 Import-Module Microsoft.Graph.Beta.DeviceManagement.Actions
 
 #Start Log
-Start-Transcript -Path $LogPath -Append
 $LogPath = "C:\temp\autopilotlog3.log"
+Start-Transcript -Path $LogPath -Append
 
 # Set tenant ID if you access a customer tenant
 $tenantid = "***"
