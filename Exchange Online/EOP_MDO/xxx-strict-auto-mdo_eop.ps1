@@ -44,7 +44,7 @@ $language = Read-Host -Prompt "Enter the language of the tenant eq. English or D
 $sharedmailboxname = Read-Host -Prompt "Enter the Shared Mailbox name eq. Quarantine - xxx"
 $sharedMailboxAlias = Read-Host -Prompt "Enter the Shared Mailbox alias eq. quarantine"
 $sharedMailboxEmail = Read-Host -Prompt "Enter the Shared Mailbox mail address eq. quarantine@domain.tld"
-$sharedmailboxaccessusers= Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl,flavio.meyer@domain.tdl"
+$sharedmailboxaccessusers = Read-Host -Prompt "Enter who should have access to the quarantine mailbox eq. michele.blum@domain.tdl,flavio.meyer@domain.tdl"
 # Split string into string object array
 $users = $sharedmailboxaccessusers.Split(',')
 
@@ -204,7 +204,7 @@ function antispampolicy {
   New-HostedContentFilterRule -Name "xxx Strict - Anti-Spam Policy" -HostedContentFilterPolicy "xxx Strict - Anti-Spam Policy" -RecipientDomainIs $domains
 
   # Configure the strict Anti-spam outbound policy and rule:
-  New-HostedOutboundSpamFilterPolicy -Name "xxx Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundMail $False 
+  New-HostedOutboundSpamFilterPolicy -Name "xxx Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundAdditionalRecipients $sharedMailboxEmail -BccSuspiciousOutboundMail $true -NotifyOutboundSpamRecipients $sharedmailboxaccessusers -NotifyOutboundSpam $true
   New-HostedOutboundSpamFilterRule -Name "xxx Strict - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "xxx Strict - Anti-Spam Outbound Policy" -SenderDomainIs $domains
 }
 
