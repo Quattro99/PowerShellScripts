@@ -22,12 +22,15 @@ $module = "Microsoft.Graph"
 $RequiredScopes = @("Group.ReadWrite.All", "GroupMember.ReadWrite.All", "User.ReadWrite.All")
 
 # Define the location of the .csv-file where the names of all groups are stored
-$groups = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
+$CSVFilePath  = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
+
+$groups = Import-Csv -Path $CSVFilePath
 
 #----- main-function -----#
 function main () {
 	mggraph
 	mggroup
+  Disconnect-MgGraph -Verbose
 }
 
 
@@ -54,16 +57,27 @@ function mggraph {
   }
 
     # Connect to the tenant with the appropriate graph permissions (enterprise application registration eq. service principal)
-	Connect-MgGraph -Scopes $RequiredScopes
+	Connect-MgGraph -Scopes $RequiredScopes -ContextScope Process
 
 }
 
 #----- mggroup-function -----#
 function mggroup {
+  foreach ($group in $groups) {
+    $groupparam = @{
+      displayname     = $group.displayame
+      description     = "$group.description"
+      mailenabled     = $false
+      securityenabled = $true
+      mailnickname    = "Test"
+      #owners          = "$group.owners"
+      #members         = "$group.members"
+    }
+     
+    New-MgGroup @groupparam
+    }
 
-
-}
-
+  }
 
 #----- logging-function -----#
 # Call local inforamtion of the runtime script
