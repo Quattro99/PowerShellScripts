@@ -65,11 +65,11 @@ function mggraph {
 function mggroup {
   foreach ($group in $groups) {
     $groupparam = @{
-      displayname     = $group.displayame
-      description     = "$group.description"
+      displayname     = $group.displayname
+      description     = $group.description
       mailenabled     = $false
       securityenabled = $true
-      mailnickname    = "Test"
+      mailnickname    = $group.nickname
       #owners          = "$group.owners"
       #members         = "$group.members"
     }
