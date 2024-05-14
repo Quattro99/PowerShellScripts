@@ -9,14 +9,14 @@ Import-Module Microsoft.Graph.Identity.DirectoryManagement
 Import-Module Microsoft.Graph.Beta.DeviceManagement.Actions
 
 #Start Log
-$LogPath = "C:\temp\autopilotlog3.log"
+$LogPath = "C:\temp\autopilotlog.log"
 Start-Transcript -Path $LogPath -Append
 
 # Set tenant ID if you access a customer tenant
 $tenantid = "***"
 
 # Connect to MgGraph with permission scopes
-Connect-MgGraph -NoWelcome -Scopes "DeviceManagementServiceConfig.Read.All, DeviceManagementServiceConfig.ReadWrite.All" -TenantId $tenantid
+Connect-MgGraph -NoWelcome -Scopes "DeviceManagementServiceConfig.Read.All, DeviceManagementServiceConfig.ReadWrite.All, Device.ReadWrite.All" -TenantId $tenantid
 
 # Specify time range
 $currentTime = Get-Date
