@@ -64,18 +64,17 @@ function mggraph {
 #----- mggroup-function -----#
 function mggroup {
   foreach ($group in $groups) {
-    $groupparam = @{
+    $groupparams = @{
       displayname     		= $group.displayname
       description     		= $group.description
       mailenabled     		= $false
       securityenabled 		= $true
       mailnickname    		= $group.nickname
-      IsAssignableToRole 	= $true
-      #owners          		= "$group.owners"
-      #members         		= "$group.members"
+      isAssignableToRole 	= $true
+      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/{$UserId}")
     }
      
-    New-MgGroup @groupparam
+    New-MgGroup -BodyParameter $groupparams
     }
 
   }
