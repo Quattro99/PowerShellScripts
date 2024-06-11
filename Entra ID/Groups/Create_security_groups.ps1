@@ -65,13 +65,14 @@ function mggraph {
 function mggroup {
   foreach ($group in $groups) {
     $groupparam = @{
-      displayname     = $group.displayname
-      description     = $group.description
-      mailenabled     = $false
-      securityenabled = $true
-      mailnickname    = $group.nickname
-      #owners          = "$group.owners"
-      #members         = "$group.members"
+      displayname     		= $group.displayname
+      description     		= $group.description
+      mailenabled     		= $false
+      securityenabled 		= $true
+      mailnickname    		= $group.nickname
+      IsAssignableToRole 	= $true
+      #owners          		= "$group.owners"
+      #members         		= "$group.members"
     }
      
     New-MgGroup @groupparam
