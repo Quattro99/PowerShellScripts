@@ -19,7 +19,7 @@
 $module = "Microsoft.Graph"
 
 # Required MS Graph scope
-$RequiredScopes = @("Group.ReadWrite.All", "GroupMember.ReadWrite.All", "User.ReadWrite.All")
+$RequiredScopes = @("Group.ReadWrite.All", "GroupMember.ReadWrite.All", "User.ReadWrite.All", "RoleManagement.ReadWrite.Directory")
 
 # Define the location of the .csv-file where the names of all groups are stored
 $CSVFilePath  = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
