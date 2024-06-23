@@ -1,0 +1,3 @@
+version:v1.0
+Name [displayName] Required,User name [userPrincipalName] Required,Initial password [passwordProfile] Required,Block sign in (Yes/No) [accountEnabled] Required
+Example: Chris Green, chris@contoso.com, myPassword1234, No
