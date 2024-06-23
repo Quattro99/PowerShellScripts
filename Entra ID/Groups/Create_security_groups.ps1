@@ -22,11 +22,16 @@ $module = "Microsoft.Graph", "Microsoft.Graph.Beta"
 $RequiredScopes = @("Group.ReadWrite.All", "GroupMember.ReadWrite.All", "User.ReadWrite.All", "RoleManagement.ReadWrite.Directory")
 
 # Define the location of the .csv-file where the names of all groups are stored
-$CSVFilePathGroups  = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
-$OwnerId      = Read-Host -Prompt "Enter the ID of the owner"
-$CSVFilePathUserId       = Read-Host -Prompt "Enter the path of your .csv-file with all user id's who should be added to the group"
-$tocreategroups = Import-Csv -Path $CSVFilePathGroups
-$UserIds = Import-Csv -Path $CSVFilePathUserId
+$CSVFilePathPIMGroups   = Read-Host -Prompt "Enter the path of your .csv-file with all groups for PIM"
+$CSVFilePathDAGroups    = Read-Host -Prompt "Enter the path of your .csv-file with all groups for permanent assigned Entra ID role assignments"
+$TXTFilePathPIMUserId   = Read-Host -Prompt "Enter the path of your .txt-file with all user id's who should be added to the PIM groups"
+$TXTFilePathDAUserId    = Read-Host -Prompt "Enter the path of your .txt-file with all user id's who should be added to the permanent assigned Entra ID role groups"
+$PIMOwnerId             = Read-Host -Prompt "Enter the ID of the PIM groups owner"
+$DAOwnerId              = Read-Host -Prompt "Enter the ID of the permanent assigned Entra ID role groups owner"
+$tocreatePIMgroups      = Import-Csv -Path $CSVFilePathPIMGroups
+$tocreateDAGroups       = Import-Csv -Path $CSVFilePathDAGroups
+$PIMUserIds             = Get-Content -Path $TXTFilePathPIMUserId
+$DAUserIds              = Get-Content -Path $TXTFilePathDAUserId
 
 #----- main-function -----#
 function main () {
@@ -64,41 +69,72 @@ function mggraph {
 
 }
 
-#----- mggroup-function -----#
-function mggroup {
-  foreach ($tocreategroup in $tocreategroups) {
-    $groupparams = @{
-      displayname     		= $tocreategroups.displayname
-      description     		= $tocreategroups.description
+#----- pimgroups-function -----#
+function pimgroups {
+  $global:createdPIMgroups = foreach ($tocreatePIMgroup in $tocreatePIMgroups) {
+    $PIMgroupparams = @{
+      displayname     		= $tocreatePIMgroup.displayname
+      description     		= $tocreatePIMgroup.description
       mailenabled     		= $false
       securityenabled 		= $true
-      mailnickname    		= $tocreategroups.nickname
+      mailnickname    		= $tocreatePIMgroup.nickname
       isAssignableToRole 	= $true
-      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($OwnerId)")
+      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($PIMOwnerId)")
+      
     }
       # Initialize the members array
-      $members = @()
+      $PIMgroupmembers = @()
 
       # Loop through each user ID and add to the members array
-      foreach ($UserId in $UserIds) {
-        $members += "https://graph.microsoft.com/v1.0/users/$($UserId)"
+      foreach ($PIMUserId in $PIMUserIds) {
+        $PIMgroupmembers += "https://graph.microsoft.com/v1.0/users/$($PIMUserId)"
       }
 
       # Add the members array to the group parameters
-      $groupparams["members@odata.bind"] = $members
+      $PIMgroupparams["members@odata.bind"] = $pimgroupmembers
      
-    $global:createdgroups = New-MgGroup -BodyParameter $groupparams
+    New-MgGroup -BodyParameter $PIMgroupparams
     }
 
+}
+
+function dagroups {
+  $global:createdDAgroups = foreach ($tocreateDAgroup in $tocreateDAgroups) {
+    $DAgroupparams = @{
+      displayname     		= $tocreateDAgroup.displayname
+      description     		= $tocreateDAgroup.description
+      mailenabled     		= $false
+      securityenabled 		= $true
+      mailnickname    		= $tocreateDAgroup.nickname
+      isAssignableToRole 	= $true
+      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($DAOwnerId)")
+          
+    }
+    
+    # Initialize the members array
+    $DAgroupmembers = @()
+
+    # Loop through each user ID and add to the members array
+    foreach ($DAUserId in $DAUserIds) {
+      $DAgroupmembers += "https://graph.microsoft.com/v1.0/users/$($DAUserId)"
+    }
+
+    # Add the members array to the group parameters
+    $DAgroupparams["members@odata.bind"] = $DAgroupmembers
+    
+    New-MgGroup -BodyParameter $DAgroupparams
+    }
   }
 
   function roleassignment {
-    if ($tocreategroups.displayname -contains "*PIM*") {
-    foreach ($createdgroup in $createdgroups) {
+    foreach ($createdPIMgroup in $createdPIMgroups) {
+    $matchingPIMGroup = $tocreatePIMgroups | Where-Object { $_.displayname -eq $createdPIMgroup.displayname }
+
+    if ($matchingPIMGroup) {
     $pimroleassignmentparams = @{
       Action = "AdminAssign"
-      RoleDefinitionId = $tocreategroup.RoleDefinitionId
-      PrincipalId = $createdgroup.id
+      RoleDefinitionId = $matchingPIMGroup.RoleDefinitionId
+      PrincipalId = $createdPIMgroup.id
       DirectoryScopeId = "/" # The scope at which the role is being assigned
       ScheduleInfo = @{
         StartDateTime = (Get-Date).ToString("o") # Start time in ISO 8601 format
@@ -112,19 +148,18 @@ function mggroup {
     New-MgRoleManagementDirectoryRoleEligibilityScheduleRequest -BodyParameter $pimroleassignmentparams
     }
   }
-    else {
-      foreach ($createdgroup in $createdgroups) {
-        $permanentroleassignmentparams = @{
-          "@odata.type" = "#microsoft.graph.unifiedRoleAssignment"
-          roleDefinitionId = "$($tocreategroups.RoleDefinitionId)"
-          principalId = "$($createdgroup.id)"
-          directoryScopeId = "/"
-        }
+
+    foreach ($createdDAgroup in $createdDAgroups) {
+      $matchingDAGroup = $tocreateDAGroups | Where-Object { $_.displayname -eq $createdDAgroup.displayname }
+      $permanentroleassignmentparams = @{
+        roleDefinitionId = "$($matchingDAGroup.RoleDefinitionId)"
+        principalId = "$($createdDAgroup.id)"
+        directoryScopeId = "/"
+      }
     
-        New-MgBetaRoleManagementDirectoryRoleDefinition -BodyParameter $permanentroleassignmentparams
+      New-MgBetaRoleManagementDirectoryRoleAssignment -BodyParameter $permanentroleassignmentparams
         }
     }
-  }
 
 #----- logging-function -----#
 # Call local inforamtion of the runtime script
