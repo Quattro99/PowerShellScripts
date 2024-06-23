@@ -68,11 +68,11 @@ function mggraph {
 function mggroup {
   foreach ($tocreategroup in $tocreategroups) {
     $groupparams = @{
-      displayname     		= $group.displayname
-      description     		= $group.description
+      displayname     		= $tocreategroups.displayname
+      description     		= $tocreategroups.description
       mailenabled     		= $false
       securityenabled 		= $true
-      mailnickname    		= $group.nickname
+      mailnickname    		= $tocreategroups.nickname
       isAssignableToRole 	= $true
       "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($OwnerId)")
     }
@@ -93,15 +93,36 @@ function mggroup {
   }
 
   function roleassignment {
+    if ($tocreategroups.displayname -contains "*PIM*") {
     foreach ($createdgroup in $createdgroups) {
-    $roleassignmentparams = @{
-      "@odata.type" = "#microsoft.graph.unifiedRoleAssignment"
-      roleDefinitionId = "$($tocreategroups.roleDefinitionId)"
-      principalId = "$($createdgroup.id)"
-      directoryScopeId = "/"
-    }
+    $pimroleassignmentparams = @{
+      Action = "AdminAssign"
+      RoleDefinitionId = $tocreategroup.RoleDefinitionId
+      PrincipalId = $createdgroup.id
+      DirectoryScopeId = "/" # The scope at which the role is being assigned
+      ScheduleInfo = @{
+        StartDateTime = (Get-Date).ToString("o") # Start time in ISO 8601 format
+          Expiration = @{
+            Type = "NoExpiration" # Or "AfterDateTime" with an ExpirationDateTime
+            }
 
-    New-MgBetaRoleManagementDirectoryRoleAssignment -BodyParameter $roleassignmentparams
+          }
+        }
+
+    New-MgRoleManagementDirectoryRoleEligibilityScheduleRequest -BodyParameter $pimroleassignmentparams
+    }
+  }
+    else {
+      foreach ($createdgroup in $createdgroups) {
+        $permanentroleassignmentparams = @{
+          "@odata.type" = "#microsoft.graph.unifiedRoleAssignment"
+          roleDefinitionId = "$($tocreategroups.RoleDefinitionId)"
+          principalId = "$($createdgroup.id)"
+          directoryScopeId = "/"
+        }
+    
+        New-MgBetaRoleManagementDirectoryRoleDefinition -BodyParameter $permanentroleassignmentparams
+        }
     }
   }
 
