@@ -16,20 +16,23 @@
 
 #----- Local variables -----#
 # Name of the PowerShell module to install & import
-$module = "Microsoft.Graph"
+$module = "Microsoft.Graph", "Microsoft.Graph.Beta"
 
 # Required MS Graph scope
 $RequiredScopes = @("Group.ReadWrite.All", "GroupMember.ReadWrite.All", "User.ReadWrite.All", "RoleManagement.ReadWrite.Directory")
 
 # Define the location of the .csv-file where the names of all groups are stored
-$CSVFilePath  = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
-
-$groups = Import-Csv -Path $CSVFilePath
+$CSVFilePathGroups  = Read-Host -Prompt "Enter the path of your .csv-file with all group names"
+$OwnerId      = Read-Host -Prompt "Enter the ID of the owner"
+$CSVFilePathUserId       = Read-Host -Prompt "Enter the path of your .csv-file with all user id's who should be added to the group"
+$tocreategroups = Import-Csv -Path $CSVFilePathGroups
+$UserIds = Import-Csv -Path $CSVFilePathUserId
 
 #----- main-function -----#
 function main () {
 	mggraph
 	mggroup
+  roleassignment
   Disconnect-MgGraph -Verbose
 }
 
@@ -63,7 +66,7 @@ function mggraph {
 
 #----- mggroup-function -----#
 function mggroup {
-  foreach ($group in $groups) {
+  foreach ($tocreategroup in $tocreategroups) {
     $groupparams = @{
       displayname     		= $group.displayname
       description     		= $group.description
@@ -71,12 +74,35 @@ function mggroup {
       securityenabled 		= $true
       mailnickname    		= $group.nickname
       isAssignableToRole 	= $true
-      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/{$UserId}")
+      "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($OwnerId)")
     }
+      # Initialize the members array
+      $members = @()
+
+      # Loop through each user ID and add to the members array
+      foreach ($UserId in $UserIds) {
+        $members += "https://graph.microsoft.com/v1.0/users/$($UserId)"
+      }
+
+      # Add the members array to the group parameters
+      $groupparams["members@odata.bind"] = $members
      
-    New-MgGroup -BodyParameter $groupparams
+    $global:createdgroups = New-MgGroup -BodyParameter $groupparams
     }
 
+  }
+
+  function roleassignment {
+    foreach ($createdgroup in $createdgroups) {
+    $roleassignmentparams = @{
+      "@odata.type" = "#microsoft.graph.unifiedRoleAssignment"
+      roleDefinitionId = "$($tocreategroups.roleDefinitionId)"
+      principalId = "$($createdgroup.id)"
+      directoryScopeId = "/"
+    }
+
+    New-MgBetaRoleManagementDirectoryRoleAssignment -BodyParameter $roleassignmentparams
+    }
   }
 
 #----- logging-function -----#
