@@ -1,5 +1,5 @@
 <#
-.Synopsis
+.SYNOPSIS
 .DESCRIPTION
 .INPUTS
 .OUTPUTS
