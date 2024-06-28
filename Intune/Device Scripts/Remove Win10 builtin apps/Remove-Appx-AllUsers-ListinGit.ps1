@@ -109,7 +109,7 @@ Begin {
 
     # Black List of Appx Provisioned Packages to Remove for All Users
     $BlackListedAppsURL = $null
-    $BlackListedAppsURL = "https://raw.githubusercontent.com/MSEndpointMgr/Windows/master/BuiltInApps/blacklist_w11.txt"
+    $BlackListedAppsURL = "https://raw.githubusercontent.com/Quattro99/PowerShellScripts/main/Intune/Device%20Scripts/Remove%20Win10%20builtin%20apps/Remove-List-Appx.txt"
     Write-LogEntry -Value "BlackListedAppsURL:$($BlackListedAppsURL)"
 
     #Attempt to obtain list of BlackListedApps
