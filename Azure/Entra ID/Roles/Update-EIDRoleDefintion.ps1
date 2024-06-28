@@ -1,3 +1,5 @@
+##https://danielchronlund.com/2023/06/21/automatic-azure-ad-pim-role-micromanagement-based-on-role-impact/
+
 # Authenticate to Microsoft Graph:
 Connect-MgGraph -Scopes "RoleManagement.ReadWrite.Directory"
 
