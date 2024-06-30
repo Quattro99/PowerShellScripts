@@ -4,10 +4,10 @@
 Connect-MgGraph -Scopes "RoleManagement.ReadWrite.Directory"
 
 # set the recipient email address for notifications
-$recipients = @("michele.blum@duo-infernale.ch","flavio.meyer@duo-infernale.ch","ict-support@duo-infernale.ch")
+$InputRecipients = @("michele.blum@duo-infernale.ch","flavio.meyer@duo-infernale.ch","ict-support@duo-infernale.ch")
 
 # Load CSV file content:
-$CsvContent = Import-Csv -Delimiter ',' -Path 'C:\Users\user\Documents\roles.csv'
+$CsvContent = Import-Csv -Delimiter ',' -Path 'C:\Users\michele.blum\OneDrive - TurnKey Services AG\Dokumente\EntraIDRoles.csv'
 
 # Get all Entra ID role templates available in tenant:
 $EntraIDRoleTemplates = Get-MgDirectoryRoleTemplate | Select-Object DisplayName, Description, Id | Sort-Object DisplayName
@@ -79,11 +79,15 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Enablement_EndUser_Assignment' -BodyParameter $params
 
     # Configure rule: 'Notification_Admin_Admin_Eligibility':
-    $NotificationAdminEligibility
+    $NotificationAdminAdminEligibility = $true
     if ($Role.ImpactLevel -eq 'High') {
-        $NotificationAdminEligibility = $true
-    } else {
-        $NotificationAdminEligibility = $false
+        $recipients = $InputRecipients
+    
+    # Assuming you define or update $recipients here for 'High' impact level
+    } elseif ($Role.ImpactLevel -eq 'Medium' -or $Role.ImpactLevel -eq 'Low') {
+        $recipients = @()
+    # For Medium and Low, we already set $NotificationAdminEligibility to $false and $recipients to empty above
+    # No additional configuration needed here
     }
 
     $params = @{
@@ -111,11 +115,15 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Notification_Admin_Admin_Eligibility' -BodyParameter $params
     
     # Configure rule: 'Notification_Admin_Admin_Assignment'
-    $NotificationAdminAssignment
+    $NotificationAdminAssignment = $true
     if ($Role.ImpactLevel -eq 'High') {
-        $NotificationAdminAssignment = $true
-    } else {
-        $NotificationAdminAssignment = $false
+        $recipients = $InputRecipients
+    
+    # Assuming you define or update $recipients here for 'High' impact level
+    } elseif ($Role.ImpactLevel -eq 'Medium' -or $Role.ImpactLevel -eq 'Low') {
+        $recipients = @()
+    # For Medium and Low, we already set $NotificationAdminEligibility to $false and $recipients to empty above
+    # No additional configuration needed here
     }
 
     $params = @{
@@ -143,11 +151,15 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Notification_Admin_Admin_Assignment' -BodyParameter $params
 
     # Configure rule: 'Notification_Admin_EndUser_Assignment' 
-    $NotificationAdminEndUserAssignment
+    $NotificationAdminEndUserAssignment = $true
     if ($Role.ImpactLevel -eq 'High') {
-        $NotificationAdminEndUserAssignment = $true
-    } else {
-        $NotificationAdminEndUserAssignment = $false
+        $recipients = $InputRecipients
+    
+    # Assuming you define or update $recipients here for 'High' impact level
+    } elseif ($Role.ImpactLevel -eq 'Medium' -or $Role.ImpactLevel -eq 'Low') {
+        $recipients = @()
+    # For Medium and Low, we already set $NotificationAdminEligibility to $false and $recipients to empty above
+    # No additional configuration needed here
     }
 
     $params = @{
