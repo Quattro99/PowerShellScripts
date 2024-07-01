@@ -1,0 +1,101 @@
+EntraIDRole,ImpactLevel,MaximumActivationDurationHours,RequireMFAOnActivation,RequireJustificationOnActivation,AllowPermanentEligibleAssignment,AllowPermanentActiveAssignment,RoleDescription
+Application Administrator,High,4,True,True,True,True,Can create and manage all aspects of app registrations and enterprise apps.
+Application Developer,High,4,True,True,True,False,Can create application registrations independent of the 'Users can register applications' setting.
+Attack Payload Author,Low,8,False,False,True,True,Can create attack payloads that an administrator can initiate later.
+Attack Simulation Administrator,Low,8,False,False,True,True,Can create and manage all aspects of attack simulation campaigns.
+Attribute Assignment Administrator,Low,8,False,False,True,True,Assign custom security attribute keys and values to supported Azure AD objects.
+Attribute Assignment Reader,Low,8,False,False,True,True,Read custom security attribute keys and values for supported Azure AD objects.
+Attribute Definition Reader,Low,8,False,False,True,True,Read the definition of custom security attributes.
+Attribute Log Reader,Low,8,False,False,True,True,Read audit logs related to custom security attributes.
+Billing Administrator,Low,8,False,False,True,True,Can perform common billing related tasks like updating payment information.
+Customer LockBox Access Approver,Low,8,False,False,True,True,Can approve Microsoft support requests to access customer organizational data.
+Authentication Administrator,High,2,True,True,True,False,"Allowed to view, set and reset authentication method information for any non-admin user."
+Authentication Extensibility Administrator,High,2,True,True,True,False,Customize sign in and sign up experiences for users by creating and managing custom authentication extensions.
+Authentication Policy Administrator,High,2,True,True,True,False,"Can create and manage the authentication methods policy, tenant-wide MFA settings, password protection policy, and verifiable credentials."
+Azure DevOps Administrator,High,4,True,True,True,True,Can manage Azure DevOps organization policy and settings.
+Azure Information Protection Administrator,High,4,True,True,True,False,Can manage all aspects of the Azure Information Protection product.
+B2C IEF Keyset Administrator,High,2,True,True,True,False,Can manage secrets for federation and encryption in the Identity Experience Framework (IEF).
+Desktop Analytics Administrator,Low,8,False,False,True,True,Can access and manage Desktop management tools and services.
+Dynamics 365 Administrator,Low,8,False,False,True,True,Can manage all aspects of the Dynamics 365 product.
+Edge Administrator,Low,8,False,False,True,True,Manage all aspects of Microsoft Edge.
+Cloud Application Administrator,High,4,True,True,True,False,Can create and manage all aspects of app registrations and enterprise apps except App Proxy.
+Cloud Device Administrator,High,4,True,True,True,False,Full access to manage devices in Azure AD.
+Compliance Administrator,High,4,True,True,True,False,Can read and manage compliance configuration and reports in Azure AD and Microsoft 365.
+Compliance Data Administrator,High,4,True,True,True,False,Creates and manages compliance content.
+Conditional Access Administrator,High,2,True,True,True,False,Can manage Conditional Access capabilities.
+Exchange Recipient Administrator,Low,8,False,False,True,True,Can create or update Exchange Online recipients within the Exchange Online organization.
+Fabric Administrator,Low,8,False,False,True,True,Can manage all aspects of the Power BI product.
+Guest Inviter,Low,8,False,False,True,True,Can invite guest users independent of the 'members can invite guests' setting.
+Directory Writers,High,2,True,True,True,False,"Can read and write basic directory information. For granting access to applications, not intended for users."
+Domain Name Administrator,High,2,True,True,True,False,Can manage domain names in cloud and on-premises.
+Insights Administrator,Low,8,False,False,True,True,Has administrative access in the Microsoft 365 Insights app.
+Dynamics 365 Business Central Administrator,High,4,True,True,True,True,Assign the Dynamics 365 Business Central Administrator role to users who need to do the following tasks:
+Insights Analyst,Low,8,False,False,True,True,Access the analytical capabilities in Microsoft Viva Insights and run custom queries.
+Insights Business Leader,Low,8,False,False,True,True,Can view and share dashboards and insights via the M365 Insights app.
+Kaizala Administrator,Low,8,False,False,True,True,Can manage settings for Microsoft Kaizala.
+Knowledge Administrator,Low,8,False,False,True,True,"Can configure knowledge, learning, and other intelligent features."
+Knowledge Manager,Low,8,False,False,True,True,Has access to topic management dashboard and can manage content.
+License Administrator,Low,8,False,False,True,True,Can manage product licenses on users and groups.
+Message Center Privacy Reader,Low,8,False,False,True,True,Can read security messages and updates in Office 365 Message Center only.
+External Identity Provider Administrator,High,4,True,True,True,False,Can configure identity providers for use in direct federation.
+Message Center Reader,Low,8,False,False,True,True,Can read messages and updates for their organization in Office 365 Message Center only.
+Global Administrator,High,2,True,True,True,True,Can manage all aspects of Azure AD and Microsoft services that use Azure AD identities.
+Global Secure Access Administrator,High,2,True,True,True,False,"Create and manage all aspectsâ€¯of Microsoft Entra Internet Access and Microsoft Entra Private Access, including managing access to public and private endpoints. Users with the role cannot manage enterprise applications, application registrations, Conditional Access, or application proxy settings."
+Helpdesk Administrator,High,4,True,True,True,True,Can reset passwords for non-administrators and Helpdesk Administrators.
+Microsoft Hardware Warranty Administrator,Low,8,False,False,True,True,"Create and manage all aspects warranty claims and entitlements for Microsoft manufactured hardware, like Surface and HoloLens."
+Microsoft Hardware Warranty Specialist,Low,8,False,False,True,True,"Create and read warranty claims for Microsoft manufactured hardware, like Surface and HoloLens."
+Hybrid Identity Administrator,High,2,True,True,True,False,"Can manage AD to Azure AD cloud provisioning, Azure AD Connect, and federation settings."
+Intune Administrator,High,4,True,True,True,True,Can manage all aspects of the Intune product.
+Organizational Messages Approver,Low,8,False,False,True,True,"Review, approve, or reject new organizational messages for delivery in the Microsoft 365 admin center before they are sent to users."
+Organizational Messages Writer,Low,8,False,False,True,True,"Write, publish, manage, and review the organizational messages for end-users through Microsoft product surfaces."
+Printer Administrator,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
+Printer Technician,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
+Lifecycle Workflows Administrator,High,4,True,True,True,False,Create and manage all aspects of workflows and tasks associated with Lifecycle Workflows in Azure AD.
+Search Administrator,Low,8,False,False,True,True,Can create and manage all aspects of Microsoft Search settings.
+Search Editor,Low,8,False,False,True,True,"Can create and manage the editorial content such as bookmarks, Q and As, locations, floorplan."
+Service Support Administrator,Low,8,False,False,True,True,Can read service health information and manage support tickets.
+Skype for Business Administrator,Low,8,False,False,True,True,Can manage all aspects of the Skype for Business product.
+Microsoft 365 Migration Administrator,High,4,True,True,True,True,Assign the Microsoft 365 Migration Administrator role to users who need to do the following tasks
+Teams Communications Administrator,Low,8,False,False,True,True,Can manage calling and meetings features within the Microsoft Teams service.
+Teams Communications Support Engineer,Low,8,False,False,True,True,Can troubleshoot communications issues within Teams using advanced tools.
+Password Administrator,High,2,True,True,True,False,Can reset passwords for non-administrators and Password Administrators.
+Teams Communications Support Specialist,Low,8,False,False,True,True,Can troubleshoot communications issues within Teams using basic tools.
+Teams Devices Administrator,Low,8,False,False,True,True,Can perform management related tasks on Teams certified devices.
+Teams Telephony Administrator,Low,8,False,False,True,True,Manage voice and telephony features and troubleshoot communication issues within the Microsoft Teams service.
+Usage Summary Reports Reader,Low,8,False,False,True,True,Can see only tenant level aggregates in Microsoft 365 Usage Analytics and Productivity Score.
+User Experience Success Manager,Low,8,False,False,True,True,"View product feedback, survey results, and reports to find training and communication opportunities."
+Virtual Visits Administrator,Low,8,False,False,True,True,Manage and share Virtual Visits information and metrics from admin centers or the Virtual Visits app.
+Viva Goals Administrator,Low,8,False,False,True,True,Manage and configure all aspects of Microsoft Viva Goals.
+Privileged Authentication Administrator,High,2,True,True,True,False,"Allowed to view, set and reset authentication method information for any user (admin or non-admin)."
+Viva Pulse Administrator,Low,8,False,False,True,True,Can manage all settings for Microsoft Viva Pulse app
+Attribute Definition Administrator,Medium,6,True,True,True,False,Define and manage the definition of custom security attributes.
+Attribute Log Administrator,Medium,6,True,True,True,False,Assign the Attribute Log Reader role to users who need to do the following tasks:
+B2C IEF Policy Administrator,Medium,6,True,True,True,False,Can create and manage trust framework policies in the Identity Experience Framework (IEF).
+Privileged Role Administrator,High,2,True,True,True,False,"Can manage role assignments in Azure AD, and all aspects of Privileged Identity Management."
+Security Administrator,High,2,True,True,True,True,Security Administrator allows ability to read and manage security configuration and reports.
+Cloud App Security Administrator,Medium,6,True,True,True,False,Can manage all aspects of the Cloud App Security product.
+Directory Readers,Medium,8,False,True,True,True,"Users in this role can read basic directory information. This role should be used for: 1) Granting a specific set of guest users read access instead of granting it to all guest users. 2) Granting a specific set of non-admin users access to Azure Portal when ""Restrict access to Microsoft Entra portal to admins only"" is set to ""Yes"". 3) Granting service principals access to directory where Directory.Read.All is not an option."
+Entra ID Joined Device Local Administrator,Medium,8,True,True,True,False,Users assigned to this role are added to the local administrators group on Azure AD-joined devices.
+User Administrator,High,4,True,True,True,True,"Can manage all aspects of users and groups, including resetting passwords for limited admins."
+Exchange Administrator,Medium,8,True,True,True,False,Can manage all aspects of the Exchange product.
+Extended Directory User Administrator,Medium,6,True,True,True,False,Manage all aspects of external user profiles in the extended directory for Teams.
+External ID User Flow Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of user flows.
+External ID User Flow Attribute Administrator,Medium,6,True,True,True,False,Can create and manage the attribute schema available to all user flows.
+Groups Administrator,Medium,8,True,True,True,False,"Members of this role can create/manage groups, create/manage groups settings like naming and expiration policies, and view groups activity and audit reports."
+Identity Governance Administrator,Medium,6,True,True,True,False,Manage access using Azure AD for identity governance scenarios.
+Network Administrator,Medium,6,True,True,True,False,Can manage network locations and review enterprise network design insights for Microsoft 365 Software as a Service applications.
+Office Apps Administrator,Medium,6,True,True,True,False,"Can manage Office apps cloud services, including policy and settings management, and manage the ability to select, unselect and publish 'what's new' feature content to end-user's devices."
+Organizational Branding Administrator,Medium,6,True,True,True,False,Assign the Organizational Branding Administrator role to users who need to do the following tasks
+Permissions Management Administrator,Medium,6,True,True,True,False,Manage all aspects of Entra Permissions Management.
+Power Platform Administrator,Medium,6,True,True,True,False,"Can create and manage all aspects of Microsoft Dynamics 365, PowerApps and Microsoft Flow."
+Reports Reader,Medium,8,False,True,True,False,Can read sign-in and audit reports.
+Global Reader,Medium,8,False,True,True,True,"Can read everything that a Global Administrator can, but not update anything."
+Security Operator,Medium,8,False,True,True,True,Creates and manages security events.
+SharePoint Administrator,Medium,8,True,True,True,True,Can manage all aspects of the SharePoint service.
+SharePoint Embedded Administrator,Medium,6,True,True,True,False,Assign the SharePoint Embedded Administrator role to users who need to do the following tasks:
+Teams Administrator,Medium,8,True,True,True,False,Can manage the Microsoft Teams service.
+Tenant Creator,Medium,6,True,True,True,False,Create new Azure AD or Azure AD B2C tenants.
+Security Reader,Medium,8,False,True,True,False,Can read security information and reports in Azure AD and Office 365.
+Windows 365 Administrator,Medium,6,True,True,True,False,Can provision and manage all aspects of Cloud PCs.
+Windows Update Deployment Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of Windows Update deployments through the Windows Update for Business deployment service.
+Yammer Administrator,Medium,6,True,True,True,False,Manage all aspects of Yammer.
