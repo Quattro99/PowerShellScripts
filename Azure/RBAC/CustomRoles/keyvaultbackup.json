@@ -3,27 +3,20 @@
         "roleName": "Custom Key Vault Backup Role",
         "description": "Allows getting, listing, and backing up keys and secrets in Azure Key Vault for Azure Backup purposes.",
         "assignableScopes": [
-            "/subscriptions/XXXX"
+            "/subscriptions/XXX"
         ],
         "permissions": [
             {
                 "actions": [
+                    "Microsoft.KeyVault/vaults/secrets/read"
+                ],
+                "notActions": [],
+                "dataActions": [
                     "Microsoft.KeyVault/vaults/keys/read",
-                    "Microsoft.KeyVault/vaults/keys/list",
-                    "Microsoft.KeyVault/vaults/keys/backup/action",
-                    "Microsoft.KeyVault/vaults/secrets/read",
-                    "Microsoft.KeyVault/vaults/secrets/list",
+                    "Microsoft.KeyVault/vaults/secrets/backup/action",
                     "Microsoft.KeyVault/vaults/secrets/backup/action"
                 ],
-                "notActions":[
-                    
-                ],
-                "dataActions": [
-                    
-                ],
-                "notDataActions": [
-                    
-                ]
+                "notDataActions": []
             }
         ]
     }
