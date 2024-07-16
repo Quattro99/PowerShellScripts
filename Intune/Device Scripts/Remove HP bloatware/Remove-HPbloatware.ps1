@@ -97,37 +97,68 @@ $HPCommRecoveryPresent = Test-Path -Path "C:\Program Files\HPCommRecovery"
 $apps = Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -match "HP"}
 $HPSAuninstall = "${Env:ProgramFiles(x86)}\HP\HP Support Framework\UninstallHPSA.exe"
 
-#Function to log output
-function Log {
-    param (
-        [parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Value,
-        [parameter(Mandatory = $false)]
-        [ValidateNotNullOrEmpty()]
-        [string]$FileName = "HPBbloatware.log",
-        [switch]$Stamp
-    )
-
-    #Build Log File appending System Date/Time to output
-    $LogFile = Join-Path -Path $env:ProgramData -ChildPath $("Microsoft\IntuneManagementExtension\Logs\$FileName")
-    $Time = -join @((Get-Date -Format "HH:mm:ss.fff"), " ", (Get-WmiObject -Class Win32_TimeZone | Select-Object -ExpandProperty Bias))
-    $Date = (Get-Date -Format "MM-dd-yyyy")
-
-    If ($Stamp) {
-        $LogText = "<$($Value)> <time=""$($Time)"" date=""$($Date)"">"
-    }
-    else {
-        $LogText = "$($Value)"   
-    }
+    #Log Function
+    function Write-LogEntry {
+        param (
+            [parameter(Mandatory = $true)]
+            [ValidateNotNullOrEmpty()]
+            [string]$Value,
+            [parameter(Mandatory = $false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$FileName = "HPbloatware.log",
+            [switch]$Stamp
+        )
     
-    Try {
-        Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFile -ErrorAction Stop
+        #Build Log File appending System Date/Time to output
+        $LogFile = Join-Path -Path $env:ProgramData -ChildPath $("Microsoft\IntuneManagementExtension\Logs\$FileName")
+        $Time = -join @((Get-Date -Format "HH:mm:ss.fff"), " ", (Get-WmiObject -Class Win32_TimeZone | Select-Object -ExpandProperty Bias))
+        $Date = (Get-Date -Format "MM-dd-yyyy")
+    
+        If ($Stamp) {
+            $LogText = "<$($Value)> <time=""$($Time)"" date=""$($Date)"">"
+        }
+        else {
+            $LogText = "$($Value)"   
+        }
+        
+        Try {
+            Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFile -ErrorAction Stop
+        }
+        Catch [System.Exception] {
+            Write-Warning -Message "Unable to add log entry to $LogFile.log file. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+        }
     }
-    Catch [System.Exception] {
-        Write-Warning -Message "Unable to add log entry to $LogFile.log file. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+
+    #Function to Remove AppxProvisionedPackage
+    Function Remove-AppxProvisionedPackageCustom {
+
+        # Attempt to remove AppxProvisioningPackage
+        if (!([string]::IsNullOrEmpty($BlackListedApp))) {
+            try {
+            
+                # Get Package Name
+                $AppProvisioningPackageName = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -like $BlackListedApp } | Select-Object -ExpandProperty PackageName -First 1
+                Write-Host "$($BlackListedApp) found. Attempting removal ... " -NoNewline
+                Write-LogEntry -Value "$($BlackListedApp) found. Attempting removal ... "
+
+                # Attempt removeal
+                $RemoveAppx = Remove-AppxProvisionedPackage -PackageName $AppProvisioningPackageName -Online -AllUsers
+                
+                #Re-check existence
+                $AppProvisioningPackageNameReCheck = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -like $BlackListedApp } | Select-Object -ExpandProperty PackageName -First 1
+
+                If ([string]::IsNullOrEmpty($AppProvisioningPackageNameReCheck) -and ($RemoveAppx.Online -eq $true)) {
+                    Write-Host @CheckIcon
+                    Write-Host " (Removed)"
+                    Write-LogEntry -Value "$($BlackListedApp) removed"
+                }
+            }
+            catch [System.Exception] {
+                Write-Host " (Failed)"
+                Write-LogEntry -Value "Failed to remove $($BlackListedApp)"
+            }
+        }
     }
-}
 
 # Function to remove HP APPX provisioned packages
 function RemoveAppxProvisionedHPApps {
@@ -243,24 +274,8 @@ function RemoveHPSupportAssistant {
     } Else {
         Write-Host "HP Support Assistant uninstaller not found"
     }
-    # Proceed to the next function
-    RemoveRemainingHPApps
-}
-
-# Function to remove remaining HP applications
-function RemoveRemainingHPApps {
-    $remainingApps = Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -match "HP"}
-    If ($remainingApps) {
-        Write-Host "Attempting to remove remaining HP applications..."
-        ForEach ($app in $remainingApps) {
-            $id = $app.IdentifyingNumber
-            msiexec /uninstall "$id" /quiet /log $msilog /norestart
-        }
-    } Else {
-        Write-Host "No remaining HP applications found"
-    }
 }
 
 # Start with the first functions
-Log
+Write-LogEntry
 RemoveAppxProvisionedHPApps
