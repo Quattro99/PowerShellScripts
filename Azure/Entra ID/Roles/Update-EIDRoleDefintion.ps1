@@ -1,4 +1,22 @@
-##https://danielchronlund.com/2023/06/21/automatic-azure-ad-pim-role-micromanagement-based-on-role-impact/
+<#
+.SYNOPSIS
+.DESCRIPTION
+.INPUTS
+.OUTPUTS
+.NOTES
+   ===========================================================================
+	 Created on:   	
+	 Created by:   	Michele Blum
+	 Filename:     	Update-EIDRoleDefintion.ps1
+	===========================================================================
+.COMPONENT
+.ROLE
+.FUNCTIONALITY
+#>
+
+# NOTE: Can only be applied if the roles are assigned. If their not assigned to a user or a group no changes will be made.
+
+##Source: https://danielchronlund.com/2023/06/21/automatic-azure-ad-pim-role-micromanagement-based-on-role-impact/
 
 # Authenticate to Microsoft Graph:
 Connect-MgGraph -Scopes "RoleManagement.ReadWrite.Directory"
