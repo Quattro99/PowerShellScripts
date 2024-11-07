@@ -12,8 +12,6 @@ This repository contains a collection of PowerShell scripts designed to automate
 
 - [Usage](#usage)
 
-- [Available Scripts](#available-scripts)
-
 - [Contributing](#contributing)
 
 - [License](#license)
@@ -63,16 +61,6 @@ For example, to run a script named `ExampleScript.ps1`, you would execute:
 ```powershell
 .\ExampleScript.ps1
 ```
-
-## Available Scripts
-
-- **Script1.ps1**: Description of what Script1 does.
-
-- **Script2.ps1**: Description of what Script2 does.
-
-- **Script3.ps1**: Description of what Script3 does.
-
-(Expand this section with actual scripts from your repository along with descriptions).
 
 ## Contributing
 
