@@ -21,6 +21,10 @@
    Automatically installs SNMP with all components.
 #>
 
+# Begin logging the installation process to a transcript
+# Change path to a suitable location if necessary
+Start-Transcript -Path "C:\Temp\SNMP_Service_Install_Transcript.txt" -Append
+
 # Import the ServerManager module to manage Windows features
 Import-Module ServerManager
 
@@ -55,10 +59,6 @@ if ($SNMPCheck.Installed -eq "True") {
     # Update Group Policy settings immediately
     gpupdate /force
 }
-
-# Begin logging the installation process to a transcript
-# Change path to a suitable location if necessary
-Start-Transcript -Path "C:\Temp\SNMP_Service_Install_Transcript.txt" -Append
 
 # Log completion
 Write-Host "SNMP Service installation process completed." -ForegroundColor Green
