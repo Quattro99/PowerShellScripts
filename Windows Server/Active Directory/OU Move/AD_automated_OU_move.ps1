@@ -1,33 +1,50 @@
 <#
-.Synopsis
-   This script moves automatically all AVD hosts to the right OUs
+.SYNOPSIS
+   This script moves all Azure Virtual Desktop (AVD) hosts to the appropriate Organizational Units (OUs).
 .DESCRIPTION
-   This script moves automatically all AVD hosts AD objects to the right organizational unit for the GPOs
+   This script automatically organizes AVD host Active Directory (AD) objects into the specified 
+   organizational unit for the associated Group Policy Objects (GPOs).
 .EXAMPLE
-   This script can be used as a cronjob to automate the moving of AD objects
+   This script can be scheduled as a cron job or task to automate the moving of AD objects.
 .OUTPUTS
-   OU move
+   Moves the specified AVD host AD objects to the designated OU.
 .NOTES
    ===========================================================================
-	 Created on:   	03.05.2023
-	 Created by:   	Michele Blum
-	 Filename:     	AD_automated_OU_move.ps1
-	===========================================================================
+   Created on:   	03.05.2023
+   Created by:   	Michele Blum
+   Filename:     	AD_automated_OU_move.ps1
+   ===========================================================================
 .COMPONENT
-   AD Module
+   Active Directory Module
 .ROLE
    Automation with PowerShell and Windows Server
 .FUNCTIONALITY
-   Moving automatically AD objects into another OU
+   Automatically moves AD objects into an specified OU.
 #>
 
-## Name -like HAS TO BE CHANGED
-## Destination OU HAS TO BE CHANGED
+# Logging configuration
+$logFilePath = "C:\Temp\AD_automated_OU_move_Transcript.txt"
 
-# Get all AVD hosts and store them in a variable
-$avdhosts = Get-ADObject -Filter 'Name -like "fclavd*"'
+# Start logging the output to the log file
+Start-Transcript -Path $logFilePath -Append
+Write-Host "Starting the automated OU move for AVD hosts..." -ForegroundColor Green
 
-# Loop through all hosts in the variable and move them to the right OU
-foreach ($avdhost in $avdhosts) {
-Move-ADObject $avdhost -TargetPath "OU=AVD Hosts,DC=aadds,DC=fcl,DC=ch"
+# Get all AVD hosts that match the specified naming convention
+$avdhosts = Get-ADObject -Filter 'Name -like "contosoavd*"'
+
+# Check if any AVD hosts were found
+if ($avdhosts.Count -eq 0) {
+    Write-Host "No AVD hosts found matching the specified pattern." -ForegroundColor Red
+} else {
+    # Loop through all hosts and move them to the specified OU
+    foreach ($avdhost in $avdhosts) {
+        Move-ADObject -Identity $avdhost -TargetPath "OU=AVD Hosts,DC=aadds,DC=contoso,DC=ch"
+        Write-Host "Moved AVD host: $($avdhost.Name) to OU: OU=AVD Hosts,DC=aadds,DC=contoso,DC=ch" -ForegroundColor Green
+    }
 }
+
+# Log completion message
+Write-Host "Completed moving AVD hosts to the designated OU." -ForegroundColor Green
+
+# End the transcript to capture all output
+Stop-Transcript
