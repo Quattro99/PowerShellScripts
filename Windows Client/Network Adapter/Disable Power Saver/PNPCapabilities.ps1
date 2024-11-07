@@ -30,6 +30,13 @@
     Disables the power-saving option for physical network adapters.
 #>
 
+# Logging configuration
+$logFilePath = "C:\Temp\PNPCapabilities_Transcript.txt"
+
+# Start logging the output to the log file
+Start-Transcript -Path $logFilePath -Append
+Write-Host "Starting the script to disable power-saving options for network adapters..." -ForegroundColor Green
+
 Function Disable-OSCNetAdapterPnPCapabilities {
     # Get all physical network adapters that are not Microsoft devices and are working properly
     $PhysicalAdapters = Get-WmiObject -Class Win32_NetworkAdapter | Where-Object {
@@ -37,6 +44,12 @@ Function Disable-OSCNetAdapterPnPCapabilities {
         $_.Manufacturer -ne "Microsoft" -and
         $_.ConfigManagerErrorCode -eq 0 -and
         $_.ConfigManagerErrorCode -ne 22
+    }
+
+    # Check if any physical adapters were found
+    if ($PhysicalAdapters.Count -eq 0) {
+        Write-Warning "No suitable physical network adapters found."
+        return
     }
 
     # Iterate through each physical adapter
@@ -65,7 +78,7 @@ Function Disable-OSCNetAdapterPnPCapabilities {
                         Set-ItemProperty -Path $KeyPath -Name "PnPCapabilities" -Value 24 | Out-Null
                         Write-Host """$PhysicalAdapterName"" - The option ""Allow the computer to turn off this device to save power"" was disabled."
                     } Catch {
-                        Write-Host "Setting the value of properties of PnpCapabilities failed." -ForegroundColor Red
+                        Write-Host "Setting the value of properties of PnPCapabilities failed." -ForegroundColor Red
                     }
                 }
                 $null {
@@ -74,15 +87,21 @@ Function Disable-OSCNetAdapterPnPCapabilities {
                         New-ItemProperty -Path $KeyPath -Name "PnPCapabilities" -Value 24 -PropertyType DWord | Out-Null
                         Write-Host """$PhysicalAdapterName"" - The option ""Allow the computer to turn off this device to save power"" was disabled."
                     } Catch {
-                        Write-Host "Setting the value of properties of PnpCapabilities failed." -ForegroundColor Red
+                        Write-Host "Setting the value of properties of PnPCapabilities failed." -ForegroundColor Red
                     }
                 }
             }
         } else {
-            Write-Warning "The path ($KeyPath) not found."
+            Write-Warning "The path ($KeyPath) not found for adapter: $PhysicalAdapterName."
         }
     }
 }
 
 # Execute the function
 Disable-OSCNetAdapterPnPCapabilities
+
+# Log completion message
+Write-Host "Completed disabling power-saving options for network adapters." -ForegroundColor Green
+
+# End the transcript to capture all output
+Stop-Transcript
