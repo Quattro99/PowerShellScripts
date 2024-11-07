@@ -1,4 +1,20 @@
-﻿Param(
+﻿<#
+.SYNOPSIS
+.DESCRIPTION
+.INPUTS
+.OUTPUTS
+.NOTES
+   ===========================================================================
+	 Created on:   	
+	 Created by:   	Michele Blum
+	 Filename:     	Default_header.ps1
+	===========================================================================
+.COMPONENT
+.ROLE
+.FUNCTIONALITY
+#>
+
+Param(
     [int]$InactiveAccountInDay = 180,
     [int]$UnusedAccountInDay = 360,
     [int]$OutdatedPasswordInDay = 180
