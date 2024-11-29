@@ -27,7 +27,7 @@ $minAge = $currentTime.AddDays(-90)
 $allAutopilot = Get-MgBetaDeviceManagementWindowsAutopilotDeviceIdentity -All
 $staleAutopilot = Get-MgBetaDeviceManagementWindowsAutopilotDeviceIdentity -All | Where-Object { $_.EnrollmentState -ne "notContacted" -and $_.LastContactedDateTime -lt $minAge }
 $neverContactedAutopilot = Get-MgBetaDeviceManagementWindowsAutopilotDeviceIdentity -All | Where-Object { $_.EnrollmentState -eq "notContacted" }
-$disabledDevices = Get-MgDevice -all | Where-Object {$_.AccountEnabled -eq $false -and $_.ApproximateLastSignInDateTime -lt $minAge } 
+$disabledDevices = Get-MgBetaDevice -all | Where-Object {$_.AccountEnabled -eq $false -and $_.ApproximateLastSignInDateTime -lt $minAge } 
 
 
 Write-Output "$($allAutopilot.Count) Autopilot identities are existing in your tenant."
@@ -62,7 +62,7 @@ foreach ($disabledDevice in $disabledDevices) {
 
         Write-Output "The device with the following serial number will be deleted: $($disabledDevice.DisplayName)"
         #$deletedisabledDevice = Get-MgDevice -All | Where-Object {$_.DeviceId -eq $disabledDevice.AzureAdDeviceId}
-        Remove-MgDevice -DeviceId $disabledDevice.Id
+        Remove-MgBetaDevice -DeviceId $disabledDevice.Id
     }
     
 
