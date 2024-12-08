@@ -1,12 +1,12 @@
-# Custom Key Vault Backup Role
+# Key Vault Backup Operator
 
 ## Overview
 
-This document provides details about the *Custom Key Vault Backup Role* designed for use within Azure. This role allows Azure Backup service to interact with Azure Key Vault by managing keys and secrets necessary for performing backup operations in a secure manner.
+This document provides details about the *Key Vault Backup Operator* designed for use within Azure. This role allows Azure Backup service to interact with Azure Key Vault by managing keys and secrets necessary for performing backup operations in a secure manner.
 
 ## Role Details
 
-- **Role Name**: Custom Key Vault Backup Role
+- **Role Name**: Key Vault Backup Role
 - **Description**: This role permits users to get, list, and back up keys and secrets stored in Azure Key Vault specifically for Azure Backup processes.
 
 ## Assignable Scopes
@@ -47,4 +47,4 @@ This role is intended to be assigned to Azure Backup services or users requiring
 ### Example of Role Assignment using Azure CLI
 
 ```bash
-az role assignment create --assignee <assignee-principal-id> --role "Custom Key Vault Backup Role" --scope "/subscriptions/XXX"
+az role assignment create --assignee <assignee-principal-id> --role "Key Vault Backup Operator" --scope "/subscriptions/XXX"

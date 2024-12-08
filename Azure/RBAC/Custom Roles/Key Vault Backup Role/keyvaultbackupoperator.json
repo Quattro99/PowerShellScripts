@@ -1,6 +1,6 @@
 {
     "properties": {
-        "roleName": "Custom Key Vault Backup Role",
+        "roleName": " Key Vault Backup Operator",
         "description": "Allows getting, listing, and backing up keys and secrets in Azure Key Vault for Azure Backup purposes.",
         "assignableScopes": [
             "/subscriptions/XXX"
