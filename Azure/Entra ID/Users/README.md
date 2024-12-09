@@ -1,8 +1,8 @@
-# Bulk Create Users for Azure Entra ID
+# Bulk Create Users for Entra ID
 
 ## Overview
 
-This document describes the format and usage of the `BulkCreateUsers.csv` file used to create multiple users in Azure Entra ID (Azure Active Directory) through the bulk action feature. This allows administrators to efficiently onboard users by specifying their details in a CSV format.
+This document describes the format and usage of the `BulkCreateUsers.csv` file used to create multiple users in Entra ID through the bulk action feature. This allows administrators to efficiently onboard users by specifying their details in a CSV format.
 
 ## File Structure
 
@@ -29,9 +29,9 @@ Chris Green, chris@contoso.com, myPassword1234, No
 
 2\. **Save the File**: Ensure the file is saved in UTF-8 format and retains the `.csv` extension.
 
-3\. **Upload to Azure Entra ID**:
+3\. **Upload to Entra ID**:
 
-   - Go to the Azure portal and navigate to Azure Entra ID.
+   - Go to the Azure portal and navigate to Entra ID.
 
    - Select **Users** > **Bulk operations** > **Bulk create**.
 
