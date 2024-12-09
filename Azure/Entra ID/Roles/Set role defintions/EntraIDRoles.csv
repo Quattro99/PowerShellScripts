@@ -39,7 +39,7 @@ License Administrator,Low,8,False,False,True,True,Can manage product licenses on
 Message Center Privacy Reader,Low,8,False,False,True,True,Can read security messages and updates in Office 365 Message Center only.
 External Identity Provider Administrator,High,4,True,True,True,False,Can configure identity providers for use in direct federation.
 Message Center Reader,Low,8,False,False,True,True,Can read messages and updates for their organization in Office 365 Message Center only.
-Global Administrator,High,2,True,True,True,True,Can manage all aspects of Azure AD and Microsoft services that use Azure AD identities.
+Global Administrator,High,8,True,True,True,True,Can manage all aspects of Azure AD and Microsoft services that use Azure AD identities.
 Global Secure Access Administrator,High,2,True,True,True,False,"Create and manage all aspectsâ€¯of Microsoft Entra Internet Access and Microsoft Entra Private Access, including managing access to public and private endpoints. Users with the role cannot manage enterprise applications, application registrations, Conditional Access, or application proxy settings."
 Helpdesk Administrator,High,4,True,True,True,True,Can reset passwords for non-administrators and Helpdesk Administrators.
 Microsoft Hardware Warranty Administrator,Low,8,False,False,True,True,"Create and manage all aspects warranty claims and entitlements for Microsoft manufactured hardware, like Surface and HoloLens."
