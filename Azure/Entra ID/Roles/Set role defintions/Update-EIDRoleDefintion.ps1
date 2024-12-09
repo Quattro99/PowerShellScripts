@@ -2,10 +2,11 @@
 .SYNOPSIS
 .DESCRIPTION
 .INPUTS
+    The roles have to have an assigment to a user or a group. If they are not assigned to a user or a group no changes will be made to the role definition.
 .OUTPUTS
 .NOTES
    ===========================================================================
-	 Created on:   	
+	 Created on:   	09.12.2024
 	 Created by:   	Michele Blum
 	 Filename:     	Update-EIDRoleDefintion.ps1
 	===========================================================================
@@ -22,10 +23,10 @@
 Connect-MgGraph -Scopes "RoleManagement.ReadWrite.Directory"
 
 # set the recipient email address for notifications
-$InputRecipients = @("michele.blum@duo-infernale.ch","flavio.meyer@duo-infernale.ch","ict-support@duo-infernale.ch")
+$InputRecipients = @("xxx","xxx","xxx")
 
 # Load CSV file content:
-$CsvContent = Import-Csv -Delimiter ',' -Path 'C:\Users\michele.blum\OneDrive - TurnKey Services AG\Dokumente\EntraIDRoles.csv'
+$CsvContent = Import-Csv -Delimiter ',' -Path 'xxx\EntraIDRoleDefintions.csv'
 
 # Get all Entra ID role templates available in tenant:
 $EntraIDRoleTemplates = Get-MgDirectoryRoleTemplate | Select-Object DisplayName, Description, Id | Sort-Object DisplayName
