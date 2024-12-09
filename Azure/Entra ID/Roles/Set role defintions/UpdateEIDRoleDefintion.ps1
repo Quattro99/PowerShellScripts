@@ -8,7 +8,7 @@
    ===========================================================================
 	 Created on:   	09.12.2024
 	 Created by:   	Michele Blum
-	 Filename:     	Update-EIDRoleDefintion.ps1
+	 Filename:     	UpdateEIDRoleDefintion.ps1
 	===========================================================================
 .COMPONENT
 .ROLE
