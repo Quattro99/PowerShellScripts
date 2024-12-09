@@ -12,7 +12,7 @@
    ===========================================================================
     Created on:    23.03.2024
     Created by:    Michele Blum
-    Filename:      Create_security_groups.ps1
+    Filename:      CreateSecurityGroupsForPIMandPermanentAssigned.ps1
    ===========================================================================
 .COMPONENT
     Microsoft Graph
@@ -34,8 +34,8 @@ $CSVFilePathPIMGroups   = Read-Host -Prompt "Enter the path of your .csv-file wi
 $CSVFilePathDAGroups    = Read-Host -Prompt "Enter the path of your .csv-file with all groups for permanent assigned Entra ID role assignments"
 $TXTFilePathPIMUserId   = Read-Host -Prompt "Enter the path of your .txt-file with all user id's who should be added to the PIM groups"
 $TXTFilePathDAUserId    = Read-Host -Prompt "Enter the path of your .txt-file with all user id's who should be added to the permanent assigned Entra ID role groups"
-$PIMOwnerId             = Read-Host -Prompt "Enter the ID of the PIM groups owner"
-$DAOwnerId              = Read-Host -Prompt "Enter the ID of the permanent assigned Entra ID role groups owner"
+$PIMOwnerId             = Read-Host -Prompt "Enter the ID of the PIM assigned Entra ID role groups owner"
+$PAOwnerId              = Read-Host -Prompt "Enter the ID of the permanent assigned Entra ID role groups owner"
 
 # Import data from CSV and TXT files
 $tocreatePIMgroups      = Import-Csv -Path $CSVFilePathPIMGroups
@@ -108,7 +108,7 @@ function dagroups {
             securityenabled     = $true
             mailnickname        = $tocreateDAgroup.nickname
             isAssignableToRole  = $true
-            "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($DAOwnerId)")
+            "owners@odata.bind" = @("https://graph.microsoft.com/v1.0/users/$($PAOwnerId)")
         }
 
         # Initialize the members array
