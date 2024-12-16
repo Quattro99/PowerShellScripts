@@ -1,4 +1,36 @@
-﻿#﻿ Connect to Exchange Online
+﻿<#
+.SYNOPSIS
+   This script sets default calendar permissions for all user, shared, room, and equipment mailboxes in an Exchange Online environment. The permissions are applied to specific calendar folders.
+
+.DESCRIPTION
+   The script connects to Exchange Online, retrieves all user, shared, room, and equipment mailboxes, and iterates through their calendar folders. It checks if the calendar folder named "Calendar" (or "Kalender" in other languages) exists in each mailbox. 
+   If it exists, it updates the calendar permissions for the "Default" user to a specified permission level (default is set to "Reviewer"). 
+   The script provides outputs indicating whether the permissions were already set or newly applied.
+
+.INPUTS
+   - None directly from the user. All mailbox information is fetched from Exchange Online.
+   - Ensure the user running the script has the necessary permissions in Exchange Online.
+
+.OUTPUTS
+   - Outputs the status of calendar permission changes for each mailbox processed, indicating if permissions were updated or already set.
+
+.NOTES
+   ===========================================================================
+   Created on:    16.12.2024
+   Created by:    Michele Blum
+   Filename:      DefaultCalendarUserPermissions.ps1
+   ===========================================================================
+.COMPONENT
+   Exchange Online Management
+
+.ROLE
+   Exchange Administrator
+
+.FUNCTIONALITY
+   This script automates the management of calendar permissions across multiple types of mailboxes in Exchange Online, ensuring that default calendar access rights are uniformly applied.
+#>
+
+# Connect to Exchange Online
 Connect-ExchangeOnline
 
 # Get all user mailboxes
