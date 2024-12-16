@@ -9,8 +9,8 @@ These scripts are a valuable tool for administrators tasked with securing a Micr
 "Although we empower security administrators to customize their security settings, there are two security levels in EOP and Microsoft Defender for Office 365 that we recommend: **Standard** and **Strict**. Although customer environments and needs are different, these levels of filtering help prevent unwanted mail from reaching your employees' Inbox in most situations." (Microsoft, 16.11.2023)
 
 
-* With this script you can deploy the standard settings to a customer tenant: [xxx-standard-auto-mdo_eop.ps1](https://github.com/Quattro99/PowerShellScripts/blob/main/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1)
-* With this script you can deploy the strict settings to a customer tenant: [xxx-srict-auto-mdo_eop.ps1](https://github.com/Quattro99/PowerShellScripts/blob/main/Exchange%20Online/EOP_MDO/xxx-strict-auto-mdo_eop.ps1)
+* With this script you can deploy the standard settings to a customer tenant: [MDO_EOP_Standard_settings.ps1](https://github.com/Quattro99/PowerShellScripts/blob/main/Exchange%20Online/EOP_MDO/xxx-standard-auto-mdo_eop.ps1)
+* With this script you can deploy the strict settings to a customer tenant: [MDO_EOP_Strict_settings.ps1](https://github.com/Quattro99/PowerShellScripts/blob/main/Exchange%20Online/EOP_MDO/xxx-strict-auto-mdo_eop.ps1)
 
 ## Description of the script
 > [!IMPORTANT]

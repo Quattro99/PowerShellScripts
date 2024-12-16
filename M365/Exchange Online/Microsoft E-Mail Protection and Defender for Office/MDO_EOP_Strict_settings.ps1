@@ -13,7 +13,7 @@
    ===========================================================================
 	 Created on:   	16.11.2023
 	 Created by:   	Michele Blum
-	 Filename:     	xxx-strict-auto-mdo_eop.ps1
+	 Filename:     	MDO_EOP_Sctrict_settings.ps1
 	===========================================================================
 .COMPONENT
    The script utilizes the Exchange Online Management module to interact with Exchange Online.
