@@ -1,3 +1,36 @@
+<#
+.SYNOPSIS
+   This script cleans up stale and disabled Autopilot devices from Intune by leveraging Microsoft Graph API.
+
+.DESCRIPTION
+   The script connects to Microsoft Graph and queries for Windows Autopilot devices. It identifies stale devices that have not contacted the Intune service for a specified time period, as well as devices that have never contacted the service. Additionally, it locates devices that are disabled. The script then removes these devices from the Autopilot portal and disables them in Entra ID (Azure AD).
+   
+.INPUTS
+   - Tenant ID: The script requires the tenant ID for connecting to Microsoft Graph.
+   - The script operates on data returned from Microsoft Graph without requiring further input.
+
+.OUTPUTS
+   - Outputs summary information about the total counts of devices in various categories (existing, stale, never-contacted, disabled).
+   - Outputs details about devices that are being deleted or disabled during the cleanup process.
+
+.NOTES
+   Source: https://niklastinner.medium.com/autopilot-cleanup-script-e29c98a71aa6
+   
+   ===========================================================================
+   Created on:    16.12.2024
+   Created by:    Michele Blum
+   Filename:      IntuneDeviceCleanUp.ps1
+   ===========================================================================
+.COMPONENT
+   Microsoft Graph API
+
+.ROLE
+   Intune Administrator / Azure Administrator
+
+.FUNCTIONALITY
+   Automates the cleanup of stale and disabled Autopilot devices in Intune, ensuring ongoing device management and operational efficiency.
+#>
+
 # Requires Module
 Install-Module Microsoft.Graph.Beta.DeviceManagement.Enrollment
 Install-Module Microsoft.Graph.Identity.DirectoryManagement
