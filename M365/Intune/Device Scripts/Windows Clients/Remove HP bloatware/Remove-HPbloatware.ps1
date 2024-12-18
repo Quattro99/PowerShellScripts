@@ -100,32 +100,27 @@ $HPSAuninstall = "${Env:ProgramFiles(x86)}\HP\HP Support Framework\UninstallHPSA
     #Log Function
     function Write-LogEntry {
         param (
-            [parameter(Mandatory = $true)]
-            [ValidateNotNullOrEmpty()]
-            [string]$Value,
             [parameter(Mandatory = $false)]
             [ValidateNotNullOrEmpty()]
-            [string]$FileName = "HPbloatware.log",
-            [switch]$Stamp
+            [string]$Value = "No value provided.",  # Default message if none is provided
+            [parameter(Mandatory = $false)]
+            [ValidateNotNullOrEmpty()]
+            [string]$FileName = "HPbloatware.log"
         )
     
-        #Build Log File appending System Date/Time to output
+        # Build Log File appending System Date/Time to output
         $LogFile = Join-Path -Path $env:ProgramData -ChildPath $("Microsoft\IntuneManagementExtension\Logs\$FileName")
-        $Time = -join @((Get-Date -Format "HH:mm:ss.fff"), " ", (Get-WmiObject -Class Win32_TimeZone | Select-Object -ExpandProperty Bias))
-        $Date = (Get-Date -Format "MM-dd-yyyy")
+        $Time = Get-Date -Format "HH:mm:ss.fff"
+        $Date = Get-Date -Format "MM-dd-yyyy"
     
-        If ($Stamp) {
-            $LogText = "<$($Value)> <time=""$($Time)"" date=""$($Date)"">"
-        }
-        else {
-            $LogText = "$($Value)"   
-        }
+        # Build the log text with timestamp
+        $LogText = "<$($Value)> <time=""$($Time)"" date=""$($Date)"">"
         
         Try {
             Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFile -ErrorAction Stop
         }
-        Catch [System.Exception] {
-            Write-Warning -Message "Unable to add log entry to $LogFile.log file. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+        Catch {
+            Write-Warning -Message "Unable to add log entry to $LogFile. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
         }
     }
 
