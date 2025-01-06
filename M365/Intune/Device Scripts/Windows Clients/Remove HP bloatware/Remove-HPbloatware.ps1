@@ -13,7 +13,7 @@
    ===========================================================================
     Created on:    28.06.2024
     Created by:    Michele Blum
-    Filename:      Remove-HPbloatware.ps1
+    Filename:      Remove-HPBloatware.ps1
    ===========================================================================
 .COMPONENT
     Intune, System Cleanup

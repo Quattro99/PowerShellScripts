@@ -12,7 +12,7 @@
    ===========================================================================
 	 Created on:   	16.08.2024
 	 Created by:   	Michele Blum
-	 Filename:     	Remove-Shortcuts.ps1
+	 Filename:     	Remove-PublicDesktopShortcuts.ps1
 	===========================================================================
 .COMPONENT
     Utility
