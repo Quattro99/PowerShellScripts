@@ -16,7 +16,7 @@
    ===========================================================================
     Created on:   	31.07.2024
     Created by:   	Michele Blum
-    Filename:     	PNPCapabilities.ps1
+    Filename:     	DisablePNPCapabilities.ps1
    ===========================================================================
     Source: https://github.com/KurtDeGreeff/PlayPowershell/blob/master/DisableNetworkAdapterPnPCapabilities.ps1
 

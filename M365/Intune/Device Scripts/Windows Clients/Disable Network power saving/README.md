@@ -37,7 +37,7 @@ cd yourrepository
    Open PowerShell as an administrator and execute the script with:
 
 ```powershell
-.\PNPCapabilities.ps1
+.\DisablePNPCapabilities.ps1
 ```
 
 3\. **Review the results**: The script will output which network adapters were processed, and whether their power-saving options were disabled.
