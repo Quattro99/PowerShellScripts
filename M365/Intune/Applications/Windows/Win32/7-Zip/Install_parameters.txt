@@ -1,4 +1,0 @@
-How can I install 7-Zip in silent mode?
-For exe installer: Use the "/S" parameter to do a silent installation and the /D="C:\Program Files\7-Zip" parameter to specify the "output directory". These options are case-sensitive.
-
-For msi installer: Use the /q INSTALLDIR="C:\Program Files\7-Zip" parameters.
