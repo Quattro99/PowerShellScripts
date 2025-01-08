@@ -62,32 +62,6 @@ For example, to run a script named `ExampleScript.ps1`, you would execute:
 .\ExampleScript.ps1
 ```
 
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or additional scripts, please fork the repository and submit a pull request.
-
-1\. Fork the repository.
-
-2\. Create a new branch for your feature:
-
-```bash
-git checkout -b feature/YourFeature
-```
-
-3\. Commit your changes:
-
-```bash
-git commit -m "Add some feature"
-```
-
-4\. Push to the branch:
-
-```bash
-git push origin feature/YourFeature
-```
-
-5\. Open a Pull Request.
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
