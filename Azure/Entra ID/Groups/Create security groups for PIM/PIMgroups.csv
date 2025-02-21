@@ -103,3 +103,6 @@ CSGA-PRD-IAM-PIM-Windows_365_Administrator, CSGA-PRD-IAM-PIM-Windows_365_Adminis
 CSGA-PRD-IAM-PIM-Windows_Update_Deployment_Administrator, CSGA-PRD-IAM-PIM-Windows_Update_Deployment_Administrator, CSGA-PRD-IAM-PIM-Windows_Update_Deployment_Administrator, 32696413-001a-46ae-978c-ce0f6b3620d2
 CSGA-PRD-IAM-PIM-Yammer_Administrator, CSGA-PRD-IAM-PIM-Yammer_Administrator, CSGA-PRD-IAM-PIM-Yammer_Administrator, 810a2642-a034-447f-a5e8-41beaa378541
 CSGA-RDD-IAM-PIM-Extended_Directory_User_Administrator, CSGA-RDD-IAM-PIM-Extended_Directory_User_Administrator, CSGA-RDD-IAM-PIM-Extended_Directory_User_Administrator, dd13091a-6207-4fc0-82ba-3641e056ab95
+CSGA-PRD-IAM-AI_Administrator, CSGA-PRD-IAM-AI_Administrator, CSGA-PRD-IAM-AI_Administrator, d2562ede-74db-457e-a7b6-544e236ebb61
+CSGA-PRD-IAM-Attribute_Provisioning_Reader, CSGA-PRD-IAM-Attribute_Provisioning_Reader, CSGA-PRD-IAM-Attribute_Provisioning_Reader, 422218e4-db15-4ef9-bbe0-8afb41546d79
+CSGA-PRD-IAM-Attribute_Provisioning_Administrator, CSGA-PRD-IAM-Attribute_Provisioning_Administrator, CSGA-PRD-IAM-Attribute_Provisioning_Administrator, ecb2c6bf-0ab6-418e-bd87-7986f8d63bbe
