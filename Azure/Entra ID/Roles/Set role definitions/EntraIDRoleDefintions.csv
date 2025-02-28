@@ -67,7 +67,7 @@ User Experience Success Manager,Low,8,False,False,True,True,"View product feedba
 Virtual Visits Administrator,Low,8,False,False,True,True,Manage and share Virtual Visits information and metrics from admin centers or the Virtual Visits app.
 Viva Goals Administrator,Low,8,False,False,True,True,Manage and configure all aspects of Microsoft Viva Goals.
 Privileged Authentication Administrator,High,2,True,True,True,False,"Allowed to view, set and reset authentication method information for any user (admin or non-admin)."
-Viva Pulse Administrator,Low,8,False,False,True,True,Can manage all settings for Microsoft Viva Pulse app
+Viva Pulse Administrator,Low,8,False,False,True,True,Can manage all settings for Microsoft Viva Pulse app.
 Attribute Definition Administrator,Medium,6,True,True,True,False,Define and manage the definition of custom security attributes.
 Attribute Log Administrator,Medium,6,True,True,True,False,Assign the Attribute Log Reader role to users who need to do the following tasks:
 B2C IEF Policy Administrator,Medium,6,True,True,True,False,Can create and manage trust framework policies in the Identity Experience Framework (IEF).
@@ -85,7 +85,7 @@ Groups Administrator,Medium,8,True,True,True,False,"Members of this role can cre
 Identity Governance Administrator,Medium,6,True,True,True,False,Manage access using Azure AD for identity governance scenarios.
 Network Administrator,Medium,6,True,True,True,False,Can manage network locations and review enterprise network design insights for Microsoft 365 Software as a Service applications.
 Office Apps Administrator,Medium,6,True,True,True,False,"Can manage Office apps cloud services, including policy and settings management, and manage the ability to select, unselect and publish 'what's new' feature content to end-user's devices."
-Organizational Branding Administrator,Medium,6,True,True,True,False,Assign the Organizational Branding Administrator role to users who need to do the following tasks
+Organizational Branding Administrator,Medium,6,True,True,True,False,Assign the Organizational Branding Administrator role to users who need to do the following tasks.
 Permissions Management Administrator,Medium,6,True,True,True,False,Manage all aspects of Entra Permissions Management.
 Power Platform Administrator,Medium,6,True,True,True,False,"Can create and manage all aspects of Microsoft Dynamics 365, PowerApps and Microsoft Flow."
 Reports Reader,Medium,8,False,True,True,False,Can read sign-in and audit reports.
@@ -99,3 +99,6 @@ Security Reader,Medium,8,False,True,True,False,Can read security information and
 Windows 365 Administrator,Medium,6,True,True,True,False,Can provision and manage all aspects of Cloud PCs.
 Windows Update Deployment Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of Windows Update deployments through the Windows Update for Business deployment service.
 Yammer Administrator,Medium,6,True,True,True,False,Manage all aspects of Yammer.
+AI Administrator,High,4,True,True,True,True,Manage all aspects of Microsoft 365 Copilot and AI-related enterprise services in Microsoft 365.
+Attribute Provisioning Administrator,High,4,True,True,True,False,Read and edit the provisioning configuration of all active custom security attributes for an application.
+Attribute Provisioning Reader,High,4,True,True,True,False,Read the provisioning configuration of all active custom security attributes for an application.

@@ -33,20 +33,63 @@ $logFilePath = "C:\Temp\Set-Language_to_de-ch_Transcript.txt"
 Start-Transcript -Path $logFilePath -Append
 Write-Host "Starting the language and locale configuration to German (Switzerland)..." -ForegroundColor Green
 
-# Set Locale, language etc. by applying the relevant settings from the XML configuration
-$xmlConfigPath = "CHRegion.xml"
-& $env:SystemRoot\System32\control.exe "intl.cpl,,/f:`"$xmlConfigPath`""
+# Define the URL where the XML file is located
+$xmlUrl = "https://raw.githubusercontent.com/Quattro99/PowerShellScripts/cb8c8fac5f388ea97cbb056e0002561ac0d1aee5/Azure/AVD/Change%20Language/CHRegion.xml"
 
-# Set Timezone to W. Europe Standard Time
-Write-Host "Setting time zone to W. Europe Standard Time..." -ForegroundColor Yellow
-& tzutil /s "W. Europe Standard Time"
+# Check if C:\Temp already exists
+$tempDirPath = "C:\Temp"
+if (-not (Test-Path $tempDirPath)) {
+    # Create New directory if it does not exist
+    try {
+        New-Item -Path "C:\" -Name "Temp" -ItemType "Directory"
+        Write-Host "Created directory: $tempDirPath"
+    } catch {
+        Write-Host "Failed to create directory: $_"
+        exit
+    }
+} else {
+    Write-Host "Directory already exists: $tempDirPath"
+}
 
-# Set the culture to German (Switzerland)
-Write-Host "Setting culture to de-CH..." -ForegroundColor Yellow
-Set-Culture de-CH
+# Define the local path to save the downloaded XML file
+$xmlFilePath = "$tempDirPath\CHRegion.xml"
 
-# Log completion message
-Write-Host "Language and locale configuration completed successfully." -ForegroundColor Green
+# Download the XML file if it does not already exist
+if (-not (Test-Path $xmlFilePath)) {
+    try {
+        Invoke-WebRequest -Uri $xmlUrl -OutFile $xmlFilePath
+        Write-Host "Downloaded XML file to: $xmlFilePath"
+    } catch {
+        Write-Host "Failed to download XML file: $_"
+        exit
+    }
+} else {
+    Write-Host "XML file already exists at: $xmlFilePath"
+}
+
+# Set Locale, language, etc. using the downloaded XML file
+try {
+    & "$env:SystemRoot\System32\control.exe" "intl.cpl,,/f:`"$xmlFilePath`""
+    Write-Host "Locale and language settings applied from XML."
+} catch {
+    Write-Host "Failed to set locale and language: $_"
+}
+
+# Set Timezone
+try {
+    tzutil /s "W. Europe Standard Time"
+    Write-Host "Timezone set to W. Europe Standard Time."
+} catch {
+    Write-Host "Failed to set timezone: $_"
+}
+
+# Set languages/culture
+try {
+    Set-Culture de-CH
+    Write-Host "Culture set to de-CH."
+} catch {
+    Write-Host "Failed to set culture: $_"
+}
 
 # End the transcript to capture all output
 Stop-Transcript
