@@ -1,25 +1,61 @@
 <gs:GlobalizationServices xmlns:gs="urn:longhornGlobalizationUnattend">
-  <!-- User List -->
-  <gs:UserList>
-    <gs:User UserID="Current" CopySettingsToDefaultUserAcct="true" CopySettingsToSystemAcct="false"/>
-  </gs:UserList>
-  <!-- User locale -->
-  <gs:UserLocale>
-    <gs:Locale Name="de-CH" SetAsCurrent="true"/>
-  </gs:UserLocale>
-  <!-- System locale -->
-  <gs:SystemLocale Name="de-CH"/>
-  <!-- GeoID -->
-  <gs:LocationPreferences>
-    <gs:GeoID Value="223"/>
-  </gs:LocationPreferences>
-  <gs:MUILanguagePreferences>
-    <gs:MUILanguage Value="de-CH"/>
-    <gs:MUIFallback Value="de-DE"/>
-  </gs:MUILanguagePreferences>
-  <!-- Input preferences -->
-  <gs:InputPreferences>
-    <!-- de-CH -->
-    <gs:InputLanguageID Action="add" ID="0807:00000807" Default="true"/>
-  </gs:InputPreferences>
+  
+<!-- user list -->  
+<gs:UserList>
+<gs:User UserID="Current" CopySettingsToDefaultUserAcct="true" CopySettingsToSystemAcct="false"/>  
+</gs:UserList>
+  
+<!-- GeoID -->
+<gs:LocationPreferences>  
+<gs:GeoID Value="223"/>
+</gs:LocationPreferences>
+  
+<gs:MUILanguagePreferences>
+<gs:MUILanguage Value="de-CH"/>
+<gs:MUIFallback Value="de-DE"/>
+</gs:MUILanguagePreferences>
+  
+<!-- system locale -->
+<gs:SystemLocale Name="de-CH"/>
+<!-- input preferences -->
+  
+<gs:InputPreferences>
+<gs:InputLanguageID Action="add" ID="0807:00000807" Default="true"/>
+</gs:InputPreferences>
+  
+<!-- user locale -->
+<gs:UserLocale>
+<gs:Locale Name="de-CH" SetAsCurrent="true" ResetAllSettings="false">
+<gs:Win32>
+<gs:iCalendarType>1</gs:iCalendarType>
+<gs:iCurrency>33</gs:iCurrency>
+<gs:iCurrDigits>2</gs:iCurrDigits>
+<gs:sList>;</gs:sList>
+<gs:sDecimal>,</gs:sDecimal>
+<gs:sThousand>'</gs:sThousand>
+<gs:sGrouping>3;0</gs:sGrouping>
+<gs:iDigits>2</gs:iDigits>
+<gs:iNegNumber>1</gs:iNegNumber>
+<gs:sNegativeSign>-</gs:sNegativeSign>
+<gs:sPositiveSign></gs:sPositiveSign>
+<gs:sCurrency>CHF</gs:sCurrency>
+<gs:sMonDecimalSep>,</gs:sMonDecimalSep>
+<gs:sMonThousandSep>'</gs:sMonThousandSep>
+<gs:sMonGrouping>3;0</gs:sMonGrouping>
+<gs:iNegCurr>1</gs:iNegCurr>
+<gs:iLZero>1</gs:iLZero>
+<gs:sTimeFormat>HH:mm:ss</gs:sTimeFormat>
+<gs:s1159>AM</gs:s1159>
+<gs:s2359>PM</gs:s2359>
+<gs:sShortDate>dd.MM.yyyy</gs:sShortDate>
+<gs:sLongDate>dddd, d. MMMM yyyy</gs:sLongDate>
+<gs:iFirstDayOfWeek>1</gs:iFirstDayOfWeek>
+<gs:iFirstWeekOfYear>1</gs:iFirstWeekOfYear>
+<gs:sNativeDigits>0123456789</gs:sNativeDigits>
+<gs:iDigitSubstitution>1</gs:iDigitSubstitution>
+<gs:iMeasure>0</gs:iMeasure>
+<gs:iTwoDigitYearMax>2029</gs:iTwoDigitYearMax>
+</gs:Win32>
+</gs:Locale>
+</gs:UserLocale>
 </gs:GlobalizationServices>
