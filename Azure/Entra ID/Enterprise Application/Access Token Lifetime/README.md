@@ -30,7 +30,7 @@ Before running the script, ensure you have the following:
 ## Usage
 
 1. **Clone or Download**: Get the script file (`Change_Access_Token_Lifetime_On_Specific_EID_Enterprise_Application.ps1`) to your local machine.
-2. **Modify the Displayname and Access Token Lifetime: Update the line `$tokenLifetimePolicy = Create-TokenLifetimePolicy -DisplayName "NAME" -AccessTokenLifetime "12:00:00"` with your preferences.
+2. **Modify the Displayname and Access Token Lifetime**: Update the line `$tokenLifetimePolicy = Create-TokenLifetimePolicy -DisplayName "NAME" -AccessTokenLifetime "12:00:00"` with your preferences.
 3. **Modify Application ID**: Update the `$applicationId` variable in the script with the actual ID of the application you want to bind the policy to.
 4. **Run the Script**:
    Open PowerShell and run the script:
