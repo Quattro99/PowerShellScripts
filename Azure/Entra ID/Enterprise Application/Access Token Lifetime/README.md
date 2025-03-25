@@ -29,7 +29,7 @@ Before running the script, ensure you have the following:
 
 ## Usage
 
-1. **Clone or Download**: Get the script file (`Default_header.ps1`) to your local machine.
+1. **Clone or Download**: Get the script file (`Change_Access_Token_Lifetime_On_Specific_EID_Enterprise_Application.ps1`) to your local machine.
 2. **Modify Application ID**: Update the `$applicationId` variable in the script with the actual ID of the application you want to bind the policy to.
 3. **Run the Script**:
    Open PowerShell and run the script:
@@ -55,7 +55,7 @@ The script contains error handling mechanisms that provide informative messages 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://chat.duo-infernale.ch/c/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE]([https://chat.duo-infernale.ch/c/LICENSE](https://github.com/Quattro99/PowerShellScripts/blob/d49a8e81b83a85fb386f677b5bc56a453dca9fd1/LICENSE)) file for details.
 
 ## Contributors
 
