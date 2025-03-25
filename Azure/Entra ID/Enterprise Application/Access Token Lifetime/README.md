@@ -56,7 +56,7 @@ The script contains error handling mechanisms that provide informative messages 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE]([https://chat.duo-infernale.ch/c/LICENSE](https://github.com/Quattro99/PowerShellScripts/blob/d49a8e81b83a85fb386f677b5bc56a453dca9fd1/LICENSE)) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Quattro99/PowerShellScripts/blob/main/LICENSE) file for details.
 
 ## Contributors
 
