@@ -2,7 +2,7 @@
 
 ## Overview
 
-This PowerShell script manages Azure Active Directory (Azure AD) token lifetime policies by creating a new token lifetime policy that sets the access token lifetime to 12 hours and binding it to a specified application. It leverages the Microsoft Graph PowerShell SDK to interact with Azure AD.
+This PowerShell script manages Microsoft Entra ID (Entra ID) token lifetime policies by creating a new token lifetime policy that sets the access token lifetime to 12 hours and binding it to a specified application. It leverages the Microsoft Graph PowerShell SDK to interact with Entra ID.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ Before running the script, ensure you have the following:
     ```
 3. **Permissions**: You must have the following permissions granted:
    - Application: `Policy.ReadWrite.ApplicationConfiguration`, `Policy.Read.All`, `Application.ReadWrite.All`.
-4. **Azure AD Tenant**: Ensure you have an Azure AD tenant with at least one registered application.
+4. **Entra ID Tenant**: Ensure you have an Entra ID tenant with at least one registered application.
 
 ## Usage
 
@@ -42,7 +42,7 @@ Before running the script, ensure you have the following:
 The script includes the following main features:
 
 -   Create Token Lifetime Policy: Creates a token lifetime policy with a specified access token lifetime (currently set to 12 hours).
--   Bind Policy to Application: Binds the created token lifetime policy to a specified Azure AD application.
+-   Bind Policy to Application: Binds the created token lifetime policy to a specified Entra ID application.
 -   Informative Output: Displays the creation and binding status of the policies.
 
 ### Example of Key Functions
