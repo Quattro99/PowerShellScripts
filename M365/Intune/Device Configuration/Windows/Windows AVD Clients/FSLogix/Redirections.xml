@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+.SYNOPSIS
+    Configuration for FSLogix Folder Redirections exclusions.
+.DESCRIPTION
+    This XML file specifies folders that should be excluded from profile folder redirection for various applications.
+.INPUTS
+    None.
+.OUTPUTS
+    None.
+.NOTES
+    ===========================================================================
+    Created on:    27.03.2025
+    Created by:    Michele Blum
+    Filename:      Default_AVD_redirections.xml
+    ===========================================================================
+.COMPONENT
+    FrxProfileFolderRedirection
+.ROLE
+    Defines exclusions for folder redirection.
+.FUNCTIONALITY
+    Specifies which folders to exclude based on applications.
+.SOURCES
+    https://learn.microsoft.com/fslogix/tutorial-redirections-xml
+    https://github.com/JamesKindon/Citrix/blob/master/FSLogix/redirections.xml
+    https://blog.andreas-schreiner.de/2023/02/14/fslogix-profile-container-content-optimierung/
+-->
+
+<FrxProfileFolderRedirection ExcludeCommonFolders="0">
+
+    <Excludes>
+        <!-- Microsoft Teams -->
+        <Exclude Copy="0">AppData\Local\SquirrelTemp</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Teams\Current\Locales</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Teams\Packages\SquirrelTemp</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Teams\current\resources\locales</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Service Worker\CacheStorage</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Application Cache</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Cache</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft Teams\Logs</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft\Teams\media-stack</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Microsoft\Teams\meeting-addin\Cache</Exclude>
+        <Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\Logs</Exclude>
+        <Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\PerfLogs</Exclude>
+        <Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\EBWebView\WV2Profile_tfw\WebStorage</Exclude>
+
+        <!-- Google Chrome / Microsoft Edge / Brave Browser -->
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Cache</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Cached Theme Image</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\JumpListIcons</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\JumpListIconsOld</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Storage</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Local Storage</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\SessionStorage</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Media Cache</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\GPUCache</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\WebApplications</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\SyncData</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\SyncDataBackup</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\Default\Pepper Data\Shockwave Flash\CacheWriteableAdobeRoot</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\WidevineCDM</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\EVWhitelist</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\pnacl</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\recovery</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\ShaderCache</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\SwReporter</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\SwiftShader</Exclude>
+        <Exclude Copy="0">AppData\Local\Google\Chrome\User Data\PepperFlash</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Edge\User Data\Default\Cache</Exclude>
+        <Exclude Copy="0">AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Cache</Exclude>
+
+        <!-- System/Other Folders -->
+        <Exclude Copy="0">AppData\Local\Microsoft\Windows\WER</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Terminal Server Client\Cache</Exclude>
+        <Exclude Copy="0">AppData\Roaming\Downloaded Installations</Exclude>
+        <Exclude Copy="0">AppData\Local\Downloaded Installations</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\Office\16.0\Lync\Tracing</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\MSOIdentityCRL\Tracing</Exclude>
+        <Exclude Copy="0">AppData\Local\Microsoft\OneNote\16.0\Backup</Exclude>
+        <Exclude Copy="0">AppData\Local\CrashDumps</Exclude>
+    </Excludes>
+
+    <Includes>
+        <!-- Oracle/Sun Java -->
+        <Include Copy="3">AppData\LocalLow\Sun\Java\Deployment\security</Include>
+    </Includes>
+
+</FrxProfileFolderRedirection>
