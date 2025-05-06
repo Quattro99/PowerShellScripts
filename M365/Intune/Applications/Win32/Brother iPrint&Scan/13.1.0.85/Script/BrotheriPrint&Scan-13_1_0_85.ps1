@@ -114,4 +114,3 @@ if ($ExitCode -eq $null -or $ExitCode -eq "1") {
     # Stop logging
     Stop-Transcript
     Exit $ExitCode
-}
