@@ -1,0 +1,5 @@
+Detection rules: Registry
+Key Path: HKEY_LOCAL_MACHINE\SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedhost
+Value name: Version
+Operator: Greater than or equal
+Value: 8.0
