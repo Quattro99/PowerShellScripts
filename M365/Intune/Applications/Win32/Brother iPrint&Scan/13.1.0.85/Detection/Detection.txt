@@ -2,4 +2,3 @@ Detection rules
 Rules format: Manually configure detection rules
 Path: C:\Program Files (x86)\Brother\iPrint&Scan
 File or folder: Brother iPrint&Scan.exe
-Detection method: File or folder exists
