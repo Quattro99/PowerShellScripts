@@ -11,7 +11,7 @@
     Idea based on an original script for deleting HP pre-installed software / Credit to: foeyonghai @ Intune Specialist
 
    ===========================================================================
-    Created on:    28.06.2024
+    Created on:    22.05.2025
     Created by:    Michele Blum
     Filename:      Remove-HPBloatware.ps1
    ===========================================================================
@@ -23,42 +23,62 @@
     Removes pre-installed HP software to streamline and optimize system performance.
 #>
 
+#------- Parameters and preferences -----------
+[CmdletBinding()]
+Param ()
+
+# Action preferences to capture verbose output and errors
+$VerbosePreference = "Continue"
+$ErrorActionPreference = "Stop"
+
+#-------- Logging Configuration --------#
+# Set up a logging mechanism to capture outputs for troubleshooting
+if ($PSCommandPath) {
+    $LogName = (split-path $PSCommandPath -Leaf) -replace ".ps1", ""  # Log name based on script name
+} else {
+    $LogName = "Current"  # Default log name
+}
+
+# Define the full path for logging
+$LogFullname = "{0}\{1}\{2}-{3}.log" -f $env:ProgramData, "Microsoft\IntuneManagementExtension\Logs", $LogName, $(get-Date -f "yyyyMMdd-HHmmss")
+
+# Start logging the output to the log file
+Start-Transcript -Path $LogFullname
+
 # List of built-in apps to remove
 $UninstallPackages = @(
-    "AD2F1837.HPJumpStarts"
-    "AD2F1837.HPPCHardwareDiagnosticsWindows"
-    "AD2F1837.HPPowerManager"
-    "AD2F1837.HPPrivacySettings"
-    "AD2F1837.HPSupportAssistant"
-    "AD2F1837.HPSureShieldAI"
-    "AD2F1837.HPSystemInformation"
-    "AD2F1837.HPQuickDrop"
-    "AD2F1837.HPWorkWell"
-    "AD2F1837.myHP"
-    "AD2F1837.HPDesktopSupportUtilities"
-    "AD2F1837.HPQuickTouch"
-    "AD2F1837.HPEasyClean"
+    "AD2F1837.HPJumpStarts",
+    "AD2F1837.HPPCHardwareDiagnosticsWindows",
+    "AD2F1837.HPPowerManager",
+    "AD2F1837.HPPrivacySettings",
+    "AD2F1837.HPSureShieldAI",
+    "AD2F1837.HPSystemInformation",
+    "AD2F1837.HPQuickDrop",
+    "AD2F1837.HPWorkWell",
+    "AD2F1837.myHP",
+    "AD2F1837.HPDesktopSupportUtilities",
+    "AD2F1837.HPQuickTouch",
+    "AD2F1837.HPEasyClean",
     "AD2F1837.HPSystemInformation"
 )
 
 # List of programs to uninstall
 $UninstallPrograms = @(
-    "HP Client Security Manager"
-    "HP Connection Optimizer"
-    "HP Documentation"
-    "HP MAC Address Manager"
-    "HP Notifications"
-    "HP Security Update Service"
-    "HP System Default Settings"
-    "HP Sure Click"
-    "HP Sure Click Security Browser"
-    "HP Sure Run"
-    "HP Sure Recover"
-    "HP Sure Sense"
-    "HP Sure Sense Installer"
-    "HP Support Assistant"
-    "HP Wolf Security"
-    "HP Wolf Security Application Support for Sure Sense"
+    "HP Client Security Manager",
+    "HP Connection Optimizer",
+    "HP Documentation",
+    "HP MAC Address Manager",
+    "HP Notifications",
+    "HP Security Update Service",
+    "HP System Default Settings",
+    "HP Sure Click",
+    "HP Sure Click Security Browser",
+    "HP Sure Run",
+    "HP Sure Recover",
+    "HP Sure Sense",
+    "HP Sure Sense Installer",
+    "HP Wolf Security",
+    "HP Wolf Security Application Support for Sure Sense",
     "HP Wolf Security Application Support for Windows"
 )
 
@@ -97,93 +117,59 @@ $HPCommRecoveryPresent = Test-Path -Path "C:\Program Files\HPCommRecovery"
 $apps = Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -match "HP"}
 $HPSAuninstall = "${Env:ProgramFiles(x86)}\HP\HP Support Framework\UninstallHPSA.exe"
 
-    #Log Function
-    function Write-LogEntry {
-        param (
-            [parameter(Mandatory = $false)]
-            [ValidateNotNullOrEmpty()]
-            [string]$Value = "No value provided.",  # Default message if none is provided
-            [parameter(Mandatory = $false)]
-            [ValidateNotNullOrEmpty()]
-            [string]$FileName = "HPbloatware.log"
-        )
-    
-        # Build Log File appending System Date/Time to output
-        $LogFile = Join-Path -Path $env:ProgramData -ChildPath $("Microsoft\IntuneManagementExtension\Logs\$FileName")
-        $Time = Get-Date -Format "HH:mm:ss.fff"
-        $Date = Get-Date -Format "MM-dd-yyyy"
-    
-        # Build the log text with timestamp
-        $LogText = "<$($Value)> <time=""$($Time)"" date=""$($Date)"">"
-        
-        Try {
-            Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFile -ErrorAction Stop
-        }
-        Catch {
-            Write-Warning -Message "Unable to add log entry to $LogFile. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+# Log Function
+function Write-LogEntry {
+    param (
+        [string]$Value = "No value provided.",
+        [string]$FileName = $LogFullname  # Use the log file defined earlier
+    )
+
+    $Time = Get-Date -Format "HH:mm:ss.fff"
+    $Date = Get-Date -Format "MM-dd-yyyy"
+    $LogText = "<$($Value)> <time=`"$($Time)`" date=`"$($Date)`">"
+
+    Try {
+        Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $FileName -ErrorAction Stop
+    }
+    Catch {
+        Write-Warning "Unable to add log entry to $FileName. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+    }
+}
+
+# Function to Remove Appx-Provisioned Packages
+function Remove-AppxProvisionedPackageCustom {
+    param (
+        [string]$PackageName
+    )
+    try {
+        $AppProvisioningPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.PackageName -eq $PackageName }
+        if ($AppProvisioningPackage) {
+            Write-Host "Removing provisioned package: $($AppProvisioningPackage.DisplayName)"
+            Remove-AppxProvisionedPackage -PackageName $AppProvisioningPackage.PackageName -Online
+            Write-LogEntry -Value "Removed provisioned package: $($AppProvisioningPackage.DisplayName)"
         }
     }
-
-    #Function to Remove AppxProvisionedPackage
-    Function Remove-AppxProvisionedPackageCustom {
-
-        # Attempt to remove AppxProvisioningPackage
-        if (!([string]::IsNullOrEmpty($BlackListedApp))) {
-            try {
-            
-                # Get Package Name
-                $AppProvisioningPackageName = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -like $BlackListedApp } | Select-Object -ExpandProperty PackageName -First 1
-                Write-Host "$($BlackListedApp) found. Attempting removal ... " -NoNewline
-                Write-LogEntry -Value "$($BlackListedApp) found. Attempting removal ... "
-
-                # Attempt removeal
-                $RemoveAppx = Remove-AppxProvisionedPackage -PackageName $AppProvisioningPackageName -Online -AllUsers
-                
-                #Re-check existence
-                $AppProvisioningPackageNameReCheck = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -like $BlackListedApp } | Select-Object -ExpandProperty PackageName -First 1
-
-                If ([string]::IsNullOrEmpty($AppProvisioningPackageNameReCheck) -and ($RemoveAppx.Online -eq $true)) {
-                    Write-Host @CheckIcon
-                    Write-Host " (Removed)"
-                    Write-LogEntry -Value "$($BlackListedApp) removed"
-                }
-            }
-            catch [System.Exception] {
-                Write-Host " (Failed)"
-                Write-LogEntry -Value "Failed to remove $($BlackListedApp)"
-            }
-        }
+    catch {
+        Write-Warning "Failed to remove provisioned package: $PackageName"
+        Write-LogEntry -Value "Failed to remove provisioned package: $PackageName"
     }
-
-# Function to remove HP APPX provisioned packages
-function RemoveAppxProvisionedHPApps {
-    ForEach ($ProvPackage in $ProvisionedPackages) {
-        Write-Host "Attempting to remove provisioned package: [$($ProvPackage.DisplayName)]..."
-        Try {
-            Remove-AppxProvisionedPackage -PackageName $ProvPackage.PackageName -Online -ErrorAction Stop
-            Write-Host "Successfully removed provisioned package: [$($ProvPackage.DisplayName)]"
-        }
-        Catch {
-            Write-Warning "Failed to remove provisioned package: [$($ProvPackage.DisplayName)]"
-        }
-    }
-    # Proceed to the next function
     RemoveAppxHPApps
 }
 
-# Function to remove HP APPX packages
+# Function to remove HP Appx packages
 function RemoveAppxHPApps {
-    ForEach ($AppxPackage in $InstalledPackages) {                                 
+    ForEach ($AppxPackage in $InstalledPackages) {
         Write-Host "Attempting to remove Appx package: [$($AppxPackage.Name)]..."
         Try {
             Remove-AppxPackage -Package $AppxPackage.PackageFullName -AllUsers -ErrorAction Stop
             Write-Host "Successfully removed Appx package: [$($AppxPackage.Name)]"
+            Write-LogEntry -Value "Successfully removed Appx package: $($AppxPackage.Name)"
         }
         Catch {
             Write-Warning "Failed to remove Appx package: [$($AppxPackage.Name)]"
+            Write-LogEntry -Value "Failed to remove Appx package: $($AppxPackage.Name)"
         }
     }
-    # Proceed to the next function
     RemoveHPInstalledPrograms
 }
 
@@ -194,33 +180,42 @@ function RemoveHPInstalledPrograms {
         Try {
             $Program | Uninstall-Package -AllVersions -Force -ErrorAction Stop
             Write-Host "Successfully uninstalled: [$($Program.Name)]"
+            Write-LogEntry -Value "Successfully uninstalled: $($Program.Name)"
         }
         Catch {
             Write-Warning "Failed to uninstall: [$($Program.Name)]"
+            Write-LogEntry -Value "Failed to uninstall: $($Program.Name)"
         }
     }
-    # Proceed to the next function
     RemoveHPWin32Apps
 }
 
 # Function to remove HP Win32 applications
 function RemoveHPWin32Apps {
     ForEach ($app in $apps) {
-        $id = $app.IdentifyingNumber
-        msiexec /uninstall "$id" /quiet /log $msilog /norestart
+        Write-Host "Attempting to uninstall Win32 application: $($app.Name)"
+        Try {
+            $id = $app.IdentifyingNumber
+            Start-Process msiexec.exe -ArgumentList "/uninstall `"$id`" /quiet /norestart" -Wait
+            Write-Host "Successfully uninstalled Win32 application: $($app.Name)"
+            Write-LogEntry -Value "Successfully uninstalled Win32 application: $($app.Name)"
+        }
+        Catch {
+            Write-Warning "Failed to uninstall Win32 application: $($app.Name)"
+            Write-LogEntry -Value "Failed to uninstall Win32 application: $($app.Name)"
+        }
     }
-    # Proceed to the next function
     RemoveHPConnectionOptimizer
 }
 
 # Function to remove HP Connection Optimizer
 function RemoveHPConnectionOptimizer {
     If ($HPCommRecoveryPresent) {
-        $optimizerUninstallAnswer | Out-File $env:TEMP\optimizer.iss
+        $optimizerUninstallAnswer | Out-File -FilePath "$env:TEMP\optimizer.iss" -Force
         $arguments = "/s /f1`"$env:TEMP\optimizer.iss`" /f2`"C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\PConnectionOptimizerUninstall.log`""
-        Start-Process "C:\Program Files (x86)\InstallShield Installation Information\{6468C4A5-E47E-405F-B675-A70A70983EA6}\Setup.exe" -ArgumentList $arguments -PassThru -Wait
+        Start-Process -FilePath "C:\Program Files (x86)\InstallShield Installation Information\{6468C4A5-E47E-405F-B675-A70A70983EA6}\Setup.exe" -ArgumentList $arguments -Wait
+        Write-LogEntry -Value "HP Connection Optimizer uninstalled with ISS file"
     }
-    # Proceed to the next function
     RemoveHPDocumentation
 }
 
@@ -231,46 +226,27 @@ function RemoveHPDocumentation {
         Try {
             Invoke-Item "${Env:ProgramFiles}\HP\Documentation\Doc_uninstall.cmd"
             Write-Host "Successfully removed HP Documentation"
+            Write-LogEntry -Value "Successfully removed HP Documentation"
         }
         Catch {
             Write-Warning "Error removing HP Documentation: $($_.Exception.Message)"
+            Write-LogEntry -Value "Error removing HP Documentation: $($_.Exception.Message)"
         }
     } Else {
         Write-Host "HP Documentation is not installed"
-    }
-    # Proceed to the next function
-    RemoveHPSupportAssistant
-}
-
-# Function to remove HP Support Assistant
-function RemoveHPSupportAssistant {
-    If (Test-Path -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport") {
-        Write-Host "Attempting to remove HP Support Assistant registry key..."
-        Try {
-            Remove-Item -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport" -Recurse -Force
-            Write-Host "Successfully removed HP Support Assistant registry key"
-        }
-        Catch {
-            Write-Warning "Error retrieving registry key for HP Support Assistant: $($_.Exception.Message)"
-        }
-    } Else {
-        Write-Host "HP Support Assistant registry key not found"
-    }
-
-    If (Test-Path $HPSAuninstall -PathType Leaf) {
-        Write-Host "Attempting to uninstall HP Support Assistant..."
-        Try {
-            & $HPSAuninstall /s /v/qn UninstallKeepPreferences=FALSE
-            Write-Host "Successfully uninstalled HP Support Assistant"
-        }
-        Catch {
-            Write-Warning "Error uninstalling HP Support Assistant: $($_.Exception.Message)"
-        }
-    } Else {
-        Write-Host "HP Support Assistant uninstaller not found"
+        Write-LogEntry -Value "HP Documentation is not installed"
     }
 }
 
-# Start with the first functions
-Write-LogEntry
-RemoveAppxProvisionedHPApps
+function RemoveHPBloatware {
+    # Start removing HP software
+    Remove-AppxProvisionedPackageCustom
+}
+
+# Execute the script
+Write-Host "Removing HP Bloatware..."
+Write-LogEntry -Value "Removing HP Bloatware..."
+RemoveHPBloatware
+
+# Stop logging the output to the log file
+Stop-Transcript
