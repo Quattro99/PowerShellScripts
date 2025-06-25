@@ -34,7 +34,7 @@ Start-Transcript -Path $logFilePath -Append
 Write-Host "Starting the language and locale configuration to German (Switzerland)..." -ForegroundColor Green
 
 # Define the URL where the XML file is located
-$xmlUrl = "https://raw.githubusercontent.com/Quattro99/PowerShellScripts/cb8c8fac5f388ea97cbb056e0002561ac0d1aee5/Azure/AVD/Change%20Language/CHRegion.xml"
+$xmlUrl = "https://raw.githubusercontent.com/Quattro99/PowerShellScripts/5992efa6edb488e7b2a68f50fe504aa14c9f76c6/Azure/AVD/Change%20Language/CHRegion.xml"
 
 # Check if C:\Temp already exists
 $tempDirPath = "C:\Temp"
@@ -89,6 +89,14 @@ try {
     Write-Host "Culture set to de-CH."
 } catch {
     Write-Host "Failed to set culture: $_"
+}
+
+# Set International Settings
+try{
+    Set-WinSystemLocale de-CH
+    Write-Host "International Settings set to de-CH."
+} catch {
+    Write-Host "Failed to set international settings: $_"
 }
 
 # Install the language pack for German (Switzerland)
