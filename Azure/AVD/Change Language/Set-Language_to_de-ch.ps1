@@ -91,5 +91,13 @@ try {
     Write-Host "Failed to set culture: $_"
 }
 
+# Install the language pack for German (Switzerland)
+try {
+    Install-Language de-CH
+    Write-Host "Language pack for German (Switzerland) installed."
+} catch {
+    Write-Host "Failed to install language pack: $_"
+}
+
 # End the transcript to capture all output
 Stop-Transcript
