@@ -31,7 +31,7 @@
 <gs:iCurrency>33</gs:iCurrency>
 <gs:iCurrDigits>2</gs:iCurrDigits>
 <gs:sList>;</gs:sList>
-<gs:sDecimal>,</gs:sDecimal>
+<gs:sDecimal>.</gs:sDecimal>
 <gs:sThousand>'</gs:sThousand>
 <gs:sGrouping>3;0</gs:sGrouping>
 <gs:iDigits>2</gs:iDigits>
@@ -39,7 +39,7 @@
 <gs:sNegativeSign>-</gs:sNegativeSign>
 <gs:sPositiveSign></gs:sPositiveSign>
 <gs:sCurrency>CHF</gs:sCurrency>
-<gs:sMonDecimalSep>,</gs:sMonDecimalSep>
+<gs:sMonDecimalSep>'</gs:sMonDecimalSep>
 <gs:sMonThousandSep>'</gs:sMonThousandSep>
 <gs:sMonGrouping>3;0</gs:sMonGrouping>
 <gs:iNegCurr>1</gs:iNegCurr>
