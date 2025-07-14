@@ -252,7 +252,7 @@ function safelinkspolicy {
 #----- globalquarantinesettings-function -----#
 function globalquarantinesettings {
   # Configure global quarantine settings: 
-  Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantaenesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgefuehrt werden." -EsnCustomSubject "Ihr woechentlicher Quarantaene Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
+  Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantaenesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgefuehrt werden." -EsnCustomSubject "Ihr woechentlicher Quarantaene Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
 }
 
 
