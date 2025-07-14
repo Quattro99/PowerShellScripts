@@ -7,11 +7,13 @@
    The script references two external URLs for additional information and context on the recommended settings:
    - https://call4cloud.nl/2020/07/lock-stock-and-office-365-atp-automation/
    - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/recommended-settings-for-eop-and-office365?view=o365-worldwide
+   - https://www.alitajran.com/restrict-access-to-storage-accounts-in-outlook-on-the-web/
 .OUTPUTS
    The script applies specific security settings in EOP and MDO for the target tenant. However, it does not generate any direct output.
 .NOTES
    ===========================================================================
 	 Created on:   	16.11.2023
+   Updated on:   	14.07.2025
 	 Created by:   	Michele Blum
 	 Filename:     	MDO_EOP_Sctrict_settings.ps1
 	===========================================================================
@@ -29,7 +31,6 @@
 #----- Local variables -----#
 # Name of the PowerShell module to install & import
 $module1 = "ExchangeOnlineManagement"
-$module2 = "O365CentralizedAddInDeployment"
 
 # csa username
 $csa = Read-Host -Prompt "Enter your csa username"
@@ -65,18 +66,18 @@ function main () {
   enableorgcustomization
   defaultsharingpermission
   adminauditlog
+  disableadditionalstorageprovidersavailable
   disableimappop
   disableexternalforwarding
   createsharedmailbox
   # Fill all accepted domains of the tenant in a variable
-  $domains = Get-AcceptedDomain | Where-Object {$_.DomainName -notlike '*onmicrosoft.com*'}
+  $domains = Get-AcceptedDomain
   antiphishpolicy
   antispampolicy
   malewarefilterpolicy
   safeattachmentpolicy
   safelinkspolicy
   globalquarantinesettings
-  mdoaddin
   exodisconnect
 }
 
@@ -146,6 +147,13 @@ function adminauditlog {
 }
 
 
+#----- disableadditionalstorageprovidersavailable-function -----#
+function disableadditionalstorageprovidersavailable {
+  # Disable the additional storage providers setting 
+  Get-OwaMailboxPolicy "OwaMailboxPolicy-Default" | Set-OWAMailboxPolicy -AdditionalStorageProvidersAvailable $false
+}
+
+
 #----- disableimappop-function -----#
 function disableimappop {
   # Disable IMAP & POP service in the standard configuration settings if a new mailbox will be deployed (be careful with that, some services might not work anymore)
@@ -192,28 +200,28 @@ function createsharedmailbox {
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
   # Configure the strict Anti-phishing policy and rule: 
-  New-AntiPhishPolicy -Name "xxx Strict - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction Quarantine -SpoofQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect.Split(',') -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction Quarantine -MailboxIntelligenceQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
-  New-AntiPhishRule -Name "xxx Strict - Anti-Phishing Rule" -AntiPhishPolicy "xxx Strict - Anti-Phishing Policy" -RecipientDomainIs $domains
+  New-AntiPhishPolicy -Name "duo Strict - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction Quarantine -SpoofQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect.Split(',') -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction Quarantine -MailboxIntelligenceQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
+  New-AntiPhishRule -Name "duo Strict - Anti-Phishing Rule" -AntiPhishPolicy "duo Strict - Anti-Phishing Policy" -RecipientDomainIs $domains
 }
 
 
 #----- antispampolicy-function -----#
 function antispampolicy {
   # Configure the strict Anti-spam inbound policy and rule: 
-  New-HostedContentFilterPolicy -Name "xxx Strict - Anti-Spam Policy" -BulkThreshold 5 -MarkAsSpamBulkMail On -EnableLanguageBlockList $False -EnableRegionBlockList $False -TestModeAction None -SpamAction Quarantine -SpamQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidenceSpamAction Quarantine -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishSpamAction Quarantine -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishAction Quarantine -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkSpamAction Quarantine -BulkQuarantineTag DefaultFullAccessWithNotificationPolicy -QuarantineRetentionPeriod 30 -InlineSafetyTipsEnabled $True -PhishZapEnabled $True -SpamZapEnabled $True -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamNdrBackscatter Off 
-  New-HostedContentFilterRule -Name "xxx Strict - Anti-Spam Policy" -HostedContentFilterPolicy "xxx Strict - Anti-Spam Policy" -RecipientDomainIs $domains
+  New-HostedContentFilterPolicy -Name "duo Strict - Anti-Spam Policy" -BulkThreshold 5 -MarkAsSpamBulkMail On -EnableLanguageBlockList $False -EnableRegionBlockList $False -TestModeAction None -SpamAction Quarantine -SpamQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidenceSpamAction Quarantine -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishSpamAction Quarantine -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishAction Quarantine -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkSpamAction Quarantine -BulkQuarantineTag DefaultFullAccessWithNotificationPolicy -QuarantineRetentionPeriod 30 -InlineSafetyTipsEnabled $True -PhishZapEnabled $True -SpamZapEnabled $True -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamNdrBackscatter Off 
+  New-HostedContentFilterRule -Name "duo Strict - Anti-Spam Policy" -HostedContentFilterPolicy "duo Strict - Anti-Spam Policy" -RecipientDomainIs $domains
 
   # Configure the strict Anti-spam outbound policy and rule:
-  New-HostedOutboundSpamFilterPolicy -Name "xxx Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundAdditionalRecipients $sharedMailboxEmail -BccSuspiciousOutboundMail $true -NotifyOutboundSpamRecipients $sharedmailboxaccessusers -NotifyOutboundSpam $true
-  New-HostedOutboundSpamFilterRule -Name "xxx Strict - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "xxx Strict - Anti-Spam Outbound Policy" -SenderDomainIs $domains
+  New-HostedOutboundSpamFilterPolicy -Name "duo Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundAdditionalRecipients $sharedMailboxEmail -BccSuspiciousOutboundMail $true -NotifyOutboundSpamRecipients $sharedmailboxaccessusers -NotifyOutboundSpam $true
+  New-HostedOutboundSpamFilterRule -Name "duo Strict - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "duo Strict - Anti-Spam Outbound Policy" -SenderDomainIs $domains
 }
 
 
 #----- antimalewarepolicy-function -----#
 function malewarefilterpolicy {
   # Configure the strict Anti-maleware policy and rule: 
-  New-MalwareFilterPolicy -Name "xxx Strict - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled $True -QuarantineTag AdminOnlyAccessPolicy -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
-  New-MalwareFilterRule -Name "xxx Strict - Anti-Malware Policy" -MalwareFilterPolicy "xxx Strict - Anti-Malware Policy" -RecipientDomainIs $domains
+  New-MalwareFilterPolicy -Name "duo Strict - Anti-Malware Policy" -EnableFileFilter $True -FileTypes $filetypes -FileTypeAction Reject -ZapEnabled $True -QuarantineTag AdminOnlyAccessPolicy -EnableInternalSenderAdminNotifications $False -EnableExternalSenderAdminNotifications $False -CustomNotifications $False
+  New-MalwareFilterRule -Name "duo Strict - Anti-Malware Policy" -MalwareFilterPolicy "duo Strict - Anti-Malware Policy" -RecipientDomainIs $domains
 }
 
 
@@ -223,8 +231,8 @@ function safeattachmentpolicy {
   Set-AtpPolicyForO365 "Default" -EnableATPForSPOTeamsODB $True -EnableSafeDocs $True -AllowSafeDocsOpen $False
 
   # Configure default Safe Attachments policy and rule: 
-  New-SafeAttachmentPolicy -Name "xxx Strict - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
-  New-SafeAttachmentRule -Name "xxx Strict - Safe Attachment Rule" -SafeAttachmentPolicy "xxx Strict - Safe Attachment Policy" -RecipientDomainIs $domains
+  New-SafeAttachmentPolicy -Name "duo Strict - Safe Attachment Policy" -Enable $True -Action Block -QuarantineTag AdminOnlyAccessPolicy -Redirect $False
+  New-SafeAttachmentRule -Name "duo Strict - Safe Attachment Rule" -SafeAttachmentPolicy "duo Strict - Safe Attachment Policy" -RecipientDomainIs $domains
 
 }
 
@@ -232,8 +240,8 @@ function safeattachmentpolicy {
 #----- safelinkspolicy-function -----#
 function safelinkspolicy {
   # Configure default Safe Links policy and rule: 
-  New-SafeLinksPolicy -Name "xxx Strict - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $True
-  New-SafeLinksRule -Name "xxx Strict - Safe Links Rule" -SafeLinksPolicy "xxx Strict - Safe Links Policy" -RecipientDomainIs $domains
+  New-SafeLinksPolicy -Name "duo Strict - Safe Links Policy" -EnableSafeLinksForEmail $True -EnableForInternalSenders $True -ScanUrls $True -DeliverMessageAfterScan $True -DisableUrlRewrite $False -EnableSafeLinksForTeams $True -EnableSafeLinksForOffice $True -TrackClicks $True -AllowClickThrough $False -EnableOrganizationBranding $True
+  New-SafeLinksRule -Name "duo Strict - Safe Links Rule" -SafeLinksPolicy "duo Strict - Safe Links Policy" -RecipientDomainIs $domains
 }
 
 
@@ -241,41 +249,6 @@ function safelinkspolicy {
 function globalquarantinesettings {
   # Configure global quarantine settings: 
   Get-QuarantinePolicy -QuarantinePolicyType GlobalQuarantinePolicy | Set-QuarantinePolicy -EndUserSpamNotificationFrequency 7.00:00:00 -EndUserSpamNotificationFrequencyInDays 3 -EndUserSpamNotificationCustomFromAddress $sharedMailboxEmail -MultiLanguageCustomDisclaimer "WICHTIGER HINWEIS: Dies ist eine automatisch generierte E-Mail, die von unserem Quarantaenesystem erfasst wurde. Das Freigeben von E-Mails muss mit Bedacht und Vorsicht durchgefuehrt werden." -EsnCustomSubject "Ihr woechentlicher Quarantaene Auszug" -MultiLanguageSenderName $sharedmailboxname -MultiLanguageSetting "German" -OrganizationBrandingEnabled $True
-}
-
-#----- mdoaddin-function -----#
-function mdoaddin{
-  if (-not (Get-Module -ListAvailable -Name $module2)) {
-
-    Write-Host "O365CentralizedAddInDeployment Module not installed. Module will be installed."
-
-    # Install the module, if not installed, to the scope of the currentuser
-    Install-Module $module2 -Scope CurrentUser -Force
-
-    # Import the module
-    Import-Module $module2
-  }
-
-  else {
-
-    Write-Host "O365CentralizedAddInDeployment Module already installed."
-
-    # Import the module
-    Import-Module $module2
-  }
-
-  # Connect to the ms365 tenant with your ms365 user admin and application admin (gdap organization)
-  Connect-OrganizationAddInService
-
-  # Adds the Report Message add in to the tenant
-  New-OrganizationAddIn -AssetId 'WA104381180' -Locale 'de-CH' -ContentMarket 'de-CH'
-
-  # Waiting 30 seconds for granting permissions to the entier organisation
-  Write-Host "Waiting 30 seconds for granting permissions to the entier organisation."
-  Start-Sleep -seconds 30
-
-  # Assigns the add in to all users
-  Set-OrganizationAddInAssignments -ProductId 6046742c-3aee-485e-a4ac-92ab7199db2e -AssignToEveryone $true
 }
 
 
