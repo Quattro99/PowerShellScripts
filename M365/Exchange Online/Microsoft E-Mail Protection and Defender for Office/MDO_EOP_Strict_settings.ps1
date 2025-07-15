@@ -13,7 +13,7 @@
 .NOTES
    ===========================================================================
 	 Created on:   	16.11.2023
-   Updated on:   	14.07.2025
+   Updated on:   	15.07.2025
 	 Created by:   	Michele Blum
 	 Filename:     	MDO_EOP_Sctrict_settings.ps1
 	===========================================================================
@@ -65,6 +65,7 @@ function main () {
   exoauthentication
   enableorgcustomization
   defaultsharingpermission
+  enablemailtips
   adminauditlog
   disableadditionalstorageprovidersavailable
   disableimappop
@@ -140,10 +141,23 @@ function defaultsharingpermission {
 }
 
 
+#----- enablemailtips-function -----#
+function enablemailtips {
+  # Enable MailTips
+  Set-OrganizationConfig -MailTipsAllTipsEnabled $true -MailTipsExternalRecipientsTipsEnabled $true -MailTipsGroupMetricsEnabled $true -MailTipsLargeAudienceThreshold '25'
+}
+
+
 #----- adminauditlog-function -----#
 function adminauditlog {
   # Set admin audit log 
   Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true
+
+  # Enable audit log on the organization
+  Set-OrganizationConfig -AuditDisabled $false
+
+  # Enable audit log on all mailboxes
+  Get-Mailbox -ResultSize Unlimited | Set-Mailbox -AuditEnabled $true
 }
 
 
@@ -200,7 +214,7 @@ function createsharedmailbox {
 #----- antiphishingpolicy-function -----#
 function antiphishpolicy {
   # Configure the strict Anti-phishing policy and rule: 
-  New-AntiPhishPolicy -Name "duo Strict - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction Quarantine -SpoofQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect.Split(',') -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $False -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction Quarantine -MailboxIntelligenceQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
+  New-AntiPhishPolicy -Name "duo Strict - Anti-Phishing Policy" -Enabled $True -EnableSpoofIntelligence $True -HonorDmarcPolicy $True -DmarcQuarantineAction Quarantine -DmarcRejectAction Reject -AuthenticationFailAction Quarantine -SpoofQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableFirstContactSafetyTips $False -EnableUnauthenticatedSender $True -EnableViaTag $True -PhishThresholdLevel 3 -EnableTargetedUserProtection $True -TargetedUsersToProtect $targeteduserstoprotect.Split(',') -EnableOrganizationDomainsProtection $True -EnableTargetedDomainsProtection $True -EnableMailboxIntelligence $True -EnableMailboxIntelligenceProtection $True -TargetedUserProtectionAction Quarantine -TargetedUserQuarantineTag DefaultFullAccessWithNotificationPolicy -TargetedDomainProtectionAction Quarantine -TargetedDomainQuarantineTag DefaultFullAccessWithNotificationPolicy -MailboxIntelligenceProtectionAction Quarantine -MailboxIntelligenceQuarantineTag DefaultFullAccessWithNotificationPolicy -EnableSimilarUsersSafetyTips $True -EnableSimilarDomainsSafetyTips $True -EnableUnusualCharactersSafetyTips $True 
   New-AntiPhishRule -Name "duo Strict - Anti-Phishing Rule" -AntiPhishPolicy "duo Strict - Anti-Phishing Policy" -RecipientDomainIs $domains
 }
 
@@ -211,8 +225,11 @@ function antispampolicy {
   New-HostedContentFilterPolicy -Name "duo Strict - Anti-Spam Inbound Policy" -BulkThreshold 5 -MarkAsSpamBulkMail On -EnableLanguageBlockList $False -EnableRegionBlockList $False -TestModeAction None -SpamAction Quarantine -SpamQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidenceSpamAction Quarantine -HighConfidenceSpamQuarantineTag DefaultFullAccessWithNotificationPolicy -PhishSpamAction Quarantine -PhishQuarantineTag DefaultFullAccessWithNotificationPolicy -HighConfidencePhishAction Quarantine -HighConfidencePhishQuarantineTag AdminOnlyAccessPolicy -BulkSpamAction Quarantine -BulkQuarantineTag DefaultFullAccessWithNotificationPolicy -QuarantineRetentionPeriod 30 -InlineSafetyTipsEnabled $True -PhishZapEnabled $True -SpamZapEnabled $True -IncreaseScoreWithImageLinks Off -IncreaseScoreWithNumericIps Off -IncreaseScoreWithRedirectToOtherPort Off -IncreaseScoreWithBizOrInfoUrls Off -MarkAsSpamEmptyMessages Off -MarkAsSpamObjectTagsInHtml Off -MarkAsSpamJavaScriptInHtml Off -MarkAsSpamFormTagsInHtml Off -MarkAsSpamFramesInHtml Off -MarkAsSpamWebBugsInHtml Off -MarkAsSpamEmbedTagsInHtml Off -MarkAsSpamSensitiveWordList Off -MarkAsSpamSpfRecordHardFail Off -MarkAsSpamFromAddressAuthFail Off -MarkAsSpamNdrBackscatter Off 
   New-HostedContentFilterRule -Name "duo Strict - Anti-Spam Inbound Policy" -HostedContentFilterPolicy "duo Strict - Anti-Spam Inbound Policy" -RecipientDomainIs $domains
 
+  # Configure the default Anti-spam outbound policy and rule (disable auto-forwarding):
+  Get-HostedOutboundSpamFilterPolicy | Where-Object {$_.Name -eq "Default"} | Set-HostedOutboundSpamFilterPolicy -AutoForwardingMode Off
+
   # Configure the strict Anti-spam outbound policy and rule:
-  New-HostedOutboundSpamFilterPolicy -Name "duo Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Automatic -BccSuspiciousOutboundAdditionalRecipients $sharedMailboxEmail -BccSuspiciousOutboundMail $true -NotifyOutboundSpamRecipients $sharedmailboxaccessusers -NotifyOutboundSpam $true
+  New-HostedOutboundSpamFilterPolicy -Name "duo Strict - Anti-Spam Outbound Policy" -RecipientLimitExternalPerHour 400 -RecipientLimitInternalPerHour 800 -RecipientLimitPerDay 800 -ActionWhenThresholdReached BlockUser -AutoForwardingMode Off -BccSuspiciousOutboundAdditionalRecipients $sharedMailboxEmail -BccSuspiciousOutboundMail $true -NotifyOutboundSpamRecipients $sharedmailboxaccessusers -NotifyOutboundSpam $true
   New-HostedOutboundSpamFilterRule -Name "duo Strict - Anti-Spam Outbound Policy" -HostedOutboundSpamFilterPolicy "duo Strict - Anti-Spam Outbound Policy" -SenderDomainIs $domains
 }
 
