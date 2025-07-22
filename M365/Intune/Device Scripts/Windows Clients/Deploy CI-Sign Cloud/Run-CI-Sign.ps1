@@ -22,7 +22,7 @@
 #>
 
 # Define the path to the executable file
-$exePath = "\\int.moto-mader.ch\SYSVOL\int.moto-mader.ch\scripts\deployment\ci-cloud\ci-sign\CI-Sign.exe"
+$exePath = "\\int.duo-infernale.ch\SYSVOL\int.duo-infernale.ch\scripts\deployment\ci-cloud\ci-sign\CI-Sign.exe"
 
 # Function to run the executable
 function Run-Executable {
