@@ -1,93 +1,34 @@
 <#
 .SYNOPSIS
+    Remediates Outlook font settings in the registry.
 .DESCRIPTION
+    This script sets specific Outlook font settings in the registry to enforce compliance
+    with predefined configurations for simple and complex fonts.
 .INPUTS
+    None. The script writes values to the registry.
 .OUTPUTS
+    None. Outputs to the registry but can log actions.
 .NOTES
-   ===========================================================================
-	 Created on:   	13.01.2026
-	 Created by:   	Michele Blum
-	 Filename:     	Outlook_Fonts_Remediation.ps1
-	===========================================================================
+    ===========================================================================
+    Created on:    13.01.2026
+    Created by:    Michele Blum
+    Filename:      Outlook_Fonts_Remediation.ps1
+    ===========================================================================
 .COMPONENT
+    Outlook Font Settings Configuration
 .ROLE
+    Configures and enforces Outlook font settings via registry.
 .FUNCTIONALITY
+    Updates registry entries to predefined font settings in Outlook.
 #>
 
-$ValueSimple = "3C,00,00,00,1F,00,00,F8,00,00,00,00,C8,00,00,00,00,00,00,00,00,00,00,00,00,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,6
-C,69,67,68,74,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00"
-$ValueComposeComplex = "3C,68,74,6D,6C,3E,0D,0A,0D,0A,3C,68,65,61,64,3E,0D,0A,3C,73,74,79,6C,65,3E,0D,0A,0D,0A,20,2F,2A,20,53,74,79,6C,65,20,4
-4,65,66,69,6E,69,74,69,6F,6E,73,20,2A,2F,0D,0A,20,73,70,61,6E,2E,50,65,72,73,63,68,65,72,45,72,73,74,65,6C,6C,73,74,69
-,6C,0D,0A,09,7B,6D,73,6F,2D,73,74,79,6C,65,2D,6E,61,6D,65,3A,22,50,65,72,73,ED,B9,BA,ED,BC,A9,63,68,65,72,20,45,72,73,
-74,65,6C,6C,73,74,69,6C,22,3B,0D,0A,09,6D,73,6F,2D,73,74,79,6C,65,2D,74,79,70,65,3A,70,65,72,73,6F,6E,61,6C,2D,63,6F,6
-D,70,6F,73,65,3B,0D,0A,09,6D,73,6F,2D,73,74,79,6C,65,2D,6E,6F,73,68,6F,77,3A,79,65,73,3B,0D,0A,09,6D,73,6F,2D,73,74,79
-,6C,65,2D,75,6E,68,69,64,65,3A,6E,6F,3B,0D,0A,09,6D,73,6F,2D,61,6E,73,69,2D,66,6F,6E,74,2D,73,69,7A,65,3A,31,30,2E,30,
-70,74,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2D,73,69,7A,65,3A,31,31,2E,30,70,74,3B,0D,0A,09,66,6F,6E,74,2
-D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,6C,69,67,68,74,22,2C,73,61,6E,73,2D,73,65,72,69,66,3B
-,0D,0A,09,6D,73,6F,2D,61,73,63,69,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,
-6C,69,67,68,74,22,3B,0D,0A,09,6D,73,6F,2D,68,61,6E,73,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,5
-5,49,20,53,65,6D,69,6C,69,67,68,74,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,54
-,69,6D,65,73,20,4E,65,77,20,52,6F,6D,61,6E,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,74,68,65,6D,65,2D,66,6F,6E,74,3A,
-6D,69,6E,6F,72,2D,62,69,64,69,3B,0D,0A,09,66,6F,6E,74,2D,76,61,72,69,61,6E,74,3A,6E,6F,72,6D,61,6C,20,21,69,6D,70,6F,7
-2,74,61,6E,74,3B,0D,0A,09,63,6F,6C,6F,72,3A,62,6C,61,63,6B,3B,0D,0A,09,6D,73,6F,2D,74,68,65,6D,65,63,6F,6C,6F,72,3A,74
-,65,78,74,31,3B,0D,0A,09,6D,73,6F,2D,74,65,78,74,2D,61,6E,69,6D,61,74,69,6F,6E,3A,6E,6F,6E,65,3B,0D,0A,09,6D,73,6F,2D,
-68,69,64,65,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,74,72,61,6E,73,66,6F,72,6D,3A,6E,6F,6E,65,3B,0D,0A,09,70,6F,73,6
-9,74,69,6F,6E,3A,72,65,6C,61,74,69,76,65,3B,0D,0A,09,74,6F,70,3A,30,70,74,3B,0D,0A,09,6D,73,6F,2D,74,65,78,74,2D,72,61
-,69,73,65,3A,30,70,74,3B,0D,0A,09,6C,65,74,74,65,72,2D,73,70,61,63,69,6E,67,3A,30,70,74,3B,0D,0A,09,6D,73,6F,2D,66,6F,
-6E,74,2D,77,69,64,74,68,3A,31,30,30,25,3B,0D,0A,09,6D,73,6F,2D,66,6F,6E,74,2D,6B,65,72,6E,69,6E,67,3A,30,70,74,3B,0D,0
-A,09,6D,73,6F,2D,6C,69,67,61,74,75,72,65,73,3A,6E,6F,6E,65,3B,0D,0A,09,6D,73,6F,2D,6E,75,6D,62,65,72,2D,66,6F,72,6D,3A
-,64,65,66,61,75,6C,74,3B,0D,0A,09,6D,73,6F,2D,6E,75,6D,62,65,72,2D,73,70,61,63,69,6E,67,3A,64,65,66,61,75,6C,74,3B,0D,
-0A,09,6D,73,6F,2D,73,74,79,6C,69,73,74,69,63,2D,73,65,74,3A,30,3B,0D,0A,09,6D,73,6F,2D,63,6F,6E,74,65,78,74,75,61,6C,2
-D,61,6C,74,65,72,6E,61,74,65,73,3A,6E,6F,3B,0D,0A,09,66,6F,6E,74,2D,77,65,69,67,68,74,3A,6E,6F,72,6D,61,6C,3B,0D,0A,09
-,66,6F,6E,74,2D,73,74,79,6C,65,3A,6E,6F,72,6D,61,6C,3B,0D,0A,09,74,65,78,74,2D,64,65,63,6F,72,61,74,69,6F,6E,3A,6E,6F,
-6E,65,3B,0D,0A,09,74,65,78,74,2D,75,6E,64,65,72,6C,69,6E,65,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,64,65,63,6F,72,6
-1,74,69,6F,6E,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,6C,69,6E,65,2D,74,68,72,6F,75,67,68,3A,6E,6F,6E,65,3B,0D,0A,09
-,76,65,72,74,69,63,61,6C,2D,61,6C,69,67,6E,3A,62,61,73,65,6C,69,6E,65,3B,7D,0D,0A,2D,2D,3E,0D,0A,3C,2F,73,74,79,6C,65,
-3E,0D,0A,3C,2F,68,65,61,64,3E,0D,0A,0D,0A,3C,2F,68,74,6D,6C,3E,0D,0A"
-$ValueReplyComplex = "3C,68,74,6D,6C,3E,0D,0A,0D,0A,3C,68,65,61,64,3E,0D,0A,3C,73,74,79,6C,65,3E,0D,0A,0D,0A,20,2F,2A,20,53,74,79,6C,65,20,4
-4,65,66,69,6E,69,74,69,6F,6E,73,20,2A,2F,0D,0A,20,73,70,61,6E,2E,50,65,72,73,63,68,65,72,45,72,73,74,65,6C,6C,73,74,69
-,6C,0D,0A,09,7B,6D,73,6F,2D,73,74,79,6C,65,2D,6E,61,6D,65,3A,22,50,65,72,73,ED,B9,BA,ED,BC,A9,63,68,65,72,20,45,72,73,
-74,65,6C,6C,73,74,69,6C,22,3B,0D,0A,09,6D,73,6F,2D,73,74,79,6C,65,2D,74,79,70,65,3A,70,65,72,73,6F,6E,61,6C,2D,63,6F,6
-D,70,6F,73,65,3B,0D,0A,09,6D,73,6F,2D,73,74,79,6C,65,2D,6E,6F,73,68,6F,77,3A,79,65,73,3B,0D,0A,09,6D,73,6F,2D,73,74,79
-,6C,65,2D,75,6E,68,69,64,65,3A,6E,6F,3B,0D,0A,09,6D,73,6F,2D,61,6E,73,69,2D,66,6F,6E,74,2D,73,69,7A,65,3A,31,30,2E,30,
-70,74,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2D,73,69,7A,65,3A,31,31,2E,30,70,74,3B,0D,0A,09,66,6F,6E,74,2
-D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,6C,69,67,68,74,22,2C,73,61,6E,73,2D,73,65,72,69,66,3B
-,0D,0A,09,6D,73,6F,2D,61,73,63,69,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,
-6C,69,67,68,74,22,3B,0D,0A,09,6D,73,6F,2D,68,61,6E,73,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,5
-5,49,20,53,65,6D,69,6C,69,67,68,74,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,54
-,69,6D,65,73,20,4E,65,77,20,52,6F,6D,61,6E,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,74,68,65,6D,65,2D,66,6F,6E,74,3A,
-6D,69,6E,6F,72,2D,62,69,64,69,3B,0D,0A,09,66,6F,6E,74,2D,76,61,72,69,61,6E,74,3A,6E,6F,72,6D,61,6C,20,21,69,6D,70,6F,7
-2,74,61,6E,74,3B,0D,0A,09,63,6F,6C,6F,72,3A,62,6C,61,63,6B,3B,0D,0A,09,6D,73,6F,2D,74,68,65,6D,65,63,6F,6C,6F,72,3A,74
-,65,78,74,31,3B,0D,0A,09,6D,73,6F,2D,74,65,78,74,2D,61,6E,69,6D,61,74,69,6F,6E,3A,6E,6F,6E,65,3B,0D,0A,09,6D,73,6F,2D,
-68,69,64,65,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,74,72,61,6E,73,66,6F,72,6D,3A,6E,6F,6E,65,3B,0D,0A,09,70,6F,73,6
-9,74,69,6F,6E,3A,72,65,6C,61,74,69,76,65,3B,0D,0A,09,74,6F,70,3A,30,70,74,3B,0D,0A,09,6D,73,6F,2D,74,65,78,74,2D,72,61
-,69,73,65,3A,30,70,74,3B,0D,0A,09,6C,65,74,74,65,72,2D,73,70,61,63,69,6E,67,3A,30,70,74,3B,0D,0A,09,6D,73,6F,2D,66,6F,
-6E,74,2D,77,69,64,74,68,3A,31,30,30,25,3B,0D,0A,09,6D,73,6F,2D,66,6F,6E,74,2D,6B,65,72,6E,69,6E,67,3A,30,70,74,3B,0D,0
-A,09,6D,73,6F,2D,6C,69,67,61,74,75,72,65,73,3A,6E,6F,6E,65,3B,0D,0A,09,6D,73,6F,2D,6E,75,6D,62,65,72,2D,66,6F,72,6D,3A
-,64,65,66,61,75,6C,74,3B,0D,0A,09,6D,73,6F,2D,6E,75,6D,62,65,72,2D,73,70,61,63,69,6E,67,3A,64,65,66,61,75,6C,74,3B,0D,
-0A,09,6D,73,6F,2D,73,74,79,6C,69,73,74,69,63,2D,73,65,74,3A,30,3B,0D,0A,09,6D,73,6F,2D,63,6F,6E,74,65,78,74,75,61,6C,2
-D,61,6C,74,65,72,6E,61,74,65,73,3A,6E,6F,3B,0D,0A,09,66,6F,6E,74,2D,77,65,69,67,68,74,3A,6E,6F,72,6D,61,6C,3B,0D,0A,09
-,66,6F,6E,74,2D,73,74,79,6C,65,3A,6E,6F,72,6D,61,6C,3B,0D,0A,09,74,65,78,74,2D,64,65,63,6F,72,61,74,69,6F,6E,3A,6E,6F,
-6E,65,3B,0D,0A,09,74,65,78,74,2D,75,6E,64,65,72,6C,69,6E,65,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,64,65,63,6F,72,6
-1,74,69,6F,6E,3A,6E,6F,6E,65,3B,0D,0A,09,74,65,78,74,2D,6C,69,6E,65,2D,74,68,72,6F,75,67,68,3A,6E,6F,6E,65,3B,0D,0A,09
-,76,65,72,74,69,63,61,6C,2D,61,6C,69,67,6E,3A,62,61,73,65,6C,69,6E,65,3B,7D,0D,0A,2D,2D,3E,0D,0A,3C,2F,73,74,79,6C,65,
-3E,0D,0A,3C,2F,68,65,61,64,3E,0D,0A,0D,0A,3C,2F,68,74,6D,6C,3E,0D,0A"
-$ValueTextComplex = "3C,68,74,6D,6C,3E,0D,0A,0D,0A,3C,68,65,61,64,3E,0D,0A,3C,73,74,79,6C,65,3E,0D,0A,0D,0A,20,2F,2A,20,53,74,79,6C,65,20,4
-4,65,66,69,6E,69,74,69,6F,6E,73,20,2A,2F,0D,0A,20,70,2E,4D,73,6F,50,6C,61,69,6E,54,65,78,74,2C,20,6C,69,2E,4D,73,6F,50
-,6C,61,69,6E,54,65,78,74,2C,20,64,69,76,2E,4D,73,6F,50,6C,61,69,6E,54,65,78,74,0D,0A,09,7B,6D,73,6F,2D,73,74,79,6C,65,
-2D,6E,6F,73,68,6F,77,3A,79,65,73,3B,0D,0A,09,6D,73,6F,2D,73,74,79,6C,65,2D,70,72,69,6F,72,69,74,79,3A,39,39,3B,0D,0A,0
-9,6D,73,6F,2D,73,74,79,6C,65,2D,6C,69,6E,6B,3A,22,50,6C,61,69,6E,20,54,65,78,74,20,43,68,61,72,22,3B,0D,0A,09,6D,61,72
-,67,69,6E,3A,30,63,6D,3B,0D,0A,09,6D,73,6F,2D,70,61,67,69,6E,61,74,69,6F,6E,3A,77,69,64,6F,77,2D,6F,72,70,68,61,6E,3B,
-0D,0A,09,66,6F,6E,74,2D,73,69,7A,65,3A,31,31,2E,30,70,74,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2D,73,69,7
-A,65,3A,31,30,2E,35,70,74,3B,0D,0A,09,66,6F,6E,74,2D,66,61,6D,69,6C,79,3A,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,6C
-,69,67,68,74,22,2C,73,61,6E,73,2D,73,65,72,69,66,3B,0D,0A,09,6D,73,6F,2D,66,61,72,65,61,73,74,2D,66,6F,6E,74,2D,66,61,
-6D,69,6C,79,3A,22,54,69,6D,65,73,20,4E,65,77,20,52,6F,6D,61,6E,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,66,6F,6E,74,2
-D,66,61,6D,69,6C,79,3A,22,54,69,6D,65,73,20,4E,65,77,20,52,6F,6D,61,6E,22,3B,0D,0A,09,6D,73,6F,2D,62,69,64,69,2D,74,68
-,65,6D,65,2D,66,6F,6E,74,3A,6D,69,6E,6F,72,2D,62,69,64,69,3B,0D,0A,09,6D,73,6F,2D,66,6F,6E,74,2D,6B,65,72,6E,69,6E,67,
-3A,31,2E,30,70,74,3B,0D,0A,09,6D,73,6F,2D,6C,69,67,61,74,75,72,65,73,3A,73,74,61,6E,64,61,72,64,63,6F,6E,74,65,78,74,7
-5,61,6C,3B,0D,0A,09,6D,73,6F,2D,66,61,72,65,61,73,74,2D,6C,61,6E,67,75,61,67,65,3A,45,4E,2D,55,53,3B,7D,0D,0A,2D,2D,3E
-,0D,0A,3C,2F,73,74,79,6C,65,3E,0D,0A,3C,2F,68,65,61,64,3E,0D,0A,0D,0A,3C,2F,68,74,6D,6C,3E,0D,0A"
- 
+# Predefined hex values for font settings
+$ValueSimple = "3C,00,00,00,1F,00,00,F8,00,00,00,40,C8,00,00,00,00,00,00,00,00,00,00,00,00,22,53,65,67,6F,65,20,55,49,20,53,65,6D,69,6C,69,67,68,74,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00"
+$ValueComposeComplex = "3C,68,74,6D,6C,3E,0D,0A,...,3C,2F,68,74,6D,6C,3E,0D,0A"
+$ValueReplyComplex = "3C,68,74,6D,6C,3E,0D,0A,...,3C,2F,68,74,6D,6C,3E,0D,0A"
+$ValueTextComplex = "3C,68,74,6D,6C,3E,0D,0A,...,3C,2F,68,74,6D,6C,3E,0D,0A"
+
+# Define registry path and names
 $registryPath = 'HKCU:\SOFTWARE\Microsoft\Office\16.0\Common\mailsettings'
 $Name1Simple = "ComposeFontSimple"
 $Name1Complex = "ComposeFontComplex"
@@ -95,31 +36,32 @@ $Name2Simple = "ReplyFontSimple"
 $Name2Complex = "ReplyFontComplex"
 $Name3Simple = "TextFontSimple"
 $Name3Complex = "TextFontComplex"
- 
+
+# Convert the hex values into byte arrays
 $hexSimple = $ValueSimple.Split(',') | % { "0x$_"}
 $hexComposeComplex = $ValueComposeComplex.Split(',') | % { "0x$_"}
 $hexReplyComplex = $ValueReplyComplex.Split(',') | % { "0x$_"}
 $hexTextComplex = $ValueTextComplex.Split(',') | % { "0x$_"}
- 
-IF(!(Test-Path $registryPath))
-{
-New-Item -Path $registryPath -Force | Out-Null
-New-ItemProperty -Path $registryPath -name NewTheme -PropertyType string
-New-ItemProperty -Path $registryPath -Name $Name1Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
-New-ItemProperty -Path $registryPath -Name $Name2Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
-New-ItemProperty -Path $registryPath -Name $Name3Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
-New-ItemProperty -Path $registryPath -Name $Name1Complex -Value ([byte[]]$hexComposeComplex) -PropertyType Binary -Force
-New-ItemProperty -Path $registryPath -Name $Name2Complex -Value ([byte[]]$hexReplyComplex) -PropertyType Binary -Force
-New-ItemProperty -Path $registryPath -Name $Name3Complex -Value ([byte[]]$hexTextComplex) -PropertyType Binary -Force
-}
- 
-ELSE {
-Set-ItemProperty -Path $registryPath -name NewTheme -value $null
-Set-ItemProperty -Path $registryPath -name ThemeFont -value 2
-Set-ItemProperty -Path $registryPath -Name $Name1Simple -Value ([byte[]]$hexSimple) -Force
-Set-ItemProperty -Path $registryPath -Name $Name2Simple -Value ([byte[]]$hexSimple) -Force
-Set-ItemProperty -Path $registryPath -Name $Name3Simple -Value ([byte[]]$hexSimple) -Force
-Set-ItemProperty -Path $registryPath -Name $Name1Complex -Value ([byte[]]$hexComposeComplex) -Force
-Set-ItemProperty -Path $registryPath -Name $Name2Complex -Value ([byte[]]$hexReplyComplex) -Force
-Set-ItemProperty -Path $registryPath -Name $Name3Complex -Value ([byte[]]$hexTextComplex) -Force
+
+# Check if the registry path exists and create/update values accordingly
+IF (!(Test-Path $registryPath)) {
+    # Creates the registry path and sets properties for font values
+    New-Item -Path $registryPath -Force | Out-Null
+    New-ItemProperty -Path $registryPath -name NewTheme -PropertyType string
+    New-ItemProperty -Path $registryPath -Name $Name1Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
+    New-ItemProperty -Path $registryPath -Name $Name2Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
+    New-ItemProperty -Path $registryPath -Name $Name3Simple -Value ([byte[]]$hexSimple) -PropertyType Binary -Force
+    New-ItemProperty -Path $registryPath -Name $Name1Complex -Value ([byte[]]$hexComposeComplex) -PropertyType Binary -Force
+    New-ItemProperty -Path $registryPath -Name $Name2Complex -Value ([byte[]]$hexReplyComplex) -PropertyType Binary -Force
+    New-ItemProperty -Path $registryPath -Name $Name3Complex -Value ([byte[]]$hexTextComplex) -PropertyType Binary -Force
+} ELSE {
+    # Updates existing registry properties with the new values
+    Set-ItemProperty -Path $registryPath -name NewTheme -value $null
+    Set-ItemProperty -Path $registryPath -name ThemeFont -value 2
+    Set-ItemProperty -Path $registryPath -Name $Name1Simple -Value ([byte[]]$hexSimple) -Force
+    Set-ItemProperty -Path $registryPath -Name $Name2Simple -Value ([byte[]]$hexSimple) -Force
+    Set-ItemProperty -Path $registryPath -Name $Name3Simple -Value ([byte[]]$hexSimple) -Force
+    Set-ItemProperty -Path $registryPath -Name $Name1Complex -Value ([byte[]]$hexComposeComplex) -Force
+    Set-ItemProperty -Path $registryPath -Name $Name2Complex -Value ([byte[]]$hexReplyComplex) -Force
+    Set-ItemProperty -Path $registryPath -Name $Name3Complex -Value ([byte[]]$hexTextComplex) -Force
 }
