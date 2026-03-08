@@ -7,8 +7,8 @@ Application Administrator,High,4,True,True,True,True,Can create and manage all a
 Application Developer,High,4,True,True,True,False,Can create application registrations independent of the 'Users can register applications' setting.
 Attack Payload Author,Low,8,False,False,True,True,Can create attack payloads that an administrator can initiate later.
 Attack Simulation Administrator,Low,8,False,False,True,True,Can create and manage all aspects of attack simulation campaigns.
-Attribute Assignment Administrator,Low,8,False,False,True,True,Assign custom security attribute keys and values to supported Azure AD objects.
-Attribute Assignment Reader,Low,8,False,False,True,True,Read custom security attribute keys and values for supported Azure AD objects.
+Attribute Assignment Administrator,Low,8,False,False,True,True,Assign custom security attribute keys and values to supported Entra ID objects.
+Attribute Assignment Reader,Low,8,False,False,True,True,Read custom security attribute keys and values for supported Entra ID objects.
 Attribute Definition Administrator,Medium,6,True,True,True,False,Define and manage the definition of custom security attributes.
 Attribute Definition Reader,Low,8,False,False,True,True,Read the definition of custom security attributes.
 Attribute Log Administrator,Medium,6,True,True,True,False,Assign the Attribute Log Reader role to users who need to do the following tasks:
@@ -25,8 +25,8 @@ B2C IEF Policy Administrator,Medium,6,True,True,True,False,Can create and manage
 Billing Administrator,Low,8,False,False,True,True,Can perform common billing related tasks like updating payment information.
 Cloud App Security Administrator,Medium,6,True,True,True,False,Can manage all aspects of the Cloud App Security product.
 Cloud Application Administrator,High,4,True,True,True,False,Can create and manage all aspects of app registrations and enterprise apps except App Proxy.
-Cloud Device Administrator,High,4,True,True,True,False,Full access to manage devices in Azure AD.
-Compliance Administrator,High,4,True,True,True,False,Can read and manage compliance configuration and reports in Azure AD and Microsoft 365.
+Cloud Device Administrator,High,4,True,True,True,False,Full access to manage devices in Entra ID.
+Compliance Administrator,High,4,True,True,True,False,Can read and manage compliance configuration and reports in Entra ID and Microsoft 365.
 Compliance Data Administrator,High,4,True,True,True,False,Creates and manages compliance content.
 Conditional Access Administrator,High,2,True,True,True,False,Can manage Conditional Access capabilities.
 Customer LockBox Access Approver,Low,8,False,False,True,True,Can approve Microsoft support requests to access customer organizational data.
@@ -38,7 +38,7 @@ Dragon Administrator,Low,8,False,False,True,True,Manage all aspects of the Micro
 Dynamics 365 Administrator,Low,8,False,False,True,True,Can manage all aspects of the Dynamics 365 product.
 Dynamics 365 Business Central Administrator,High,4,True,True,True,True,Assign the Dynamics 365 Business Central Administrator role to users who need to do the following tasks:
 Edge Administrator,Low,8,False,False,True,True,Manage all aspects of Microsoft Edge.
-Entra ID Joined Device Local Administrator,Medium,8,True,True,True,False,Users assigned to this role are added to the local administrators group on Azure AD-joined devices.
+Entra ID Joined Device Local Administrator,Medium,8,True,True,True,False,Users assigned to this role are added to the local administrators group on Entra ID-joined devices.
 Exchange Administrator,Medium,8,True,True,True,False,Can manage all aspects of the Exchange product.
 Exchange Recipient Administrator,Low,8,False,False,True,True,Can create or update Exchange Online recipients within the Exchange Online organization.
 Extended Directory User Administrator,Medium,6,True,True,True,False,Manage all aspects of external user profiles in the extended directory for Teams.
@@ -46,15 +46,15 @@ External ID User Flow Administrator,Medium,6,True,True,True,False,Can create and
 External ID User Flow Attribute Administrator,Medium,6,True,True,True,False,Can create and manage the attribute schema available to all user flows.
 External Identity Provider Administrator,High,4,True,True,True,False,Can configure identity providers for use in direct federation.
 Fabric Administrator,Low,8,False,False,True,True,Can manage all aspects of the Power BI product.
-Global Administrator,High,8,True,True,True,True,Can manage all aspects of Azure AD and Microsoft services that use Azure AD identities.
+Global Administrator,High,8,True,True,True,True,Can manage all aspects of Entra ID and Microsoft services that use Entra ID identities.
 Global Reader,Medium,8,False,True,True,True,"Can read everything that a Global Administrator can, but not update anything."
 Global Secure Access Administrator,High,2,True,True,True,False,"Create and manage all aspectsâ€¯of Microsoft Entra Internet Access and Microsoft Entra Private Access, including managing access to public and private endpoints. Users with the role cannot manage enterprise applications, application registrations, Conditional Access, or application proxy settings."
 Global Secure Access Log Reader,Low,8,False,True,True,False,Provides read-only access to network traffic logs in Microsoft Entra Internet Access and Microsoft Entra Private Access.
 Groups Administrator,Medium,8,True,True,True,False,"Members of this role can create/manage groups, create/manage groups settings like naming and expiration policies, and view groups activity and audit reports."
 Guest Inviter,Low,8,False,False,True,True,Can invite guest users independent of the 'members can invite guests' setting.
 Helpdesk Administrator,High,4,True,True,True,True,Can reset passwords for non-administrators and Helpdesk Administrators.
-Hybrid Identity Administrator,High,2,True,True,True,False,"Can manage AD to Azure AD cloud provisioning, Azure AD Connect, and federation settings."
-Identity Governance Administrator,Medium,6,True,True,True,False,Manage access using Azure AD for identity governance scenarios.
+Hybrid Identity Administrator,High,2,True,True,True,False,"Can manage AD to Entra ID cloud provisioning, Entra ID Connect, and federation settings."
+Identity Governance Administrator,Medium,6,True,True,True,False,Manage access using Entra ID for identity governance scenarios.
 Insights Administrator,Low,8,False,False,True,True,Has administrative access in the Microsoft 365 Insights app.
 Insights Analyst,Low,8,False,False,True,True,Access the analytical capabilities in Microsoft Viva Insights and run custom queries.
 Insights Business Leader,Low,8,False,False,True,True,Can view and share dashboards and insights via the M365 Insights app.
@@ -64,7 +64,7 @@ Kaizala Administrator,Low,8,False,False,True,True,Can manage settings for Micros
 Knowledge Administrator,Low,8,False,False,True,True,"Can configure knowledge, learning, and other intelligent features."
 Knowledge Manager,Low,8,False,False,True,True,Has access to topic management dashboard and can manage content.
 License Administrator,Low,8,False,False,True,True,Can manage product licenses on users and groups.
-Lifecycle Workflows Administrator,High,4,True,True,True,False,Create and manage all aspects of workflows and tasks associated with Lifecycle Workflows in Azure AD.
+Lifecycle Workflows Administrator,High,4,True,True,True,False,Create and manage all aspects of workflows and tasks associated with Lifecycle Workflows in Entra ID.
 Message Center Privacy Reader,Low,8,False,False,True,True,Can read security messages and updates in Office 365 Message Center only.
 Message Center Reader,Low,8,False,False,True,True,Can read messages and updates for their organization in Office 365 Message Center only.
 Microsoft 365 Backup Administrator,Medium,6,True,True,True,False,Back up and restore content across supported Microsoft 365 services.
@@ -84,7 +84,7 @@ Power Platform Administrator,Medium,6,True,True,True,False,"Can create and manag
 Printer Administrator,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
 Printer Technician,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
 Privileged Authentication Administrator,High,2,True,True,True,False,"Allowed to view, set and reset authentication method information for any user (admin or non-admin)."
-Privileged Role Administrator,High,2,True,True,True,False,"Can manage role assignments in Azure AD, and all aspects of Privileged Identity Management."
+Privileged Role Administrator,High,2,True,True,True,False,"Can manage role assignments in Entra ID, and all aspects of Privileged Identity Management."
 Purview Workload Content Administrator,Medium,6,True,True,True,False,Manage or purge data from Microsoft 365 when accessing from the Microsoft Purview portal.
 Purview Workload Content Reader,Low,8,False,True,True,True,Read data from Microsoft 365 when accessing from the Microsoft Purview portal.
 Purview Workload Content Writer,Medium,6,True,True,True,False,Read and edit data from Microsoft 365 when accessing from the Microsoft Purview portal.
@@ -93,7 +93,7 @@ Search Administrator,Low,8,False,False,True,True,Can create and manage all aspec
 Search Editor,Low,8,False,False,True,True,"Can create and manage the editorial content such as bookmarks, Q and As, locations, floorplan."
 Security Administrator,High,2,True,True,True,True,Security Administrator allows ability to read and manage security configuration and reports.
 Security Operator,Medium,8,False,True,True,True,Creates and manages security events.
-Security Reader,Medium,8,False,True,True,False,Can read security information and reports in Azure AD and Office 365.
+Security Reader,Medium,8,False,True,True,False,Can read security information and reports in Entra ID and Office 365.
 Service Support Administrator,Low,8,False,False,True,True,Can read service health information and manage support tickets.
 SharePoint Administrator,Medium,8,True,True,True,True,Can manage all aspects of the SharePoint service.
 SharePoint Advanced Management Administrator,Medium,6,True,True,True,False,Manage all aspects of SharePoint Advanced Management.
@@ -107,7 +107,7 @@ Teams Communications Support Specialist,Low,8,False,False,True,True,Can troubles
 Teams Devices Administrator,Low,8,False,False,True,True,Can perform management related tasks on Teams certified devices.
 Teams Reader,Low,8,False,True,True,True,Read everything in the Teams admin center but cannot update anything.
 Teams Telephony Administrator,Low,8,False,False,True,True,Manage voice and telephony features and troubleshoot communication issues within the Microsoft Teams service.
-Tenant Creator,Medium,6,True,True,True,False,Create new Azure AD or Azure AD B2C tenants.
+Tenant Creator,Medium,6,True,True,True,False,Create new Entra ID or Entra ID B2C tenants.
 Usage Summary Reports Reader,Low,8,False,False,True,True,Can see only tenant level aggregates in Microsoft 365 Usage Analytics and Productivity Score.
 User Administrator,High,4,True,True,True,True,"Can manage all aspects of users and groups, including resetting passwords for limited admins."
 User Experience Success Manager,Low,8,False,False,True,True,"View product feedback, survey results, and reports to find training and communication opportunities."
