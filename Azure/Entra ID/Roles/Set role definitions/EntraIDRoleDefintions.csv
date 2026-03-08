@@ -118,3 +118,12 @@ Virtual Visits Administrator,Low,8,False,False,True,True,Manage and share Virtua
 Windows 365 Administrator,Medium,6,True,True,True,False,Can provision and manage all aspects of Cloud PCs.
 Windows Update Deployment Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of Windows Update deployments through the Windows Update for Business deployment service.
 Yammer Administrator,Medium,6,True,True,True,False,Manage all aspects of Yammer.
+Microsoft 365 Backup Reader,Low,8,False,True,True,True,Read backup content from Microsoft 365 Backup but cannot restore or modify data.
+Microsoft 365 Backup Reviewer,Low,8,False,True,True,True,Review backup contents and backup-related reports in Microsoft 365 Backup without performing restores.
+Exchange Backup Administrator,Medium,6,True,True,True,False,Back up and restore content including granular restore for Exchange in Microsoft 365 Backup.
+Directory Synchronization Accounts,High,0,False,False,False,False,Used exclusively by Microsoft Entra Connect for directory synchronization—should not be assigned manually.
+Modern Commerce Administrator,Medium,6,True,True,True,False,Manage commerce capabilities and billing features in Microsoft commerce systems.
+Partner Tier1 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 1 support operations.
+Partner Tier2 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 2 support operations.
+People Administrator,Low,8,False,False,True,True,Manage profile photos and people-related settings for users across the organization.
+Places Administrator,Medium,6,True,True,True,False,Manage all aspects of Microsoft Places including locations and workspace experiences.
