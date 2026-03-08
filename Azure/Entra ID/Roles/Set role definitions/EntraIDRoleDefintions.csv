@@ -32,6 +32,7 @@ Conditional Access Administrator,High,2,True,True,True,False,Can manage Conditio
 Customer LockBox Access Approver,Low,8,False,False,True,True,Can approve Microsoft support requests to access customer organizational data.
 Desktop Analytics Administrator,Low,8,False,False,True,True,Can access and manage Desktop management tools and services.
 Directory Readers,Medium,8,False,True,True,True,"Users in this role can read basic directory information. This role should be used for: 1) Granting a specific set of guest users read access instead of granting it to all guest users. 2) Granting a specific set of non-admin users access to Azure Portal when ""Restrict access to Microsoft Entra portal to admins only"" is set to ""Yes"". 3) Granting service principals access to directory where Directory.Read.All is not an option."
+Directory Synchronization Accounts,High,0,False,False,False,False,Used exclusively by Microsoft Entra Connect for directory synchronization—should not be assigned manually.
 Directory Writers,High,2,True,True,True,False,"Can read and write basic directory information. For granting access to applications, not intended for users."
 Domain Name Administrator,High,2,True,True,True,False,Can manage domain names in cloud and on-premises.
 Dragon Administrator,Low,8,False,False,True,True,Manage all aspects of the Microsoft Dragon admin center.
@@ -40,6 +41,7 @@ Dynamics 365 Business Central Administrator,High,4,True,True,True,True,Assign th
 Edge Administrator,Low,8,False,False,True,True,Manage all aspects of Microsoft Edge.
 Entra ID Joined Device Local Administrator,Medium,8,True,True,True,False,Users assigned to this role are added to the local administrators group on Entra ID-joined devices.
 Exchange Administrator,Medium,8,True,True,True,False,Can manage all aspects of the Exchange product.
+Exchange Backup Administrator,Medium,6,True,True,True,False,Back up and restore content including granular restore for Exchange in Microsoft 365 Backup.
 Exchange Recipient Administrator,Low,8,False,False,True,True,Can create or update Exchange Online recipients within the Exchange Online organization.
 Extended Directory User Administrator,Medium,6,True,True,True,False,Manage all aspects of external user profiles in the extended directory for Teams.
 External ID User Flow Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of user flows.
@@ -72,14 +74,19 @@ Microsoft 365 Migration Administrator,High,4,True,True,True,True,Assign the Micr
 Microsoft Graph Data Connect Administrator,Medium,6,True,True,True,False,Manage aspects of Microsoft Graph Data Connect service in a tenant.
 Microsoft Hardware Warranty Administrator,Low,8,False,False,True,True,"Create and manage all aspects warranty claims and entitlements for Microsoft manufactured hardware, like Surface and HoloLens."
 Microsoft Hardware Warranty Specialist,Low,8,False,False,True,True,"Create and read warranty claims for Microsoft manufactured hardware, like Surface and HoloLens."
+Modern Commerce Administrator,Medium,6,True,True,True,False,Manage commerce capabilities and billing features in Microsoft commerce systems.
 Network Administrator,Medium,6,True,True,True,False,Can manage network locations and review enterprise network design insights for Microsoft 365 Software as a Service applications.
 Office Apps Administrator,Medium,6,True,True,True,False,"Can manage Office apps cloud services, including policy and settings management, and manage the ability to select, unselect and publish 'what's new' feature content to end-user's devices."
 Organizational Branding Administrator,Medium,6,True,True,True,False,Assign the Organizational Branding Administrator role to users who need to do the following tasks.
 Organizational Data Source Administrator,Medium,6,True,True,True,False,Set up and manage the ingestion of organizational data into Microsoft 365.
 Organizational Messages Approver,Low,8,False,False,True,True,"Review, approve, or reject new organizational messages for delivery in the Microsoft 365 admin center before they are sent to users."
 Organizational Messages Writer,Low,8,False,False,True,True,"Write, publish, manage, and review the organizational messages for end-users through Microsoft product surfaces."
+Partner Tier1 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 1 support operations.
+Partner Tier2 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 2 support operations.
 Password Administrator,High,2,True,True,True,False,Can reset passwords for non-administrators and Password Administrators.
+People Administrator,Low,8,False,False,True,True,Manage profile photos and people-related settings for users across the organization.
 Permissions Management Administrator,Medium,6,True,True,True,False,Manage all aspects of Entra Permissions Management.
+Places Administrator,Medium,6,True,True,True,False,Manage all aspects of Microsoft Places including locations and workspace experiences.
 Power Platform Administrator,Medium,6,True,True,True,False,"Can create and manage all aspects of Microsoft Dynamics 365, PowerApps and Microsoft Flow."
 Printer Administrator,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
 Printer Technician,Low,8,False,False,True,True,Can manage all aspects of printers and printer connectors.
@@ -111,19 +118,10 @@ Tenant Creator,Medium,6,True,True,True,False,Create new Entra ID or Entra ID B2C
 Usage Summary Reports Reader,Low,8,False,False,True,True,Can see only tenant level aggregates in Microsoft 365 Usage Analytics and Productivity Score.
 User Administrator,High,4,True,True,True,True,"Can manage all aspects of users and groups, including resetting passwords for limited admins."
 User Experience Success Manager,Low,8,False,False,True,True,"View product feedback, survey results, and reports to find training and communication opportunities."
+Virtual Visits Administrator,Low,8,False,False,True,True,Manage and share Virtual Visits information and metrics from admin centers or the Virtual Visits app.
 Viva Glint Tenant Administrator,Low,8,False,False,True,True,Manage and configure Microsoft Viva Glint settings in the Microsoft 365 admin center.
 Viva Goals Administrator,Low,8,False,False,True,True,Manage and configure all aspects of Microsoft Viva Goals.
 Viva Pulse Administrator,Low,8,False,False,True,True,Can manage all settings for Microsoft Viva Pulse app.
-Virtual Visits Administrator,Low,8,False,False,True,True,Manage and share Virtual Visits information and metrics from admin centers or the Virtual Visits app.
 Windows 365 Administrator,Medium,6,True,True,True,False,Can provision and manage all aspects of Cloud PCs.
 Windows Update Deployment Administrator,Medium,6,True,True,True,False,Can create and manage all aspects of Windows Update deployments through the Windows Update for Business deployment service.
 Yammer Administrator,Medium,6,True,True,True,False,Manage all aspects of Yammer.
-Microsoft 365 Backup Reader,Low,8,False,True,True,True,Read backup content from Microsoft 365 Backup but cannot restore or modify data.
-Microsoft 365 Backup Reviewer,Low,8,False,True,True,True,Review backup contents and backup-related reports in Microsoft 365 Backup without performing restores.
-Exchange Backup Administrator,Medium,6,True,True,True,False,Back up and restore content including granular restore for Exchange in Microsoft 365 Backup.
-Directory Synchronization Accounts,High,0,False,False,False,False,Used exclusively by Microsoft Entra Connect for directory synchronization—should not be assigned manually.
-Modern Commerce Administrator,Medium,6,True,True,True,False,Manage commerce capabilities and billing features in Microsoft commerce systems.
-Partner Tier1 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 1 support operations.
-Partner Tier2 Support,Low,8,False,False,True,True,Do not use—reserved for Microsoft Partner Tier 2 support operations.
-People Administrator,Low,8,False,False,True,True,Manage profile photos and people-related settings for users across the organization.
-Places Administrator,Medium,6,True,True,True,False,Manage all aspects of Microsoft Places including locations and workspace experiences.
