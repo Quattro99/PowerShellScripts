@@ -7,6 +7,7 @@
 .NOTES
    ===========================================================================
 	 Created on:   	09.12.2024
+	 Updated on:	09.06.2026
 	 Created by:   	Michele Blum
 	 Filename:     	UpdateEIDRoleDefintion.ps1
 	===========================================================================
@@ -98,7 +99,6 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Enablement_EndUser_Assignment' -BodyParameter $params
 
     # Configure rule: 'Notification_Admin_Admin_Eligibility':
-    $NotificationAdminAdminEligibility = $true
     if ($Role.ImpactLevel -eq 'High') {
         $recipients = $InputRecipients
     
@@ -112,7 +112,7 @@ foreach ($Role in $CsvContent) {
     $params = @{
         "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyNotificationRule"
         Id = "Notification_Admin_Admin_Eligibility"
-        isDefaultRecipientsEnabled = $NotificationAdminEligibility
+        isDefaultRecipientsEnabled = $true
         notificationType = "Email"
         recipientType = "Admin"
         notificationLevel = "All"
@@ -134,7 +134,6 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Notification_Admin_Admin_Eligibility' -BodyParameter $params
     
     # Configure rule: 'Notification_Admin_Admin_Assignment'
-    $NotificationAdminAssignment = $true
     if ($Role.ImpactLevel -eq 'High') {
         $recipients = $InputRecipients
     
@@ -148,7 +147,7 @@ foreach ($Role in $CsvContent) {
     $params = @{
         "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyNotificationRule"
         Id = "Notification_Admin_Admin_Assignment"
-        isDefaultRecipientsEnabled = $NotificationAdminAssignment
+        isDefaultRecipientsEnabled = $true
         notificationType = "Email"
         recipientType = "Admin"
         notificationLevel = "All"
@@ -170,7 +169,6 @@ foreach ($Role in $CsvContent) {
     Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $Policy.Id -UnifiedRoleManagementPolicyRuleId 'Notification_Admin_Admin_Assignment' -BodyParameter $params
 
     # Configure rule: 'Notification_Admin_EndUser_Assignment' 
-    $NotificationAdminEndUserAssignment = $true
     if ($Role.ImpactLevel -eq 'High') {
         $recipients = $InputRecipients
     
@@ -184,7 +182,7 @@ foreach ($Role in $CsvContent) {
     $params = @{
         "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyNotificationRule"
         Id = "Notification_Admin_EndUser_Assignment"
-        isDefaultRecipientsEnabled = $NotificationAdminEndUserAssignment
+        isDefaultRecipientsEnabled = $true
         notificationType = "Email"
         recipientType = "Admin"
         notificationLevel = "All"
