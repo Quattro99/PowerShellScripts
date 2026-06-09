@@ -16,6 +16,7 @@
 .NOTES
    ===========================================================================
     Created on:    23.03.2024
+    Updated on:    09.06.2026
     Created by:    Michele Blum
     Filename:      CreateSecurityGroupsForPIMandPermanentAssigned.ps1
    ===========================================================================
@@ -42,16 +43,16 @@ $LogPath = "C:\Path\To\Your\Log\logfile.txt"  # Update this path as needed
 # Prompt user for the paths of the required CSV and TXT files
 $PIMGroupsCSV           = Read-Host -Prompt "Enter the path of your .csv-file with all groups for PIM"
 $PAGroupsCSV            = Read-Host -Prompt "Enter the path of your .csv-file with all groups for permanent assigned Entra ID role assignments"
-$PIMUsersIdCSV          = Read-Host -Prompt "Enter the path of your .txt-file with all user IDs who should be added to the PIM Entra ID role groups"
-$PAUsersIdCSV           = Read-Host -Prompt "Enter the path of your .txt-file with all user IDs who should be added to the permanent assigned Entra ID role groups"
+$PIMUsersIdTXT          = Read-Host -Prompt "Enter the path of your .txt-file with all user IDs who should be added to the PIM Entra ID role groups"
+$PAUsersIdTXT           = Read-Host -Prompt "Enter the path of your .txt-file with all user IDs who should be added to the permanent assigned Entra ID role groups"
 $PIMGroupsOwnerId       = Read-Host -Prompt "Enter the ID of the PIM assigned Entra ID role groups owner"
 $PAGroupsOwnerId        = Read-Host -Prompt "Enter the ID of the permanent assigned Entra ID role groups owner"
 
 # Import data from CSV and TXT files
 $PIMGroupsToCreate      = Import-Csv -Path $PIMGroupsCSV
 $PAGroupsToCreate       = Import-Csv -Path $PAGroupsCSV
-$PIMGroupsUserIds       = Get-Content -Path $PIMUsersIdCSV
-$PAGroupsUserIds        = Get-Content -Path $PAUsersIdCSV
+$PIMGroupsUserIds       = Get-Content -Path $PIMUsersIdTXT
+$PAGroupsUserIds        = Get-Content -Path $PAUsersIdTXT
 
 #----- Main function -----#
 function main {
